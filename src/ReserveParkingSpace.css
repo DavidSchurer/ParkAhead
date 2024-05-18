@@ -1,0 +1,27 @@
+.MainHeading {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.Subheading {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.ReservationDetails {
+    margin: 20px auto;
+    width: 80%;
+}
+
+.time-picker {
+    display: flex;
+    gap: 50px;
+}
+
+.time-picker-item {
+    width: 500px;
+    display: flex;
+    border: 3px solid #ccc;
+    padding: 10px;
+    gap: 10px;
+}
