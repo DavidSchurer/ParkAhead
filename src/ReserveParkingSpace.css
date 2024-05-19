@@ -45,12 +45,13 @@
 }
 
 .next-button-container {
-    width: 100%;
+    width: 101%;
     background-color: #333;
     display: flex;
     justify-content: flex-end;
     padding: 10px 20px;
     box-sizing: border-box;
+    margin-left: -10px;
 }
 
 .next-button {
