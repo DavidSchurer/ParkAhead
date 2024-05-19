@@ -9,6 +9,7 @@ function ReserveParkingSpace() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [startTime, setStartTime] = useState({ time: '12:00', period: 'AM' });
     const [endTime, setEndTime] = useState({ time: '12:00', period: 'AM' });
+    const [selectedOption, setSelectedOption] = useState('');
 
     const handleParkingLotChange = (event) => {
         setParkingLot(event.target.value);
@@ -20,6 +21,14 @@ function ReserveParkingSpace() {
         } else {
             setEndTime({ ...endTime, [field]: value });
         }
+    };
+
+    const handleOptionChange = (option) => {
+        setSelectedOption(option);
+    };
+
+    const handleNextClick = () => {
+        console.log('Next button clicked. Selected option:', selectedOption);
     };
 
     const times = Array.from({ length: 12 }, (_, i) => (i + 1).toString()).flatMap(hour => 
@@ -110,6 +119,24 @@ function ReserveParkingSpace() {
                 </div>
 
                 <h4>4) Choose one of the following options:</h4>
+                <div className="selection-container">
+                    <button
+                        className="selection-button"
+                        onClick={() => handleOptionChange('Option 1')}
+                    > 
+                        I Have a UW Bothell Parking Permit 
+                    </button>
+                    <button
+                        className="selection-button"
+                        onClick={() => handleOptionChange('Option 2')}
+                    >
+                        Purchase Parking Spot Reservation
+                    </button>
+                </div>
+
+                <div className="next-button-container">
+                    <button className="next-button" onClick={handleNextClick}>Next</button>
+                </div>
             </div>
         </>
     );

@@ -25,3 +25,49 @@
     padding: 10px;
     gap: 10px;
 }
+
+.selection-container {
+    margin-top: 20px;
+}
+
+.selection-button {
+    color: #fff;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #333;
+    border: none;
+    cursor: poiner;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.selection-button:hover {
+    background-color: #555;
+}
+
+.next-button-container {
+    width: 100%;
+    background-color: #333;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.next-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: 1px solid;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.next-button:hover {
+    background-color: #555;
+}
