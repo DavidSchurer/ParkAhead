@@ -52,16 +52,26 @@ function ReserveParkingSpace() {
             <div className="ReservationDetails">
                 <h4>1) Select UWB Parking Lot/Parking Garage:</h4>
                 <FormControl fullWidth>
-                    <Select
-                        value={parkingLot}
-                        onChange={handleParkingLotChange}
-                    >
-                        <MenuItem value={'Lot A'}>Lot A</MenuItem>
-                        <MenuItem value={'Lot B'}>Lot B</MenuItem>
-                        <MenuItem value={'Lot C'}>Lot C</MenuItem>
-                        <MenuItem value={'Lot D'}>Lot D</MenuItem>
-                    </Select>
-                </FormControl>
+                        <Select
+                            displayEmpty
+                            value={parkingLot}
+                            onChange={handleParkingLotChange}
+                            renderValue={(selected) => {
+                                if (selected.length === 0) {
+                                    return <em>Please Choose a Parking Garage/Lot</em>;
+                                }
+                                return selected;
+                            }}
+                        >
+                            <MenuItem disabled value="">
+                                <em>Please Choose a Parking Garage/Lot</em>
+                            </MenuItem>
+                            <MenuItem value={'Lot A'}>Lot A</MenuItem>
+                            <MenuItem value={'Lot B'}>Lot B</MenuItem>
+                            <MenuItem value={'Lot C'}>Lot C</MenuItem>
+                            <MenuItem value={'Lot D'}>Lot D</MenuItem>
+                        </Select>
+                    </FormControl>
 
                 <h4>2) Select Date:</h4>
                 <DatePicker
