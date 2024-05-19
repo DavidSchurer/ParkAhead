@@ -1,16 +1,11 @@
-.MainHeading {
-    text-align: center;
-    margin: 20px 0;
+.container {
+    width: 60%;
+    float: left;
 }
 
-.Subheading {
-    text-align: center;
-    margin: 10px 0;
-}
-
-.ReservationDetails {
-    margin: 20px auto;
-    width: 80%;
+.MainHeading, .Subheading, .ReservationDetails {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .time-picker {
@@ -70,4 +65,9 @@
 
 .next-button:hover {
     background-color: #555;
+}
+
+.UWBothellParkingLocations {
+    width: 40%;
+    float: right;
 }

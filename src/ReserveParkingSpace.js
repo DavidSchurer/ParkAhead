@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MenuItem, Select, FormControl } from '@mui/material';
 import './ReserveParkingSpace.css';
+import MyGoogleMap from './MyGoogleMap';
 
 function ReserveParkingSpace() {
     const [parkingLot, setParkingLot] = useState('');
@@ -38,6 +39,7 @@ function ReserveParkingSpace() {
 
     return (
         <>
+        <div className="container">
             <div className="MainHeading">
                 <h1>Reserve Parking Space</h1>
             </div>
@@ -138,6 +140,11 @@ function ReserveParkingSpace() {
                     <button className="next-button" onClick={handleNextClick}>Next</button>
                 </div>
             </div>
+        </div>
+
+        <div className="UWBothellParkingLocations">
+            <MyGoogleMap />
+        </div>
         </>
     );
 }
