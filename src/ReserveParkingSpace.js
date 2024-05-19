@@ -39,7 +39,8 @@ function ReserveParkingSpace() {
 
     return (
         <>
-        <div className="container">
+        <div className="MainContainer">
+        <div className="LeftContainer">
             <div className="MainHeading">
                 <h1>Reserve Parking Space</h1>
             </div>
@@ -142,8 +143,16 @@ function ReserveParkingSpace() {
             </div>
         </div>
 
-        <div className="UWBothellParkingLocations">
-            <MyGoogleMap />
+        <div className="RightContainer">
+            <div className="box">
+                <div className="box-heading">Current Parking Spot Reservations</div>
+            </div>
+
+            <div className="box">
+                <div className="box-heading">UW Bothell Parking Locations</div>
+                <MyGoogleMap />
+            </div>
+        </div>
         </div>
         </>
     );
