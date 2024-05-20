@@ -1,7 +1,28 @@
 .MainContainer {
     display: flex;
+    flex-direction: row;
+    justify-content: flex;
+}
+
+.Header {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.Username {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: -350px;
+}
+
+.LogoutButton {
+    margin-left: auto;
+    color: #333;
+    border-color: #333;
 }
 
 .LeftContainer {
@@ -33,14 +54,14 @@
 }
 
 .selection-button {
-    color: #fff;
+    color: #333;
     display: block;
-    width: 100%;
+    width: 30%;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #333;
-    border: none;
-    cursor: poiner;
+    background-color: whitesmoke;
+    border: 1px solid #333; 
+    cursor: pointer;
     text-align: center;
     font-size: 16px;
     border-radius: 5px;
@@ -49,6 +70,7 @@
 
 .selection-button:hover {
     background-color: #555;
+    color: white;
 }
 
 .next-button-container {
