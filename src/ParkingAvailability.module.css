@@ -1,21 +1,25 @@
 .MainContainer {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 60%;
-    margin: 0;
-    text-align: left;
-}
-
-.MainHeading {
-    width: 100%;
-    margin-bottom: 20px;
-    text-align: left;
+    flex-direction: row;
 }
 
 .LeftContainer {
-    width: 100%;
+    width: calc(60% - 10px);
     box-sizing: border-box;
+    padding-left: 10px;
+}
+
+.RightContainer {
+    width: 40%;
+    box-sizing: border-box;
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
 }
 
 .Subheading {
@@ -53,13 +57,13 @@
     justify-content: space-between;
     padding: 10px 20px;
     box-sizing: border-box;
-    margin: 0 -20px -40px -20px;
+    margin: 0 -20px -30px -20px;
 }
 
 .box {
     border: 3px solid #ccc;
     padding: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     box-sizing: border-box;
     background-color: #f9f9f9;
 }
@@ -78,6 +82,8 @@
     flex-direction: column;
     align-items: center;
     margin: 20px 0;
+    border: 2px solid black;
+    background-color: lightgray;
 }
 
 .parking-row {
@@ -100,4 +106,54 @@
 
 .parking-spot:hover {
     background-color: #c0c0c0;
+}
+
+.RightContainer {
+    width: 40%;
+    float: right;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 0px;
+    box-sizing: border-box;
+}
+
+.box {
+    border: 3px solid #ccc;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.box-heading {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    margin: -20px -20px 10px -20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.Username {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.LogoutButton {
+    margin-left: auto;
+    color: #333;
+    border-color: #333;
+}
+
+.MainHeading {
+    margin-bottom: 0;
 }

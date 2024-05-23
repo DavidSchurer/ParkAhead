@@ -8,10 +8,10 @@ import MyGoogleMap from './MyGoogleMap';
 function ParkingAvailability() {
     return (
         <div className={styles.MainContainer}>
+            <div className={`${styles.LeftContainer} ${styles.box}`}>
                 <div className={styles.MainHeading}>
                     <h1>Check Availability</h1>
                 </div>
-            <div className={`${styles.LeftContainer} ${styles.box}`}>
                 <div className={`${styles.Subheading} ${styles['box-heading']}`}>
                     <h2>Parking Lot</h2>
                 </div>
@@ -19,8 +19,8 @@ function ParkingAvailability() {
                     <p>Please select your desired parking spot:</p>
                     <div className="ParkingLayout">
                         <p>Insert parking lot layout later in this area.</p>
-                         {/* Mock parking lot layout */}
-                         <div className={styles['parking-row']}>
+                        {/* Mock parking lot layout */}
+                        <div className={styles['parking-row']}>
                             <div className={styles['parking-spot']}>1</div>
                             <div className={styles['parking-spot']}>2</div>
                             <div className={styles['parking-spot']}>3</div>
@@ -43,6 +43,28 @@ function ParkingAvailability() {
                         <button className={styles['next-button']}>Previous</button>
                         <button className={styles['prev-button']}>Next</button>
                     </div>
+                </div>
+            </div>
+
+            <div className={styles.RightContainer}>
+
+                <div className={styles.Header}>
+                    <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
+                    <span className={styles.Username}>dschurer</span>
+                    <Button variant="outlined" className={styles.LogoutButton}>Log Out</Button>
+                </div>
+
+
+                <div className={styles.box}>
+                    <div className={styles['box-heading']}>Current Parking Spot Reservations</div>
+                    <div className="placeholder-text">
+                        5/25/2024 1:30pm @ UWB South Garage Spot #328 [Level 3]
+                    </div>
+                </div>
+
+                <div className={styles.box}>
+                    <div className={styles['box-heading']}>UW Bothell Parking Locations</div>
+                    <MyGoogleMap />
                 </div>
             </div>
         </div>
