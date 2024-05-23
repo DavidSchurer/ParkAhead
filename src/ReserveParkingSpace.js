@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { MenuItem, Select, FormControl, Avatar, Button } from '@mui/material';
 import './ReserveParkingSpace.css';
 import MyGoogleMap from './MyGoogleMap';
+import { useNavigate } from 'react-router-dom';
 
 function ReserveParkingSpace() {
     const [parkingLot, setParkingLot] = useState('');
@@ -11,6 +12,8 @@ function ReserveParkingSpace() {
     const [startTime, setStartTime] = useState({ time: '12:00', period: 'AM' });
     const [endTime, setEndTime] = useState({ time: '12:00', period: 'AM' });
     const [selectedOption, setSelectedOption] = useState('');
+
+    const navigate = useNavigate();
 
     const handleParkingLotChange = (event) => {
         setParkingLot(event.target.value);
@@ -30,6 +33,7 @@ function ReserveParkingSpace() {
 
     const handleNextClick = () => {
         console.log('Next button clicked. Selected option:', selectedOption);
+        navigate('/ParkingAvailability');
     };
 
     const times = Array.from({ length: 12 }, (_, i) => (i + 1).toString()).flatMap(hour => 
