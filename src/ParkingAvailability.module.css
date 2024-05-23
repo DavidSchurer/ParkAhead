@@ -4,7 +4,7 @@
 }
 
 .LeftContainer {
-    width: calc(60% - 10px);
+    width: 60%;
     box-sizing: border-box;
     padding-left: 10px;
 }
@@ -156,4 +156,21 @@
 
 .MainHeading {
     margin-bottom: 0;
+}
+
+.LayoutContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.LevelTimeContainer {
+    width: 45%;
+}
+
+.TimeButton {
+    margin-top: 10px;
+    background-color: #d3d3d3;
+    color: white;
+    pointer-events: none;
 }

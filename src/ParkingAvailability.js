@@ -8,6 +8,11 @@ import { useNavigate } from 'react-router-dom';
 
 function ParkingAvailability() {
     const navigate = useNavigate();
+    const [level, setLevel] = useState('');
+
+    const handleLevelChange = (event) => {
+        setLevel(event.target.value);
+    }
 
     const handlePreviousClick = () => {
         console.log('Previous button clicked');
@@ -22,6 +27,25 @@ function ParkingAvailability() {
                 </div>
                 <div className={`${styles.Subheading} ${styles['box-heading']}`}>
                     <h2>Parking Lot</h2>
+                </div>
+                <div className={styles.LevelTimeContainer}>
+                    <FormControl fullWidth>
+                        <Select
+                            value={level}
+                            onChange={handleLevelChange}
+                            displayEmpty
+                            inputProps={{ 'aria-label': 'Select Level' }}
+                        >
+                            <MenuItem value="" disabled>Please Choose a Parking Level:</MenuItem>
+                            <MenuItem value="{1}" >Level 1</MenuItem>
+                            <MenuItem value="{2}" >Level 2</MenuItem>
+                            <MenuItem value="{3}" >Level 3</MenuItem>
+                            <MenuItem value="{4}" >Level 4</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <Button variant="contained" disabled className={styles.TimeButton}>
+                        Time: 11:00am - 1:00pm
+                    </Button>
                 </div>
                 <div className={styles.ParkingLayout}>
                     <p>Please select your desired parking spot:</p>
