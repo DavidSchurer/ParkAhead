@@ -4,8 +4,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { MenuItem, Select, FormControl, Avatar, Button } from '@mui/material';
 import styles from './ParkingAvailability.module.css';
 import MyGoogleMap from './MyGoogleMap';
+import { useNavigate } from 'react-router-dom';
 
 function ParkingAvailability() {
+    const navigate = useNavigate();
+
+    const handlePreviousClick = () => {
+        console.log('Previous button clicked');
+        navigate('/');
+    };
+
     return (
         <div className={styles.MainContainer}>
             <div className={`${styles.LeftContainer} ${styles.box}`}>
@@ -40,7 +48,7 @@ function ParkingAvailability() {
                         </div>
                     </div>
                     <div className={styles['next-button-container']}>
-                        <button className={styles['next-button']}>Previous</button>
+                        <button className={styles['next-button']} onClick={handlePreviousClick}>Previous</button>
                         <button className={styles['prev-button']}>Next</button>
                     </div>
                 </div>

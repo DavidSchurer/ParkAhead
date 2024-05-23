@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 function Header() {
@@ -7,9 +8,9 @@ function Header() {
             <h1>UW Bothell Parking Spot Reservation System</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Reserve Parking Space</a></li>
-                    <li><a href="#">Check Parking Space Availability</a></li>
-                    <li><a href="#">Manage Parking Reservations</a></li>
+                    <li><Link to="/">Reserve Parking Space</Link></li>
+                    <li><Link to="/ParkingAvailability">Check Parking Space Availability</Link></li>
+                    <li><Link to="/ManageParkingReservations">Manage Parking Reservations</Link></li>
                 </ul>
             </nav>
         </div>
