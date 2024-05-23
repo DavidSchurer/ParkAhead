@@ -1,0 +1,103 @@
+.MainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 60%;
+    margin: 0;
+    text-align: left;
+}
+
+.MainHeading {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.LeftContainer {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.Subheading {
+    margin: 10px 0;
+}
+
+.ReservationDetails {
+    padding: 20px;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.prev-button, .next-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: 1px solid;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.prev-button:hover, .next-button:hover {
+    background-color: #555;
+}
+
+.next-button-container {
+    width: calc(100% + 40px);
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    margin: 0 -20px -40px -20px;
+}
+
+.box {
+    border: 3px solid #ccc;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.box-heading {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    margin: -20px -20px 10px -20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.ParkingLayout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.parking-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.parking-spot {
+    width: 50px;
+    height: 100px;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.parking-spot:hover {
+    background-color: #c0c0c0;
+}
