@@ -67,10 +67,10 @@ function ReserveParkingSpace() {
                                 <MenuItem disabled value="">
                                     <em>Please Choose a Parking Garage/Lot</em>
                                 </MenuItem>
-                                <MenuItem value={'Lot A'}>Lot A</MenuItem>
-                                <MenuItem value={'Lot B'}>Lot B</MenuItem>
-                                <MenuItem value={'Lot C'}>Lot C</MenuItem>
-                                <MenuItem value={'Lot D'}>Lot D</MenuItem>
+                                <MenuItem value={'Lot A'}>South Garage</MenuItem>
+                                <MenuItem value={'Lot B'}>North Garage</MenuItem>
+                                <MenuItem value={'Lot C'}>West Garage</MenuItem>
+                                <MenuItem value={'Lot D'}>Truly Lot</MenuItem>
                             </Select>
                         </FormControl>
 
