@@ -8,35 +8,42 @@ import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
 
 function ReserveParkingSpace() {
+    // State variables used to manage the selected date, start time, end time, and selected parking lot
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [startTime, setStartTime] = useState({ time: '12:00', period: 'AM' });
     const [endTime, setEndTime] = useState({ time: '12:00', period: 'AM' });
     const [selectedOption, setSelectedOption] = useState('');
     const { selectedParkingLot, setSelectedParkingLot } = useParkingContext();
 
+    // Hook used for navigation
     const navigate = useNavigate();
 
+    // Handler function used for changing the parking lot selection
     const handleParkingLotChange = (event) => {
         setSelectedParkingLot(event.target.value);
     };
 
+    // Handler function for changing selected time
     const handleTimeChange = (type, field, value) => {
         if (type === 'start') {
-            setStartTime({ ...startTime, [field]: value });
+            setStartTime({ ...startTime, [field]: value }); // Update start time
         } else {
-            setEndTime({ ...endTime, [field]: value });
+            setEndTime({ ...endTime, [field]: value }); // Update end time
         }
     };
 
+    // Handler function for option selection (parking permit or no parking permit)
     const handleOptionChange = (option) => {
         setSelectedOption(option);
     };
 
+    // Handler function for clicking next button
     const handleNextClick = () => {
         console.log('Next button clicked. Selected option:', selectedOption);
-        navigate('/ParkingAvailability');
+        navigate('/ParkingAvailability'); // Navigate to the parking availability page upon click
     };
 
+    // Time options generated for the dropdown selection
     const times = Array.from({ length: 12 }, (_, i) => (i + 1).toString()).flatMap(hour => 
         ['00', '30'].map(minute => `${hour}:${minute}`)
     );
@@ -45,7 +52,7 @@ function ReserveParkingSpace() {
     return (
         <>
         <div className="MainContainer">
-
+            {/*Content on left side of webpage*/}
             <div className="LeftContainer">
                 <div className="MainHeading">
                     <h1>Reserve Parking Space</h1>
@@ -56,6 +63,7 @@ function ReserveParkingSpace() {
                 </div>
 
                 <div className="ReservationDetails">
+                    {/*Parking Garage/Lot Selection Dropdown*/}
                     <h4>1) Select UWB Parking Lot/Parking Garage:</h4>
                     <FormControl fullWidth>
                             <Select
@@ -79,6 +87,7 @@ function ReserveParkingSpace() {
                             </Select>
                         </FormControl>
 
+                    {/*Calendar for picking date of parking reservation*/}
                     <h4>2) Select Date:</h4>
                     <DatePicker
                         selected={selectedDate}
@@ -87,6 +96,7 @@ function ReserveParkingSpace() {
                         inline
                     />
 
+                    {/*Buttons for selecting start and end time of parking spot reservation*/}
                     <h4>3) Select Time:</h4>
                     <div className="time-picker">
                         <div className="time-picker-item">
@@ -137,6 +147,8 @@ function ReserveParkingSpace() {
                         </div>
                     </div>
 
+
+                    {/*Selection buttons for having parking permit or no parking permit*/}
                     <h4>4) Choose one of the following options:</h4>
                     <div className="selection-container">
                         <button
@@ -153,21 +165,24 @@ function ReserveParkingSpace() {
                         </button>
                     </div>
 
+                    {/*Next button*/}
                     <div className="next-button-container">
                         <button className="next-button" onClick={handleNextClick}>Next</button>
                     </div>
                 </div>
             </div>
 
+            {/*Content on right side of webpage*/}
             <div className="RightContainer">
 
+                {/*Header for username, icon, and log out button*/}
                 <div className="Header">
                 <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
                     <span className="Username">dschurer</span>
                     <Button variant="outlined" className="LogoutButton">Log Out</Button>
                 </div>
 
-
+                {/*Current parking spot reservations info*/}
                 <div className="box">
                     <div className="box-heading">Current Parking Spot Reservations</div>
                     <div className="placeholder-text">
@@ -175,6 +190,7 @@ function ReserveParkingSpace() {
                     </div>
                 </div>
 
+                {/*UW Bothell Parking Locations Map (Using Google Maps API)*/}
                 <div className="box">
                     <div className="box-heading">UW Bothell Parking Locations</div>
                     <MyGoogleMap />
