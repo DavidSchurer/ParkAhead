@@ -5,18 +5,19 @@ import { MenuItem, Select, FormControl, Avatar, Button } from '@mui/material';
 import './ReserveParkingSpace.css';
 import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
+import { useParkingContext } from './ParkingContext';
 
 function ReserveParkingSpace() {
-    const [parkingLot, setParkingLot] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [startTime, setStartTime] = useState({ time: '12:00', period: 'AM' });
     const [endTime, setEndTime] = useState({ time: '12:00', period: 'AM' });
     const [selectedOption, setSelectedOption] = useState('');
+    const { selectedParkingLot, setSelectedParkingLot } = useParkingContext();
 
     const navigate = useNavigate();
 
     const handleParkingLotChange = (event) => {
-        setParkingLot(event.target.value);
+        setSelectedParkingLot(event.target.value);
     };
 
     const handleTimeChange = (type, field, value) => {
@@ -59,7 +60,7 @@ function ReserveParkingSpace() {
                     <FormControl fullWidth>
                             <Select
                                 displayEmpty
-                                value={parkingLot}
+                                value={selectedParkingLot}
                                 onChange={handleParkingLotChange}
                                 renderValue={(selected) => {
                                     if (selected.length === 0) {

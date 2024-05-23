@@ -5,10 +5,12 @@ import { MenuItem, Select, FormControl, Avatar, Button } from '@mui/material';
 import styles from './ParkingAvailability.module.css';
 import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
+import { useParkingContext } from './ParkingContext';
 
 function ParkingAvailability() {
     const navigate = useNavigate();
     const [level, setLevel] = useState('');
+    const { selectedParkingLot } = useParkingContext();
 
     const handleLevelChange = (event) => {
         setLevel(event.target.value);
@@ -26,7 +28,7 @@ function ParkingAvailability() {
                     <h1>Check Availability</h1>
                 </div>
                 <div className={`${styles.Subheading} ${styles['box-heading']}`}>
-                    <h2>Parking Lot</h2>
+                    <h2>Parking Lot: {selectedParkingLot}</h2>
                 </div>
                 <div className={styles.LevelTimeContainer}>
                     <FormControl fullWidth>

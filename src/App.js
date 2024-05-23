@@ -5,17 +5,20 @@ import ReserveParkingSpace from './ReserveParkingSpace';
 import ParkingAvailability from './ParkingAvailability';
 import MyGoogleMap from './MyGoogleMap';
 import './App.css';
+import { ParkingProvider } from './ParkingContext';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route path="/" element={<ReserveParkingSpace />}/>
-          <Route path="/ParkingAvailability" element={<ParkingAvailability />} />
-        </Routes>
-      </div>
+      <ParkingProvider>
+        <div className="App">
+          <Header />
+          <Routes>
+            <Route path="/" element={<ReserveParkingSpace />}/>
+            <Route path="/ParkingAvailability" element={<ParkingAvailability />} />
+          </Routes>
+        </div>
+      </ParkingProvider>
     </Router>
   );
 }
