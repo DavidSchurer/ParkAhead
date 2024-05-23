@@ -69,6 +69,11 @@
 }
 
 .selection-button:hover {
+    background-color: whitesmoke;
+    color: #333;
+}
+
+.selection-button.selected {
     background-color: #555;
     color: white;
 }

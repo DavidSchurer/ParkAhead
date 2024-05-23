@@ -36,7 +36,7 @@ function ParkingAvailability() {
                             displayEmpty
                             inputProps={{ 'aria-label': 'Select Level' }}
                         >
-                            <MenuItem value="" disabled>Please Choose a Parking Level:</MenuItem>
+                            <MenuItem value="" disabled><em>Please Choose a Parking Level:</em></MenuItem>
                             <MenuItem value="{1}" >Level 1</MenuItem>
                             <MenuItem value="{2}" >Level 2</MenuItem>
                             <MenuItem value="{3}" >Level 3</MenuItem>

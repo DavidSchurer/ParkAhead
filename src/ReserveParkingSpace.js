@@ -63,7 +63,7 @@ function ReserveParkingSpace() {
                                 onChange={handleParkingLotChange}
                                 renderValue={(selected) => {
                                     if (selected.length === 0) {
-                                        return <em>Please Choose a Parking Garage/Lot</em>;
+                                        return <em>Please Choose a Parking Garage/Lot:</em>;
                                     }
                                     return selected;
                                 }}
@@ -139,13 +139,13 @@ function ReserveParkingSpace() {
                     <h4>4) Choose one of the following options:</h4>
                     <div className="selection-container">
                         <button
-                            className="selection-button"
+                            className={`selection-button ${selectedOption === 'Option 1' ? 'selected' : ''}`}
                             onClick={() => handleOptionChange('Option 1')}
                         > 
                             I Have a UW Bothell Parking Permit 
                         </button>
                         <button
-                            className="selection-button"
+                            className={`selection-button ${selectedOption === 'Option 2' ? 'selected' : ''}`}
                             onClick={() => handleOptionChange('Option 2')}
                         >
                             Purchase Parking Spot Reservation
