@@ -6,10 +6,16 @@ export const useParkingContext = () => useContext(ParkingContext);
 
 export const ParkingProvider = ({ children }) => {
     const [selectedParkingLot, setSelectedParkingLot] = useState('');
+    const [startTime, setStartTime] = useState({ time: '12:00', period: 'AM'});
+    const [endTime, setEndTime] = useState({ time: '12:00', period: 'AM'});
 
     const value = {
         selectedParkingLot,
         setSelectedParkingLot,
+        startTime,
+        setStartTime,
+        endTime,
+        setEndTime
     };
 
     return (

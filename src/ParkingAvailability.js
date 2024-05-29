@@ -10,7 +10,7 @@ import { useParkingContext } from './ParkingContext';
 function ParkingAvailability() {
     const navigate = useNavigate();
     const [level, setLevel] = useState('');
-    const { selectedParkingLot } = useParkingContext();
+    const { selectedParkingLot, startTime, endTime } = useParkingContext();
 
     const handleLevelChange = (event) => {
         setLevel(event.target.value);
@@ -46,7 +46,7 @@ function ParkingAvailability() {
                         </Select>
                     </FormControl>
                     <Button variant="contained" disabled className={styles.TimeButton}>
-                        Time: 11:00am - 1:00pm
+                        Time: {`${startTime.time} ${startTime.period} - ${endTime.time} ${endTime.period}`}
                     </Button>
                 </div>
                 <div className={styles.ParkingLayout}>
