@@ -18,7 +18,7 @@ function ParkingAvailability() {
 
     const handlePreviousClick = () => {
         console.log('Previous button clicked');
-        navigate('/');
+        navigate('/ReserveParkingSpace');
     };
 
     return (
