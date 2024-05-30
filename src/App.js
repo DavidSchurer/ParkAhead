@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './Header'; // Import Header component (navigation bar that will display among all pages)
 import ReserveParkingSpace from './ReserveParkingSpace';
 import ParkingAvailability from './ParkingAvailability';
+import Login from './Login';
 import MyGoogleMap from './MyGoogleMap';
 import './App.css';
 import { ParkingProvider } from './ParkingContext';
@@ -14,7 +15,8 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            <Route path="/" element={<ReserveParkingSpace />}/>
+            <Route path="/" element={<Login />}/>
+            <Route path="/ReserveParkingSpace" element={<ReserveParkingSpace />}/>
             <Route path="/ParkingAvailability" element={<ParkingAvailability />} />
           </Routes>
         </div>
