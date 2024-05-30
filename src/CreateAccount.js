@@ -5,6 +5,7 @@ import styles from './Login.module.css';
 function CreateAccount() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -16,6 +17,10 @@ function CreateAccount() {
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
+    };
+
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
     };
 
     const handleConfirmPasswordChange = (event) => {
@@ -49,6 +54,15 @@ function CreateAccount() {
                         type="text"
                         value={username}
                         onChange={handleUsernameChange}
+                        required
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Enter Email Address:</label>
+                    <input
+                        type="text"
+                        value={email}
+                        onChange={handleEmailChange}
                         required
                     />
                 </div>
