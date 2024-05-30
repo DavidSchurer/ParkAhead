@@ -26,6 +26,10 @@ function Login() {
         navigate('/ReserveParkingSpace');
     };
 
+    const handleCreateAccount = () => {
+        navigate('/CreateAccount');
+    };
+
     return (
         <div className={styles.loginContainer}>
             <div className={styles.loginBox}>
@@ -61,6 +65,10 @@ function Login() {
                     </div>
                     <button type="button" className={styles.loginButton} onClick={handleLogin}>
                         Login
+                    </button>
+                    <p>Don't have an account?</p>
+                    <button type="button" className={styles.createAccountButton} onClick={handleCreateAccount}>
+                        Create Account
                     </button>
                 </form>
             </div>
