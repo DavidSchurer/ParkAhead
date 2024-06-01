@@ -17,11 +17,11 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            <Route path="/" element={<Login />}/>
+            <Route path="/" element={<WelcomePage />}/>
+            <Route path="/Login" element={<Login />}/>
             <Route path="/CreateAccount" element={<CreateAccount />}/>
             <Route path="/ReserveParkingSpace" element={<ReserveParkingSpace />}/>
             <Route path="/ParkingAvailability" element={<ParkingAvailability />}/>
-            <Route path="/WelcomePage" element={<WelcomePage />} />
           </Routes>
         </div>
       </ParkingProvider>

@@ -23,7 +23,7 @@ function ParkingAvailability() {
 
     const handleLogoutClick = () => {
         console.log('User has logged out');
-        navigate('/');
+        navigate('/Login');
     };
 
     return (

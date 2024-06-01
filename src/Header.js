@@ -8,7 +8,6 @@ function Header() {
             <h1>UW Bothell Parking Spot Reservation System</h1>
             <nav>
                 <ul>
-                    <li><Link to="/WelcomePage">WelcomePage</Link></li>
                     <li><Link to="/ReserveParkingSpace">Reserve Parking Space</Link></li>
                     <li><Link to="/ParkingAvailability">Check Parking Space Availability</Link></li>
                     <li><Link to="/ManageParkingReservations">Manage Parking Reservations</Link></li>

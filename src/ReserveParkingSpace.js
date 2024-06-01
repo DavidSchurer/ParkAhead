@@ -43,7 +43,7 @@ function ReserveParkingSpace() {
 
     const handleLogoutClick = () => {
         console.log('User has logged out');
-        navigate('/');
+        navigate('/Login');
     };
 
     // Time options generated for the dropdown selection
