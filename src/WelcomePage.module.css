@@ -7,13 +7,14 @@
 }
 
 .welcomeBox {
-    width: 300px;
+    width: 500px; 
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     border-radius: 10px;
     text-align: center;
     border: 2px solid #ccc;
+    margin: auto; 
 }
 
 .welcomeHeader {
@@ -47,4 +48,22 @@
 .continueButton:hover {
     background-color: #555;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.subHeading {
+    font-size: 1.5em;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.developedBy {
+    margin-top: 20px;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.developedBy {
+    margin-top: 20px;
+    font-size: 0.8em;
+    color: #999;
 }
