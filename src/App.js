@@ -8,6 +8,7 @@ import CreateAccount from './CreateAccount';
 import MyGoogleMap from './MyGoogleMap';
 import './App.css';
 import { ParkingProvider } from './ParkingContext';
+import WelcomePage from './WelcomePage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/CreateAccount" element={<CreateAccount />}/>
             <Route path="/ReserveParkingSpace" element={<ReserveParkingSpace />}/>
             <Route path="/ParkingAvailability" element={<ParkingAvailability />}/>
+            <Route path="/WelcomePage" element={<WelcomePage />} />
           </Routes>
         </div>
       </ParkingProvider>
