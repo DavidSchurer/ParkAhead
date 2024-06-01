@@ -21,6 +21,11 @@ function ParkingAvailability() {
         navigate('/ReserveParkingSpace');
     };
 
+    const handleLogoutClick = () => {
+        console.log('User has logged out');
+        navigate('/');
+    };
+
     return (
         <div className={styles.MainContainer}>
             <div className={`${styles.LeftContainer} ${styles.box}`}>
@@ -85,7 +90,7 @@ function ParkingAvailability() {
                 <div className={styles.Header}>
                     <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
                     <span className={styles.Username}>dschurer</span>
-                    <Button variant="outlined" className={styles.LogoutButton}>Log Out</Button>
+                    <Button variant="outlined" className={styles.LogoutButton} onClick={handleLogoutClick}>Log Out</Button>
                 </div>
 
 

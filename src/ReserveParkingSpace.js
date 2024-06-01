@@ -41,6 +41,11 @@ function ReserveParkingSpace() {
         navigate('/ParkingAvailability'); // Navigate to the parking availability page upon click
     };
 
+    const handleLogoutClick = () => {
+        console.log('User has logged out');
+        navigate('/');
+    };
+
     // Time options generated for the dropdown selection
     const times = Array.from({ length: 12 }, (_, i) => (i + 1).toString()).flatMap(hour => 
         ['00', '30'].map(minute => `${hour}:${minute}`)
@@ -177,7 +182,7 @@ function ReserveParkingSpace() {
                 <div className="Header">
                 <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
                     <span className="Username">dschurer</span>
-                    <Button variant="outlined" className="LogoutButton">Log Out</Button>
+                    <Button variant="outlined" className="LogoutButton" onClick={handleLogoutClick}>Log Out</Button>
                 </div>
 
                 {/*Current parking spot reservations info*/}
