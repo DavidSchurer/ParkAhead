@@ -12,6 +12,7 @@ function ReserveParkingSpace() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedOption, setSelectedOption] = useState('');
     const { selectedParkingLot, setSelectedParkingLot, startTime, setStartTime, endTime, setEndTime } = useParkingContext();
+    const [reservation, setReservation] = useState(null);
 
     // Hook used for navigation
     const navigate = useNavigate();
@@ -38,6 +39,13 @@ function ReserveParkingSpace() {
     // Handler function for clicking next button
     const handleNextClick = () => {
         console.log('Next button clicked. Selected option:', selectedOption);
+        const reservationDetails = {
+            date: selectedDate,
+            parkingLot: selectedParkingLot,
+            startTime: `${startTime.time} ${startTime.period}`,
+            endTime: `${endTime.time} ${endTime.period}`
+        };
+        setReservation(reservationDetails); // Set the reservation details state
         navigate('/ParkingAvailability'); // Navigate to the parking availability page upon click
     };
 
@@ -189,7 +197,13 @@ function ReserveParkingSpace() {
                 <div className="box">
                     <div className="box-heading">Current Parking Spot Reservations</div>
                     <div className="placeholder-text">
-                        5/25/2024 1:30pm @ UWB South Garage Spot #328 [Level 3]
+                        {reservation ? (
+                            <div>
+                                {reservation.date.toLocaleDateString()} {reservation.startTime} - {reservation.endTime} @ {reservation.parkingLot}
+                            </div>
+                        ) : (
+                            "No reservations yet"
+                        )}
                     </div>
                 </div>
 
