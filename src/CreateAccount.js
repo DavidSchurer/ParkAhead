@@ -40,7 +40,7 @@ function CreateAccount() {
 
                 // After the user has created an account, it will navigate them
                 // to the login page
-                navigate('/');
+                navigate('/Login');
             } else {
                 setErrorMessage('Passwords do not match.');
             }
