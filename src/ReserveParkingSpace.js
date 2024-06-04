@@ -11,8 +11,7 @@ function ReserveParkingSpace() {
     // State variables used to manage the selected date, start time, end time, and selected parking lot
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedOption, setSelectedOption] = useState('');
-    const { selectedParkingLot, setSelectedParkingLot, startTime, setStartTime, endTime, setEndTime } = useParkingContext();
-    const [reservation, setReservation] = useState(null);
+    const { selectedParkingLot, setSelectedParkingLot, startTime, setStartTime, endTime, setEndTime, reservation, setReservation } = useParkingContext();
 
     // Hook used for navigation
     const navigate = useNavigate();

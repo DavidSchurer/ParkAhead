@@ -10,7 +10,7 @@ import { useParkingContext } from './ParkingContext';
 function ParkingAvailability() {
     const navigate = useNavigate();
     const [level, setLevel] = useState('');
-    const { selectedParkingLot, startTime, endTime } = useParkingContext();
+    const { selectedParkingLot, startTime, endTime, reservation } = useParkingContext();
 
     const handleLevelChange = (event) => {
         setLevel(event.target.value);
@@ -97,7 +97,13 @@ function ParkingAvailability() {
                 <div className={styles.box}>
                     <div className={styles['box-heading']}>Current Parking Spot Reservations</div>
                     <div className="placeholder-text">
-                        5/25/2024 1:30pm @ UWB South Garage Spot #328 [Level 3]
+                        {reservation ? (
+                            <div>
+                                {reservation.date.toLocaleDateString()} {reservation.startTime} - {reservation.endTime} @ {reservation.parkingLot}
+                            </div>
+                        ) : (
+                            "No reservations yet"
+                        )}
                     </div>
                 </div>
 
