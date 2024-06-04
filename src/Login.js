@@ -22,8 +22,17 @@ function Login() {
     };
 
     const handleLogin = () => {
-        console.log('Logging in with:', { username, password, rememberLogin });
-        navigate('/ReserveParkingSpace');
+        const storedUsername = localStorage.getItem('username');
+        const storedPassword = localStorage.getItem('password');
+        if (username === storedUsername && password === storedPassword) {
+            // Flag to indicate that the user is logged in
+            localStorage.setItem('isLoggedIn', 'true');
+            // Direct the user to the Reserve Parking Space page 
+            navigate('/ReserveParkingSpace');
+        } else {
+            // Error message is displayed if the user enters an incorrect username or password
+            alert('Invalid username or password.');
+        }
     };
 
     const handleCreateAccount = () => {

@@ -32,6 +32,12 @@ function CreateAccount() {
             if (password === confirmPassword) {
                 // Save the account (database logic will have to be added here)
                 console.log('Account created:', { username, password });
+
+                localStorage.setItem('username', username);
+                localStorage.setItem('email', email);
+                localStorage.setItem('password', password);
+                localStorage.setItem('isLoggedIn', 'true');
+
                 // After the user has created an account, it will navigate them
                 // to the login page
                 navigate('/');
