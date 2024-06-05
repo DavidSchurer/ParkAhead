@@ -10,7 +10,7 @@ function Header() {
                 <ul>
                     <li><Link to="/ReserveParkingSpace">Reserve Parking Space</Link></li>
                     <li><Link to="/ParkingAvailability">Check Parking Space Availability</Link></li>
-                    <li><Link to="/ManageParkingReservations">Manage Parking Reservations</Link></li>
+                    <li><Link to="/ManageParking">Manage Parking Reservations</Link></li>
                 </ul>
             </nav>
         </div>
