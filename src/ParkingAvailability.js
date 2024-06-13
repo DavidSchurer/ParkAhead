@@ -12,8 +12,8 @@ function ParkingAvailability() {
     const [displayedParkingSpots, setDisplayedParkingSpots] = useState([]);
 
     // Constant variables to represent the number of rows and columns for the parking layout
-    const numRows = 6;
-    const numCols = 10; // 10 parking spots per row
+    const numRows = 2;
+    const numCols = 5; // 10 total parking spots per page (2 rows , 5 columns)
 
     // Calculate the number of parking spots based on the level
     const getSpotRange = (selectedLevel) => {
@@ -36,7 +36,7 @@ function ParkingAvailability() {
 
     const updateDisplayedSpots = (selectedLevel) => {
         const { start, end } = getSpotRange(selectedLevel);
-        const spotsToDisplay = generateParkingSpots(start, end);
+        const spotsToDisplay = generateParkingSpots(start, end).slice(0, 10);
         setDisplayedParkingSpots(spotsToDisplay);
     };
 

@@ -1,19 +1,14 @@
-.parking-grid {
-    display: grid;
-    gap: 5px; /* Adjust gap between parking spots */
-    max-width: 400px; /* Adjust maximum width if necessary */
-    margin: auto; /* Center the grid */
-}
-
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); /* Automatically fill columns */
-    gap: 5px; /* Adjust gap between parking spots */
-    width: 100%; /* Ensure grid container takes full width */
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px; /* Adjust gap between parking spots */
+    width: 100%;
 }
 
 .parking-spot {
-    width: 100%; /* Ensure parking spots take full width of their grid cell */
+    width: 80px; /* Adjust width to make the spots resemble a car */
+    height: 150px; /* Adjust height to make the spots resemble a car */
     border: 1px solid #333;
     display: flex;
     align-items: center;
@@ -21,10 +16,25 @@
     background-color: #e0e0e0;
     cursor: pointer;
     transition: background-color 0.3s;
+    border-radius: 10px; /* Rounded corners to resemble car shape */
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to give depth */
 }
 
 .parking-spot:hover {
     background-color: #c0c0c0;
+}
+
+.parking-spot::before {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.parking-spot::after {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .LeftContainer {
