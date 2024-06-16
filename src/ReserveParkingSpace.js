@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { MenuItem, Select, FormControl, Avatar, Button } from '@mui/material';
+import { MenuItem, Select, FormControl, Avatar, Button, TextField } from '@mui/material';
 import './ReserveParkingSpace.css';
 import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ function ReserveParkingSpace() {
     // State variables used to manage the selected date, start time, end time, and selected parking lot
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedOption, setSelectedOption] = useState('');
-    const { selectedParkingLot, setSelectedParkingLot, startTime, setStartTime, endTime, setEndTime, reservation, setReservation } = useParkingContext();
+    const { selectedParkingLot, setSelectedParkingLot, startTime, setStartTime, endTime, setEndTime, reservation, setReservation, bookingName, setBookingName } = useParkingContext();
 
     // Hook used for navigation
     const navigate = useNavigate();
@@ -42,7 +42,8 @@ function ReserveParkingSpace() {
             date: selectedDate,
             parkingLot: selectedParkingLot,
             startTime: `${startTime.time} ${startTime.period}`,
-            endTime: `${endTime.time} ${endTime.period}`
+            endTime: `${endTime.time} ${endTime.period}`,
+            bookingName
         };
         setReservation(reservationDetails); // Set the reservation details state
         navigate('/ParkingAvailability'); // Navigate to the parking availability page upon click
@@ -73,8 +74,18 @@ function ReserveParkingSpace() {
                 </div>
 
                 <div className="ReservationDetails">
+
+                    {/*Textfield for entering the booking name*/}
+                    <h4>1) Enter Reservation Name:</h4>
+                    <TextField
+                        fullWidth
+                        value={bookingName}
+                        onChange={(e) => setBookingName(e.target.value)}
+                        placeholder="Enter your reservation name"
+                    />
+
                     {/*Parking Garage/Lot Selection Dropdown*/}
-                    <h4>1) Select UWB Parking Lot/Parking Garage:</h4>
+                    <h4>2) Select UWB Parking Lot/Parking Garage:</h4>
                     <FormControl fullWidth>
                             <Select
                                 displayEmpty
@@ -98,7 +109,7 @@ function ReserveParkingSpace() {
                         </FormControl>
 
                     {/*Calendar for picking date of parking reservation*/}
-                    <h4>2) Select Date:</h4>
+                    <h4>3) Select Date:</h4>
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date) => setSelectedDate(date)}
@@ -107,7 +118,7 @@ function ReserveParkingSpace() {
                     />
 
                     {/*Buttons for selecting start and end time of parking spot reservation*/}
-                    <h4>3) Select Time:</h4>
+                    <h4>4) Select Time:</h4>
                     <div className="time-picker">
                         <div className="time-picker-item">
                             <p><strong>From:</strong></p>
@@ -159,7 +170,7 @@ function ReserveParkingSpace() {
 
 
                     {/*Selection buttons for having parking permit or no parking permit*/}
-                    <h4>4) Choose one of the following options:</h4>
+                    <h4>5) Choose one of the following options:</h4>
                     <div className="selection-container">
                         <button
                             className={`selection-button ${selectedOption === 'Option 1' ? 'selected' : ''}`}

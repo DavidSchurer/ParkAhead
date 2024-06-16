@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './ManageParking.module.css';
+import { useParkingContext } from './ParkingContext';
 
 const ManageParking = () => {
+    const { reservation } = useParkingContext();
+    const previousReservation = useRef(null);
+
     const [bookings, setBookings] = useState([
-        { name: 'Nathan', space: 'PS-101', location: 'North Garage', time: '9:00am - 11:00am, June 5, 2024', category: 'Standard' },
-        { name: 'Minuk', space: 'PS-202', location: 'South Garage', time: '9:30am - 11:30am, June 5, 2024', category: 'Electric' },
-        { name: 'Hina Schleifer', space: 'PS-303', location: 'East Lot', time: '9:30am - 11:00am, June 5, 2024', category: 'Handicap' },
-        { name: 'AJ', space: 'PS-404', location: 'West Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Standard' },
-        { name: 'Khalid', space: 'PS-505', location: 'North Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Electric' },
-        { name: 'Jay', space: 'PS-606', location: 'South Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Handicap' }
+        { name: 'Shivam Bakshi', space: 'PS-101', location: 'North Garage', time: '9:00am - 11:00am, June 5, 2024', category: 'Standard' },
+        { name: 'Ben Schipunov', space: 'PS-202', location: 'South Garage', time: '9:30am - 11:30am, June 5, 2024', category: 'Electric' },
+        { name: 'Selina Nguyen', space: 'PS-303', location: 'East Lot', time: '9:30am - 11:00am, June 5, 2024', category: 'Handicap' },
+        { name: 'Reagan Vu', space: 'PS-404', location: 'West Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Standard' },
+        { name: 'Jeffrey Kim', space: 'PS-505', location: 'North Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Electric' },
+        { name: 'John Smith', space: 'PS-606', location: 'South Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Handicap' }
     ]);
 
     const [filteredBookings, setFilteredBookings] = useState(bookings);
@@ -18,8 +22,24 @@ const ManageParking = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
+        if (reservation && reservation !== previousReservation.current) {
+            setBookings(prevBookings => [
+                ...prevBookings,
+                {
+                    name: reservation.bookingName,
+                    space: 'PS-999',
+                    location: reservation.parkingLot,
+                    time: `${reservation.startTime} - ${reservation.endTime}, ${new Date(reservation.date).toLocaleDateString()}`,
+                    category: 'User Reserved'
+                }
+            ]);
+            previousReservation.current = reservation;
+        }
+    }, [reservation]);
+
+    useEffect(() => {
         filterBookings();
-    }, [locationFilter, categoryFilter, timeFilter, searchQuery]);
+    }, [locationFilter, categoryFilter, timeFilter, searchQuery, bookings]);
 
     const filterBookings = () => {
         let filtered = bookings;
@@ -33,8 +53,25 @@ const ManageParking = () => {
         }
 
         if (timeFilter) {
-            // Add logic to filter by time if needed
-            // filtered = filtered.filter(booking => booking.time matches timeFilter);
+            // Time filtering logic
+            const currentDate = new Date();
+
+            if (timeFilter === 'Next 7 days') {
+                filtered = filtered.filter(booking => {
+                    const bookingDate = new Date(booking.time.split(',')[1].trim());
+                    return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 7;
+                });
+            } else if (timeFilter === 'Next 30 days') {
+                filtered = filtered.filter(booking => {
+                    const bookingDate = new Date(booking.time.split(',')[1].trim());
+                    return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 60;
+                });
+            } else if (timeFilter === 'Next 60 days') {
+                filtered = filtered.filter(booking => {
+                    const bookingDate = new Date(booking.time.split(',')[1].trim());
+                    return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 60;
+                });
+            }
         }
 
         if (searchQuery) {
@@ -79,7 +116,7 @@ const ManageParking = () => {
                     <input
                         type="text"
                         className={styles.searchInput}
-                        placeholder="Search booking name..."
+                        placeholder="Search reservation name..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -90,7 +127,7 @@ const ManageParking = () => {
                     <table className={styles.manageTable}>
                         <thead>
                             <tr>
-                                <th>Booking Name</th>
+                                <th>Reservation Name</th>
                                 <th>Parking Space</th>
                                 <th>Garage/Parking Location</th>
                                 <th>Time Duration</th>
