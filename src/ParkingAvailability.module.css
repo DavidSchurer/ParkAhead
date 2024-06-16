@@ -21,8 +21,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to give depth */
 }
 
-.parking-spot:hover {
+.parking-spot:hover, .selected-spot {
     background-color: #c0c0c0;
+}
+
+.parking-spot.selected-spot {
+    background-color: #a0a0a0;
 }
 
 .parking-spot::before {

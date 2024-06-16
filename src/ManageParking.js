@@ -3,7 +3,7 @@ import styles from './ManageParking.module.css';
 import { useParkingContext } from './ParkingContext';
 
 const ManageParking = () => {
-    const { reservation } = useParkingContext();
+    const { reservation, selectedSpot } = useParkingContext();
     const previousReservation = useRef(null);
 
     const [bookings, setBookings] = useState([
@@ -27,7 +27,7 @@ const ManageParking = () => {
                 ...prevBookings,
                 {
                     name: reservation.bookingName,
-                    space: 'PS-999',
+                    space: `${selectedSpot}`,
                     location: reservation.parkingLot,
                     time: `${reservation.startTime} - ${reservation.endTime}, ${new Date(reservation.date).toLocaleDateString()}`,
                     category: 'User Reserved'
@@ -35,7 +35,7 @@ const ManageParking = () => {
             ]);
             previousReservation.current = reservation;
         }
-    }, [reservation]);
+    }, [reservation, selectedSpot, bookings]);
 
     useEffect(() => {
         filterBookings();

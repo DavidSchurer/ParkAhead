@@ -7,8 +7,8 @@ import { useParkingContext } from './ParkingContext';
 
 function ParkingAvailability() {
     const navigate = useNavigate();
+    const { selectedParkingLot, startTime, endTime, reservation, selectedSpot, setSelectedSpot } = useParkingContext();
     const [level, setLevel] = useState('');
-    const { selectedParkingLot, startTime, endTime, reservation } = useParkingContext();
     const [displayedParkingSpots, setDisplayedParkingSpots] = useState([]);
 
     // Constant variables to represent the number of rows and columns for the parking layout
@@ -25,11 +25,27 @@ function ParkingAvailability() {
         return { start: startSpot, end: endSpot };
     };
 
+    const handleSpotClick = (spotID) => {
+        if (selectedSpot === spotID) {
+            setSelectedSpot(null);
+        } else {
+            setSelectedSpot(spotID);
+        }
+    };
+
     // Generate the parking spots dynamically using a function
     const generateParkingSpots = (start, end) => {
         const parkingSpots = [];
         for (let spotID = start; spotID <= end; spotID++) {
-            parkingSpots.push(<div key={spotID} className={styles['parking-spot']}>{spotID}</div>);
+            parkingSpots.push(
+            <div 
+                key={spotID} 
+                className={`${styles['parking-spot']} ${selectedSpot === spotID ? styles['selected-spot'] : ''}`}
+                onClick={() => handleSpotClick(spotID)}
+            >
+                {spotID}
+            </div>
+            );
         }
         return parkingSpots;
     };
@@ -47,7 +63,7 @@ function ParkingAvailability() {
         } else {
             setDisplayedParkingSpots([]); // Reset to empty array if no level selected
         }
-    }, [level]);
+    }, [level, selectedSpot]); // Include selectedSpot in dependency array
 
     const handleLevelChange = (event) => {
         setLevel(event.target.value);
