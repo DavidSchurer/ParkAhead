@@ -10,14 +10,16 @@ function ParkingAvailability() {
     const { selectedParkingLot, startTime, endTime, reservation, selectedSpot, setSelectedSpot } = useParkingContext();
     const [level, setLevel] = useState('');
     const [displayedParkingSpots, setDisplayedParkingSpots] = useState([]);
+    const [categoryFilter, setCategoryFilter] = useState('all');
 
-    // Constant variables to represent the number of rows and columns for the parking layout
-    const numRows = 2;
-    const numCols = 5; // 10 total parking spots per page (2 rows , 5 columns)
+    const categorySpots = {
+        1: { handicap: 4, standard: 6 },
+        2: { electric: 4, standard: 6 },
+        3: { electric: 2, standard: 8 },
+        4: { standard: 10 },
+    };
 
-    // Calculate the number of parking spots based on the level
     const getSpotRange = (selectedLevel) => {
-        // Assuming 40 spots in total (10 per level)
         const totalSpots = 40;
         const spotsPerLevel = totalSpots / 4;
         const startSpot = (selectedLevel - 1) * spotsPerLevel + 1;
@@ -33,18 +35,31 @@ function ParkingAvailability() {
         }
     };
 
-    // Generate the parking spots dynamically using a function
-    const generateParkingSpots = (start, end) => {
+    const generateParkingSpots = (start, end, level) => {
         const parkingSpots = [];
+        const spots = categorySpots[level];
+
         for (let spotID = start; spotID <= end; spotID++) {
+            let category = 'standard';
+            if (level === 1 && spotID <= spots.handicap) {
+                category = 'handicap';
+            } else if (level === 2 && spotID <= spots.electric) {
+                category = 'electric';
+            } else if (level === 3 && spotID <= spots.electric) {
+                category = 'electric';
+            }
+
+            const isFilteredOut = category !== categoryFilter && categoryFilter !== 'all';
+
             parkingSpots.push(
-            <div 
-                key={spotID} 
-                className={`${styles['parking-spot']} ${selectedSpot === spotID ? styles['selected-spot'] : ''}`}
-                onClick={() => handleSpotClick(spotID)}
-            >
-                {spotID}
-            </div>
+                <div 
+                    key={spotID} 
+                    className={`${styles['parking-spot']} ${selectedSpot === spotID ? styles['selected-spot'] : ''} ${isFilteredOut ? styles['filtered-out'] : ''}`}
+                    onClick={() => !isFilteredOut && handleSpotClick(spotID)}
+                    style={{ cursor: isFilteredOut ? 'not-allowed' : 'pointer', color: isFilteredOut ? 'transparent' : 'black' }}
+                >
+                    {spotID}
+                </div>
             );
         }
         return parkingSpots;
@@ -52,18 +67,17 @@ function ParkingAvailability() {
 
     const updateDisplayedSpots = (selectedLevel) => {
         const { start, end } = getSpotRange(selectedLevel);
-        const spotsToDisplay = generateParkingSpots(start, end).slice(0, 10);
+        const spotsToDisplay = generateParkingSpots(start, end, selectedLevel);
         setDisplayedParkingSpots(spotsToDisplay);
     };
 
-    // Update displayed parking spots when level changes
     useEffect(() => {
         if (level !== '') {
             updateDisplayedSpots(parseInt(level)); // Ensure level is parsed to integer
         } else {
             setDisplayedParkingSpots([]); // Reset to empty array if no level selected
         }
-    }, [level, selectedSpot]); // Include selectedSpot in dependency array
+    }, [level, categoryFilter, selectedSpot]); // Include categoryFilter and selectedSpot in dependency array
 
     const handleLevelChange = (event) => {
         setLevel(event.target.value);
@@ -103,14 +117,27 @@ function ParkingAvailability() {
                             <MenuItem value="4">Level 4</MenuItem>
                         </Select>
                     </FormControl>
-                    <Button variant="contained" disabled className={styles.TimeButton}>
+                    <Button 
+                        variant="contained" disabled className={styles.TimeButton}>
                         Time: {`${startTime.time} ${startTime.period} - ${endTime.time} ${endTime.period}`}
                     </Button>
+                    <FormControl fullWidth>
+                        <Select
+                            value={categoryFilter}
+                            onChange={(event) => setCategoryFilter(event.target.value)}
+                            displayEmpty
+                            inputProps={{ 'aria-label': 'Select Category' }}
+                        >
+                            <MenuItem value="all">All</MenuItem>
+                            <MenuItem value="standard">Standard</MenuItem>
+                            <MenuItem value="electric">Electric</MenuItem>
+                            <MenuItem value="handicap">Handicap</MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
                 <div className={styles.ParkingLayout}>
                     <p>Please select your desired parking spot:</p>
                     <div className={styles['parking-grid']}>
-                        {/* Render currently displayed parking spots */}
                         {displayedParkingSpots.length > 0 ? (
                             <div className={styles['grid-container']}>
                                 {displayedParkingSpots}

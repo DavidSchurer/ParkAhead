@@ -29,6 +29,12 @@
     background-color: #a0a0a0;
 }
 
+.filtered-out {
+    background-color: #666666;
+    cursor: not-allowed;
+    color: transparent;
+}
+
 .parking-spot::before {
     top: 10px;
     left: 50%;
