@@ -12,13 +12,6 @@ function ParkingAvailability() {
     const [displayedParkingSpots, setDisplayedParkingSpots] = useState([]);
     const [categoryFilter, setCategoryFilter] = useState('all');
 
-    const categorySpots = {
-        1: { handicap: 4, standard: 6 },
-        2: { electric: 4, standard: 6 },
-        3: { electric: 2, standard: 8 },
-        4: { standard: 10 },
-    };
-
     const getSpotRange = (selectedLevel) => {
         const totalSpots = 40;
         const spotsPerLevel = totalSpots / 4;
@@ -37,16 +30,19 @@ function ParkingAvailability() {
 
     const generateParkingSpots = (start, end, level) => {
         const parkingSpots = [];
-        const spots = categorySpots[level];
-
         for (let spotID = start; spotID <= end; spotID++) {
             let category = 'standard';
-            if (level === 1 && spotID <= spots.handicap) {
+
+            if (level === 1 && spotID <= 4) {
                 category = 'handicap';
-            } else if (level === 2 && spotID <= spots.electric) {
+            } else if (level === 2 && spotID >= 11 && spotID <= 14) {
                 category = 'electric';
-            } else if (level === 3 && spotID <= spots.electric) {
+            } else if (level === 2 && spotID >= 15 && spotID <= 20) {
+                category = 'standard';
+            } else if (level === 3 && spotID >= 21 && spotID <= 24) {
                 category = 'electric';
+            } else if (level === 3 && spotID >= 25 && spotID <= 30) {
+                category = 'standard';
             }
 
             const isFilteredOut = category !== categoryFilter && categoryFilter !== 'all';
