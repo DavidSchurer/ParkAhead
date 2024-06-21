@@ -11,6 +11,7 @@ export const ParkingProvider = ({ children }) => {
     const [reservation, setReservation] = useState(null);
     const [bookingName, setBookingName] = useState('');
     const [selectedSpot, setSelectedSpot] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('');
 
     const value = {
         selectedParkingLot,
@@ -24,7 +25,9 @@ export const ParkingProvider = ({ children }) => {
         bookingName,
         setBookingName,
         selectedSpot,
-        setSelectedSpot
+        setSelectedSpot,
+        selectedCategory,
+        setSelectedCategory,
     };
 
     return (

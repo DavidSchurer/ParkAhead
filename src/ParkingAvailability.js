@@ -7,7 +7,7 @@ import { useParkingContext } from './ParkingContext';
 
 function ParkingAvailability() {
     const navigate = useNavigate();
-    const { selectedParkingLot, startTime, endTime, reservation, selectedSpot, setSelectedSpot } = useParkingContext();
+    const { selectedParkingLot, startTime, endTime, reservation, selectedSpot, setSelectedSpot, selectedCategory, setSelectedCategory } = useParkingContext();
     const [level, setLevel] = useState('');
     const [displayedParkingSpots, setDisplayedParkingSpots] = useState([]);
     const [categoryFilter, setCategoryFilter] = useState('all');
@@ -20,29 +20,31 @@ function ParkingAvailability() {
         return { start: startSpot, end: endSpot };
     };
 
-    const handleSpotClick = (spotID) => {
+    const handleSpotClick = (spotID, category) => {
         if (selectedSpot === spotID) {
             setSelectedSpot(null);
+            setSelectedCategory('');
         } else {
             setSelectedSpot(spotID);
+            setSelectedCategory(category);
         }
     };
 
     const generateParkingSpots = (start, end, level) => {
         const parkingSpots = [];
         for (let spotID = start; spotID <= end; spotID++) {
-            let category = 'standard';
+            let category = 'Standard';
 
             if (level === 1 && spotID <= 4) {
-                category = 'handicap';
+                category = 'Handicap';
             } else if (level === 2 && spotID >= 11 && spotID <= 14) {
-                category = 'electric';
+                category = 'Electric';
             } else if (level === 2 && spotID >= 15 && spotID <= 20) {
-                category = 'standard';
+                category = 'Standard';
             } else if (level === 3 && spotID >= 21 && spotID <= 24) {
-                category = 'electric';
+                category = 'Electric';
             } else if (level === 3 && spotID >= 25 && spotID <= 30) {
-                category = 'standard';
+                category = 'Standard';
             }
 
             const isFilteredOut = category !== categoryFilter && categoryFilter !== 'all';
@@ -51,7 +53,7 @@ function ParkingAvailability() {
                 <div 
                     key={spotID} 
                     className={`${styles['parking-spot']} ${selectedSpot === spotID ? styles['selected-spot'] : ''} ${isFilteredOut ? styles['filtered-out'] : ''}`}
-                    onClick={() => !isFilteredOut && handleSpotClick(spotID)}
+                    onClick={() => !isFilteredOut && handleSpotClick(spotID, category)}
                     style={{ cursor: isFilteredOut ? 'not-allowed' : 'pointer', color: isFilteredOut ? 'transparent' : 'black' }}
                 >
                     {spotID}
@@ -125,9 +127,9 @@ function ParkingAvailability() {
                             inputProps={{ 'aria-label': 'Select Category' }}
                         >
                             <MenuItem value="all">All</MenuItem>
-                            <MenuItem value="standard">Standard</MenuItem>
-                            <MenuItem value="electric">Electric</MenuItem>
-                            <MenuItem value="handicap">Handicap</MenuItem>
+                            <MenuItem value="Standard">Standard</MenuItem>
+                            <MenuItem value="Electric">Electric</MenuItem>
+                            <MenuItem value="Handicap">Handicap</MenuItem>
                         </Select>
                     </FormControl>
                 </div>
