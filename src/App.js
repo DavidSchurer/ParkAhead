@@ -10,6 +10,7 @@ import './App.css';
 import { ParkingProvider } from './ParkingContext';
 import WelcomePage from './WelcomePage';
 import ManageParking from './ManageParking';
+import PaymentPortal from './PaymentPortal';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/ReserveParkingSpace" element={<ReserveParkingSpace />}/>
             <Route path="/ParkingAvailability" element={<ParkingAvailability />}/>
             <Route path="/ManageParking" element={<ManageParking />}/>
+            <Route path="/PaymentPortal" element={<PaymentPortal />}/>
           </Routes>
         </div>
       </ParkingProvider>
