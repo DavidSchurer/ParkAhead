@@ -86,6 +86,11 @@ function ParkingAvailability() {
         navigate('/ReserveParkingSpace');
     };
 
+    const handleNextClick = () => {
+        console.log('Next button clicked');
+        navigate('/PaymentPortal');
+    };
+
     const handleLogoutClick = () => {
         console.log('User has logged out');
         navigate('/Login');
@@ -146,7 +151,7 @@ function ParkingAvailability() {
                     </div>
                     <div className={styles['next-button-container']}>
                         <button className={styles['next-button']} onClick={handlePreviousClick}>Previous</button>
-                        <button className={styles['prev-button']}>Next</button>
+                        <button className={styles['prev-button']} onClick={handleNextClick}>Next</button>
                     </div>
                 </div>
             </div>
