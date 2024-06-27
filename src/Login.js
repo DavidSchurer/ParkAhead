@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth, signInWithEmailAndPassword } from './firebase';
 import styles from './Login.module.css';
 
 function Login() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberLogin, setRememberLogin] = useState(false);
 
     const navigate = useNavigate();
 
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
     };
 
     const handlePasswordChange = (event) => {
@@ -21,17 +22,14 @@ function Login() {
         setRememberLogin(event.target.checked);
     };
 
-    const handleLogin = () => {
-        const storedUsername = localStorage.getItem('username');
-        const storedPassword = localStorage.getItem('password');
-        if (username === storedUsername && password === storedPassword) {
-            // Flag to indicate that the user is logged in
+    const handleLogin = async () => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
             localStorage.setItem('isLoggedIn', 'true');
-            // Direct the user to the Reserve Parking Space page 
             navigate('/ReserveParkingSpace');
-        } else {
-            // Error message is displayed if the user enters an incorrect username or password
-            alert('Invalid username or password.');
+        } catch (error) {
+            alert('Invalid email or password');
         }
     };
 
@@ -45,11 +43,11 @@ function Login() {
                 <h2 className={styles.loginHeader}>Login</h2>
                 <form>
                     <div className={styles.formGroup}>
-                        <label>Username:</label>
+                        <label>Email:</label>
                         <input
                             type="text"
-                            value={username}
-                            onChange={handleUsernameChange}
+                            value={email}
+                            onChange={handleEmailChange}
                             required
                         />
                     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth, db, createUserWithEmailAndPassword, addDoc, collection } from './firebase';
 import styles from './Login.module.css';
 
 function CreateAccount() {
@@ -27,20 +28,24 @@ function CreateAccount() {
         setConfirmPassword(event.target.value);
     };
 
-    const handleCreateAccount = () => {
+    const handleCreateAccount = async () => {
         if (username && password && confirmPassword) {
             if (password === confirmPassword) {
-                // Save the account (database logic will have to be added here)
-                console.log('Account created:', { username, password });
+               try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
 
-                localStorage.setItem('username', username);
-                localStorage.setItem('email', email);
-                localStorage.setItem('password', password);
-                localStorage.setItem('isLoggedIn', 'true');
+                    await addDoc(collection(db, "users"), {
+                        uid: user.uid,
+                        username: username,
+                        email: email
+                    });
 
-                // After the user has created an account, it will navigate them
-                // to the login page
-                navigate('/Login');
+                    localStorage.setItem('isLoggedIn', 'true');
+                    navigate('/Login');
+               } catch (error) {
+                    setErrorMessage(error.message);
+               }
             } else {
                 setErrorMessage('Passwords do not match.');
             }
