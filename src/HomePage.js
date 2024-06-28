@@ -15,14 +15,6 @@ const HomePage = () => {
                 <h1>Welcome to UW Bothell Parking System</h1>
                 <p>Select an option below to navigate through the system</p>
             </div>
-            <nav className={styles.navigationBar}>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/manage-parking">Manage Parking</a></li>
-                    <li><a href="/parking-availability">Check Parking Availability</a></li>
-                    {/* Add more navigation items as needed */}
-                </ul>
-            </nav>
             <div className={styles.sectionContainer}>
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
