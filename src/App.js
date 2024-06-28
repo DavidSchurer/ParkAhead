@@ -11,6 +11,7 @@ import { ParkingProvider } from './ParkingContext';
 import WelcomePage from './WelcomePage';
 import ManageParking from './ManageParking';
 import PaymentPortal from './PaymentPortal';
+import HomePage from './HomePage';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            <Route path="/" element={<WelcomePage />}/>
+            <Route path="/" element={<HomePage />}/>
+            <Route path="/Welcome" element={<WelcomePage />}/>
             <Route path="/Login" element={<Login />}/>
             <Route path="/CreateAccount" element={<CreateAccount />}/>
             <Route path="/ReserveParkingSpace" element={<ReserveParkingSpace />}/>

@@ -1,0 +1,144 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.navigationBar {
+    width: 100%;
+    background-color: #333;
+    padding: 10px 0;
+}
+
+.navigationBar ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+}
+
+.navigationBar li {
+    margin: 0 15px;
+}
+
+.navigationBar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.sectionContainer {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.section {
+    width: 48%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 5px;
+}
+
+.sectionHeader h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.sectionHeader .actionButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sectionHeader .actionButton:hover {
+    background-color: #0056b3;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.userInfo {
+    width: 48%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.userInfo h3 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.userInfo p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #666;
+}
+
+.userInfo .balance {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.userInfo .editButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: flex-end;
+}
+
+.userInfo .editButton:hover {
+    background-color: #0056b3;
+}
