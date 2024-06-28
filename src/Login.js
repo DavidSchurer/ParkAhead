@@ -65,7 +65,7 @@ function Login() {
                 });
             }
 
-            navigate('/ReserveParkingSpace');
+            navigate('/HomePage');
         } catch (error) {
             alert('Invalid email or password');
         }

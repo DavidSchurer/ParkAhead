@@ -92,7 +92,7 @@ const ManageParking = () => {
     return (
         <div className={styles.manageContainer}>
             <div className={styles.manageBox}>
-                <h2 className={styles.manageHeader}>Manage Parking Reservations</h2>
+                <h2 className={styles.manageHeader}>Confirmed Parking Reservations</h2>
                 <div className={styles.filterContainer}>
                     <select className={styles.filterSelect} value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)}>
                         <option value="">Location</option>

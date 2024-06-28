@@ -20,8 +20,9 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            <Route path="/" element={<HomePage />}/>
-            <Route path="/Welcome" element={<WelcomePage />}/>
+            <Route path="/" element={<WelcomePage />}/>
+            <Route path="/Login" element={<Login />}/>
+            <Route path="/HomePage" element={<HomePage />}/>
             <Route path="/Login" element={<Login />}/>
             <Route path="/CreateAccount" element={<CreateAccount />}/>
             <Route path="/ReserveParkingSpace" element={<ReserveParkingSpace />}/>
