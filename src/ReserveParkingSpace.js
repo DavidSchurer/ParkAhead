@@ -8,85 +8,84 @@ import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
 
 function ReserveParkingSpace() {
-    // State variables used to manage the selected date, start time, end time, and selected parking lot
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedOption, setSelectedOption] = useState('');
-    const { selectedParkingLot, setSelectedParkingLot, startTime, setStartTime, endTime, setEndTime, reservation, setReservation, bookingName, setBookingName } = useParkingContext();
+    const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
+    const { selectedParkingLot, setSelectedParkingLot, reservation, setReservation, bookingName, setBookingName } = useParkingContext();
 
-    // Hook used for navigation
     const navigate = useNavigate();
 
-    // Handler function used for changing the parking lot selection
     const handleParkingLotChange = (event) => {
         setSelectedParkingLot(event.target.value);
     };
 
-    // Handler function for changing selected time
-    const handleTimeChange = (type, field, value) => {
-        if (type === 'start') {
-            setStartTime({ ...startTime, [field]: value }); // Update start time
-        } else {
-            setEndTime({ ...endTime, [field]: value }); // Update end time
-        }
-    };
-
-    // Handler function for option selection (parking permit or no parking permit)
     const handleOptionChange = (option) => {
         setSelectedOption(option);
     };
 
-    // Handler function for clicking next button
+    const handleTimeSlotChange = (event) => {
+        setSelectedTimeSlot(event.target.value);
+    };
+
     const handleNextClick = () => {
-        console.log('Next button clicked. Selected option:', selectedOption);
         const reservationDetails = {
             date: selectedDate,
             parkingLot: selectedParkingLot,
-            startTime: `${startTime.time} ${startTime.period}`,
-            endTime: `${endTime.time} ${endTime.period}`,
+            timeSlot: selectedTimeSlot,
             bookingName
         };
-        setReservation(reservationDetails); // Set the reservation details state
-        navigate('/ParkingAvailability'); // Navigate to the parking availability page upon click
+        setReservation(reservationDetails);
+        navigate('/ParkingAvailability');
     };
 
     const handleLogoutClick = () => {
-        console.log('User has logged out');
         navigate('/Login');
     };
 
-    // Time options generated for the dropdown selection
-    const times = Array.from({ length: 12 }, (_, i) => (i + 1).toString()).flatMap(hour => 
-        ['00', '30'].map(minute => `${hour}:${minute}`)
-    );
-    const periods = ['AM', 'PM'];
+    // Function to generate time slots from 7:00am to 11:00pm in 30-minute increments
+    const generateTimeSlots = () => {
+        const timeSlots = [];
+        let startTime = new Date();
+        startTime.setHours(7, 0, 0, 0); // First available 2-hour time slot at 7:00am
+
+        const endTime = new Date();
+        endTime.setHours(21, 0, 0, 0); // Final available 2-hour time slot at 9:00pm
+
+        while (startTime <= endTime) {
+            const timeSlotStart = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const endTimeSlot = new Date(startTime);
+            endTimeSlot.setHours(endTimeSlot.getHours() + 2); // Increment by 2 hours
+            const timeSlotEnd = endTimeSlot.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const timeSlotLabel = `${timeSlotStart} - ${timeSlotEnd}`;
+            timeSlots.push(<MenuItem key={timeSlotLabel} value={timeSlotLabel}>{timeSlotLabel}</MenuItem>);
+
+            startTime.setMinutes(startTime.getMinutes() + 30); // Increment by 30 minutes
+        }
+
+        return timeSlots;
+    };
 
     return (
         <>
-        <div className="MainContainer">
-            {/*Content on left side of webpage*/}
-            <div className="LeftContainer">
-                <div className="MainHeading">
-                    <h1>Reserve Parking Space</h1>
-                </div>
-
-                <div className="Subheading">
-                    <h2>Please fill in the following information:</h2>
-                </div>
-
-                <div className="ReservationDetails">
-
-                    {/*Textfield for entering the booking name*/}
-                    <h4>1) Enter Reservation Name:</h4>
-                    <TextField
-                        fullWidth
-                        value={bookingName}
-                        onChange={(e) => setBookingName(e.target.value)}
-                        placeholder="Enter your reservation name"
-                    />
-
-                    {/*Parking Garage/Lot Selection Dropdown*/}
-                    <h4>2) Select UWB Parking Lot/Parking Garage:</h4>
-                    <FormControl fullWidth>
+            <div className="MainContainer">
+                <div className="LeftContainer">
+                    <div className="MainHeading">
+                        <h1>Reserve Parking Space</h1>
+                    </div>
+                    <div className="Subheading">
+                        <h2>Please fill in the following information:</h2>
+                    </div>
+                    <div className="ReservationDetails">
+                        <h4>1) Enter Reservation Name:</h4>
+                        <TextField
+                            fullWidth
+                            value={bookingName}
+                            onChange={(e) => setBookingName(e.target.value)}
+                            placeholder="Enter your reservation name"
+                        />
+                        <h4>2) Select UWB Parking Lot/Parking Garage:</h4>
+                        <FormControl fullWidth>
                             <Select
                                 displayEmpty
                                 value={selectedParkingLot}
@@ -107,123 +106,87 @@ function ReserveParkingSpace() {
                                 <MenuItem value={'Truly Lot'}>Truly Lot</MenuItem>
                             </Select>
                         </FormControl>
-
-                    {/*Calendar for picking date of parking reservation*/}
-                    <h4>3) Select Date:</h4>
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
-                        dateFormat="MMMM d, yyyy"
-                        inline
-                    />
-
-                    {/*Buttons for selecting start and end time of parking spot reservation*/}
-                    <h4>4) Select Time:</h4>
-                    <div className="time-picker">
-                        <div className="time-picker-item">
-                            <p><strong>From:</strong></p>
-                            <FormControl fullWidth>
-                                <Select
-                                    value={startTime.time}
-                                    onChange={(e) => handleTimeChange('start', 'time', e.target.value)}
-                                >
-                                    {times.map((time) => (
-                                        <MenuItem key={time} value={time}>{time}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormControl fullWidth>
-                                <Select
-                                    value={startTime.period}
-                                    onChange={(e) => handleTimeChange('start', 'period', e.target.value)}
-                                >
-                                    {periods.map((period) => (
-                                        <MenuItem key={period} value={period}>{period}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                        <h4>3) Select Date:</h4>
+                        <DatePicker
+                            selected={selectedDate}
+                            onChange={(date) => setSelectedDate(date)}
+                            dateFormat="MMMM d, yyyy"
+                            minDate={new Date()}
+                            inline
+                        />
+                        <h4>4) Select Time Slot:</h4>
+                        <FormControl fullWidth>
+                            <Select
+                                value={selectedTimeSlot}
+                                onChange={handleTimeSlotChange}
+                                displayEmpty
+                                renderValue={(selected) => {
+                                    if (selected.length === 0) {
+                                        return <em>Please Choose a Time Slot</em>;
+                                    }
+                                    return selected;
+                                }}
+                            >
+                                <MenuItem disabled>
+                                    <em>Class Time Slots (Grace Period 15 Minutes Before and After Reservation Time)<br/>
+                                    </em>
+                                </MenuItem>
+                                <MenuItem value={'8:45am - 10:45am'}>8:45am - 10:45am</MenuItem>
+                                <MenuItem value={'11:00am - 1:00pm'}>11:00am - 1:00pm</MenuItem>
+                                <MenuItem value={'1:15pm - 3:15pm'}>1:15pm - 3:15pm</MenuItem>
+                                <MenuItem value={'3:30pm - 5:30pm'}>3:30pm - 5:30pm</MenuItem>
+                                <MenuItem value={'5:45pm - 7:45pm'}>5:45pm - 7:45pm</MenuItem>
+                                <MenuItem value={'8:00pm - 10:00pm'}>8:00pm - 10:00pm</MenuItem>
+                                <MenuItem disabled>
+                                    <em>Standard Time Slots<br/></em>
+                                </MenuItem>
+                                {generateTimeSlots()}
+                            </Select>
+                        </FormControl>
+                        <h4>5) Choose one of the following options:</h4>
+                        <div className="selection-container">
+                            <button
+                                className={`selection-button ${selectedOption === 'Option 1' ? 'selected' : ''}`}
+                                onClick={() => handleOptionChange('Option 1')}
+                            >
+                                I Have a UW Bothell Parking Permit
+                            </button>
+                            <button
+                                className={`selection-button ${selectedOption === 'Option 2' ? 'selected' : ''}`}
+                                onClick={() => handleOptionChange('Option 2')}
+                            >
+                                Purchase Parking Spot Reservation
+                            </button>
                         </div>
-                        <div className="time-picker-item">
-                            <p><strong>To:</strong></p>
-                            <FormControl fullWidth>
-                                <Select
-                                    value={endTime.time}
-                                    onChange={(e) => handleTimeChange('end', 'time', e.target.value)}
-                                >
-                                    {times.map((time) => (
-                                        <MenuItem key={time} value={time}>{time}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormControl fullWidth>
-                                <Select
-                                    value={endTime.period}
-                                    onChange={(e) => handleTimeChange('end', 'period', e.target.value)}
-                                >
-                                    {periods.map((period) => (
-                                        <MenuItem key={period} value={period}>{period}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                        <div className="next-button-container">
+                            <button className="next-button" onClick={handleNextClick}>Next</button>
                         </div>
                     </div>
-
-
-                    {/*Selection buttons for having parking permit or no parking permit*/}
-                    <h4>5) Choose one of the following options:</h4>
-                    <div className="selection-container">
-                        <button
-                            className={`selection-button ${selectedOption === 'Option 1' ? 'selected' : ''}`}
-                            onClick={() => handleOptionChange('Option 1')}
-                        > 
-                            I Have a UW Bothell Parking Permit 
-                        </button>
-                        <button
-                            className={`selection-button ${selectedOption === 'Option 2' ? 'selected' : ''}`}
-                            onClick={() => handleOptionChange('Option 2')}
-                        >
-                            Purchase Parking Spot Reservation
-                        </button>
+                </div>
+                <div className="RightContainer">
+                    <div className="Header">
+                        <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
+                        <span className="Username">dschurer</span>
+                        <Button variant="outlined" className="LogoutButton" onClick={handleLogoutClick}>Log Out</Button>
                     </div>
-
-                    {/*Next button*/}
-                    <div className="next-button-container">
-                        <button className="next-button" onClick={handleNextClick}>Next</button>
+                    <div className="box">
+                        <div className="box-heading">Current Parking Spot Reservations</div>
+                        <div className="placeholder-text">
+                            {reservation ? (
+                                <div>
+                                    {reservation.date.toLocaleDateString()} {reservation.timeSlot} @ {reservation.parkingLot}
+                                </div>
+                            ) : (
+                                "No reservations yet"
+                            )}
+                        </div>
+                    </div>
+                    <div className="box">
+                        <div className="box-heading">UW Bothell Parking Locations</div>
+                        <MyGoogleMap />
                     </div>
                 </div>
             </div>
-
-            {/*Content on right side of webpage*/}
-            <div className="RightContainer">
-
-                {/*Header for username, icon, and log out button*/}
-                <div className="Header">
-                <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
-                    <span className="Username">dschurer</span>
-                    <Button variant="outlined" className="LogoutButton" onClick={handleLogoutClick}>Log Out</Button>
-                </div>
-
-                {/*Current parking spot reservations info*/}
-                <div className="box">
-                    <div className="box-heading">Current Parking Spot Reservations</div>
-                    <div className="placeholder-text">
-                        {reservation ? (
-                            <div>
-                                {reservation.date.toLocaleDateString()} {reservation.startTime} - {reservation.endTime} @ {reservation.parkingLot}
-                            </div>
-                        ) : (
-                            "No reservations yet"
-                        )}
-                    </div>
-                </div>
-
-                {/*UW Bothell Parking Locations Map (Using Google Maps API)*/}
-                <div className="box">
-                    <div className="box-heading">UW Bothell Parking Locations</div>
-                    <MyGoogleMap />
-                </div>
-            </div>
-        </div>
         </>
     );
 }

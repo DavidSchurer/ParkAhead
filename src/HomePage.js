@@ -12,7 +12,7 @@ const HomePage = () => {
     return (
         <div className={styles.homeContainer}>
             <div className={styles.header}>
-                <h1>Welcome to UW Bothell Parking System</h1>
+                <h1>Welcome to UW Bothell Parking Spot Reservation System</h1>
                 <p>Select an option below to navigate through the system</p>
             </div>
             <div className={styles.sectionContainer}>
