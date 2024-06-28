@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword } from './firebase';
+import { db } from './firebase';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import styles from './Login.module.css';
 
 function Login() {
@@ -9,6 +11,26 @@ function Login() {
     const [rememberLogin, setRememberLogin] = useState(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchSavedCredentials = async () => {
+            try {
+                const docRef = doc(db, 'rememberedLogins', 'userCredentials');
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    setEmail(data.email);
+                    setPassword(data.password);
+                    setRememberLogin(true);
+                }
+            } catch (error) {
+                console.error('Error fetching saved credentials:', error);
+            }
+        };
+
+        fetchSavedCredentials();
+    }, []);
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -27,6 +49,22 @@ function Login() {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             localStorage.setItem('isLoggedIn', 'true');
+
+            if (rememberLogin) {
+                const saveCredentials = window.confirm('Do you want to save your login credentials?');
+                if (saveCredentials) {
+                    await setDoc(doc(db, 'rememberedLogins', 'userCredentials'), {
+                        email: email,
+                        password: password,
+                    });
+                }
+            } else {
+                await setDoc(doc(db, 'rememberedLogins', 'userCredentials'), {
+                    email: '',
+                    password: '',
+                });
+            }
+
             navigate('/ReserveParkingSpace');
         } catch (error) {
             alert('Invalid email or password');
