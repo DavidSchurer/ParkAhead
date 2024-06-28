@@ -9,6 +9,8 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberLogin, setRememberLogin] = useState(false);
+    const [savedCredentials, setSavedCredentials] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
 
     const navigate = useNavigate();
 
@@ -20,9 +22,7 @@ function Login() {
 
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    setEmail(data.email);
-                    setPassword(data.password);
-                    setRememberLogin(true);
+                    setSavedCredentials(data);
                 }
             } catch (error) {
                 console.error('Error fetching saved credentials:', error);
@@ -75,6 +75,18 @@ function Login() {
         navigate('/CreateAccount');
     };
 
+    const handleInputClick = () => {
+        if (savedCredentials && savedCredentials.email && savedCredentials.password) {
+            setShowPopup(true);
+        }
+    };
+
+    const autofillCredentials = () => {
+        setEmail(savedCredentials.email);
+        setPassword(savedCredentials.password);
+        setShowPopup(false);
+    };
+
     return (
         <div className={styles.loginContainer}>
             <div className={styles.loginBox}>
@@ -86,6 +98,7 @@ function Login() {
                             type="text"
                             value={email}
                             onChange={handleEmailChange}
+                            onClick={handleInputClick}
                             required
                         />
                     </div>
@@ -95,6 +108,7 @@ function Login() {
                             type="password"
                             value={password}
                             onChange={handlePasswordChange}
+                            onClick={handleInputClick}
                             required
                         />
                     </div>
@@ -116,6 +130,26 @@ function Login() {
                         Create Account
                     </button>
                 </form>
+                {showPopup && (
+                  <>
+                    <div className={styles.overlay} onClick={() => setShowPopup(false)}></div>
+                    <div className={styles.popup}>
+                        <div className={styles.popupHeader}>
+                        <h2>Saved Account Autofill</h2>
+                        </div>
+                        <p><strong>Suggested Email: </strong> {savedCredentials.email}</p>
+                        <p><strong>Suggested Password: </strong> {'•'.repeat(savedCredentials.password.length)}</p>
+                        <button className={styles.popupButton} type="button" onClick={autofillCredentials}>
+                            Autofill Email and Password
+                        </button>
+                        <br/>
+                        <br/>
+                        <button className={styles.popupButton} type="button" onClick={() => setShowPopup(false)}>
+                            Cancel
+                        </button>
+                    </div>
+                  </>
+                )}
             </div>
         </div>
     );
