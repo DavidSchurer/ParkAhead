@@ -28,10 +28,12 @@ function ReserveParkingSpace() {
     };
 
     const handleNextClick = () => {
+        const [startTime, endTime] = selectedTimeSlot.split(' - ');
         const reservationDetails = {
             date: selectedDate,
             parkingLot: selectedParkingLot,
-            timeSlot: selectedTimeSlot,
+            startTime,
+            endTime,
             bookingName
         };
         setReservation(reservationDetails);
