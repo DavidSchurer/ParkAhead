@@ -140,12 +140,12 @@ function ReserveParkingSpace() {
                                 <MenuItem disabled>
                                     <em>Class Time Slots (Grace Period 15 Minutes Before and After Reservation Time)<br/></em>
                                 </MenuItem>
-                                <MenuItem value={'8:45am - 10:45am'}>8:45 AM - 10:45 AM</MenuItem>
-                                <MenuItem value={'11:00am - 1:00pm'}>11:00 AM - 1:00 PM</MenuItem>
-                                <MenuItem value={'1:15pm - 3:15pm'}>1:15 PM - 3:15 PM</MenuItem>
-                                <MenuItem value={'3:30pm - 5:30pm'}>3:30 PM - 5:30 PM</MenuItem>
-                                <MenuItem value={'5:45pm - 7:45pm'}>5:45 PM - 7:45 PM</MenuItem>
-                                <MenuItem value={'8:00pm - 10:00pm'}>8:00 PM - 10:00 PM</MenuItem>
+                                <MenuItem value={'8:45 AM - 10:45 AM'}>8:45 AM - 10:45 AM</MenuItem>
+                                <MenuItem value={'11:00 AM - 1:00 PM'}>11:00 AM - 1:00 PM</MenuItem>
+                                <MenuItem value={'1:15 PM - 3:15 PM'}>1:15 PM - 3:15 PM</MenuItem>
+                                <MenuItem value={'3:30 PM - 5:30 PM'}>3:30 PM - 5:30 PM</MenuItem>
+                                <MenuItem value={'5:45 PM - 7:45 PM'}>5:45 PM - 7:45 PM</MenuItem>
+                                <MenuItem value={'8:00 PM - 10:00 PM'}>8:00 PM - 10:00 PM</MenuItem>
                                 <MenuItem disabled>
                                     <em>Standard Time Slots<br/></em>
                                 </MenuItem>
