@@ -1,51 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ManageParking.module.css';
 import { useParkingContext } from './ParkingContext';
+import { db } from './firebase'; // Make sure to import your Firebase setup
+import { collection, getDocs } from 'firebase/firestore';
 
 const ManageParking = () => {
-    const { reservation, selectedSpot, selectedCategory } = useParkingContext();
-    const previousReservation = useRef(null);
-
-    const [bookings, setBookings] = useState([
-        { name: 'Shivam Bakshi', space: 'PS-101', location: 'North Garage', time: '9:00am - 11:00am, June 5, 2024', category: 'Standard' },
-        { name: 'Ben Schipunov', space: 'PS-202', location: 'South Garage', time: '9:30am - 11:30am, June 5, 2024', category: 'Electric' },
-        { name: 'Selina Nguyen', space: 'PS-303', location: 'East Lot', time: '9:30am - 11:00am, June 5, 2024', category: 'Handicap' },
-        { name: 'Reagan Vu', space: 'PS-404', location: 'West Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Standard' },
-        { name: 'Jeffrey Kim', space: 'PS-505', location: 'North Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Electric' },
-        { name: 'John Smith', space: 'PS-606', location: 'South Garage', time: '11:00am - 1:00pm, June 5, 2024', category: 'Handicap' }
-    ]);
-
-    const [filteredBookings, setFilteredBookings] = useState(bookings);
+    const { reservations, setReservations } = useParkingContext();
+    const [filteredBookings, setFilteredBookings] = useState(reservations);
     const [locationFilter, setLocationFilter] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [timeFilter, setTimeFilter] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        if (reservation && reservation !== previousReservation.current) {
-            setBookings(prevBookings => [
-                ...prevBookings,
-                {
-                    name: reservation.bookingName,
-                    space: `${selectedSpot}`,
-                    location: reservation.parkingLot,
-                    time: `${reservation.startTime} - ${reservation.endTime}, ${new Date(reservation.date).toLocaleDateString()}`,
-                    category: selectedCategory
-                }
-            ]);
-            previousReservation.current = reservation;
-        }
-    }, [reservation, selectedSpot, bookings, selectedCategory]);
+        const fetchReservations = async () => {
+            const querySnapshot = await getDocs(collection(db, 'reservations'));
+            const fetchedReservations = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setReservations(fetchedReservations);
+        };
+
+        fetchReservations();
+    }, [setReservations]);
+
+    useEffect(() => {
+        setFilteredBookings(reservations);
+    }, [reservations]);
 
     useEffect(() => {
         filterBookings();
-    }, [locationFilter, categoryFilter, timeFilter, searchQuery, bookings]);
+    }, [locationFilter, categoryFilter, timeFilter, searchQuery, reservations]);
 
     const filterBookings = () => {
-        let filtered = bookings;
+        let filtered = reservations;
 
         if (locationFilter) {
-            filtered = filtered.filter(booking => booking.location === locationFilter);
+            filtered = filtered.filter(booking => booking.parkingLot === locationFilter);
         }
 
         if (categoryFilter) {
@@ -53,29 +42,28 @@ const ManageParking = () => {
         }
 
         if (timeFilter) {
-            // Time filtering logic
             const currentDate = new Date();
 
             if (timeFilter === 'Next 7 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.time.split(',')[1].trim());
+                    const bookingDate = new Date(booking.date.toDate());
                     return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 7;
                 });
             } else if (timeFilter === 'Next 30 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.time.split(',')[1].trim());
-                    return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 60;
+                    const bookingDate = new Date(booking.date.toDate());
+                    return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 30;
                 });
             } else if (timeFilter === 'Next 60 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.time.split(',')[1].trim());
+                    const bookingDate = new Date(booking.date.toDate());
                     return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 60;
                 });
             }
         }
 
         if (searchQuery) {
-            filtered = filtered.filter(booking => booking.name.toLowerCase().includes(searchQuery.toLowerCase()));
+            filtered = filtered.filter(booking => booking.bookingName.toLowerCase().includes(searchQuery.toLowerCase()));
         }
 
         setFilteredBookings(filtered);
@@ -86,7 +74,7 @@ const ManageParking = () => {
         setCategoryFilter('');
         setTimeFilter('');
         setSearchQuery('');
-        setFilteredBookings(bookings);
+        setFilteredBookings(reservations);
     };
 
     return (
@@ -106,41 +94,43 @@ const ManageParking = () => {
                         <option value="Standard">Standard</option>
                         <option value="Electric">Electric</option>
                         <option value="Handicap">Handicap</option>
+                        <option value="Family">Family</option>
                     </select>
                     <select className={styles.filterSelect} value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)}>
-                        <option value="">When</option>
+                        <option value="">Time Frame</option>
                         <option value="Next 7 days">Next 7 days</option>
                         <option value="Next 30 days">Next 30 days</option>
                         <option value="Next 60 days">Next 60 days</option>
                     </select>
                     <input
-                        type="text"
                         className={styles.searchInput}
-                        placeholder="Search reservation name..."
+                        type="text"
+                        placeholder="Search by reservation name"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <button className={styles.searchButton} onClick={filterBookings}>Search</button>
-                    <button className={styles.clearButton} onClick={handleClearFilters}>Clear</button>
+                    <button className={styles.clearButton} onClick={handleClearFilters}>
+                        Clear Filters
+                    </button>
                 </div>
                 <div className={styles.tableContainer}>
                     <table className={styles.manageTable}>
                         <thead>
                             <tr>
-                                <th>Reservation Name</th>
-                                <th>Parking Space</th>
-                                <th>Garage/Parking Location</th>
-                                <th>Time Duration</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Category</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredBookings.map((booking, index) => (
-                                <tr key={index}>
-                                    <td>{booking.name}</td>
-                                    <td>{booking.space}</td>
-                                    <td>{booking.location}</td>
-                                    <td>{booking.time}</td>
+                            {filteredBookings.map((booking) => (
+                                <tr key={booking.id}>
+                                    <td>{booking.bookingName}</td>
+                                    <td>{booking.parkingLot}</td>
+                                    <td>{new Date(booking.date).toDateString()}</td>
+                                    <td>{booking.startTime} - {booking.endTime}</td>
                                     <td>{booking.category}</td>
                                 </tr>
                             ))}

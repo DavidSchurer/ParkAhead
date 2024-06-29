@@ -5,34 +5,28 @@ const ParkingContext = createContext();
 export const useParkingContext = () => useContext(ParkingContext);
 
 export const ParkingProvider = ({ children }) => {
-    const [selectedParkingLot, setSelectedParkingLot] = useState('');
-    const [startTime, setStartTime] = useState({ time: '12:00', period: 'AM'});
-    const [endTime, setEndTime] = useState({ time: '12:00', period: 'AM'});
-    const [reservation, setReservation] = useState(null);
-    const [bookingName, setBookingName] = useState('');
+    const [reservations, setReservations] = useState([]);
     const [selectedSpot, setSelectedSpot] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
-
-    const value = {
-        selectedParkingLot,
-        setSelectedParkingLot,
-        startTime,
-        setStartTime,
-        endTime,
-        setEndTime,
-        reservation,
-        setReservation,
-        bookingName,
-        setBookingName,
-        selectedSpot,
-        setSelectedSpot,
-        selectedCategory,
-        setSelectedCategory,
-    };
+    const [selectedParkingLot, setSelectedParkingLot] = useState('');
+    const [bookingName, setBookingName] = useState('');
 
     return (
-        <ParkingContext.Provider value={value}>
+        <ParkingContext.Provider
+            value={{
+                reservations,
+                setReservations,
+                selectedSpot,
+                setSelectedSpot,
+                selectedCategory,
+                setSelectedCategory,
+                selectedParkingLot,
+                setSelectedParkingLot,
+                bookingName,
+                setBookingName,
+            }}
+        >
             {children}
         </ParkingContext.Provider>
     );
-}
+};

@@ -6,12 +6,14 @@ import './ReserveParkingSpace.css';
 import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
+import { db } from './firebase';
+import { addDoc, collection } from 'firebase/firestore';
 
 function ReserveParkingSpace() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedOption, setSelectedOption] = useState('');
     const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
-    const { selectedParkingLot, setSelectedParkingLot, reservation, setReservation, bookingName, setBookingName } = useParkingContext();
+    const { selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName } = useParkingContext();
 
     const navigate = useNavigate();
 
@@ -27,42 +29,48 @@ function ReserveParkingSpace() {
         setSelectedTimeSlot(event.target.value);
     };
 
-    const handleNextClick = () => {
+    const handleNextClick = async () => {
         const [startTime, endTime] = selectedTimeSlot.split(' - ');
         const reservationDetails = {
             date: selectedDate,
             parkingLot: selectedParkingLot,
             startTime,
             endTime,
-            bookingName
+            bookingName,
+            category: selectedOption
         };
-        setReservation(reservationDetails);
-        navigate('/ParkingAvailability');
+
+        try {
+            const docRef = await addDoc(collection(db, 'reservations'), reservationDetails);
+            setReservations(prevReservations => [...prevReservations, { ...reservationDetails, id: docRef.id }]);
+            navigate('/ParkingAvailability')
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
     };
 
     const handleLogoutClick = () => {
         navigate('/Login');
     };
 
-    // Function to generate time slots from 7:00am to 11:00pm in 30-minute increments
     const generateTimeSlots = () => {
         const timeSlots = [];
         let startTime = new Date();
-        startTime.setHours(7, 0, 0, 0); // First available 2-hour time slot at 7:00am
+        startTime.setHours(7, 0, 0, 0);
 
         const endTime = new Date();
-        endTime.setHours(21, 0, 0, 0); // Final available 2-hour time slot at 9:00pm
+        endTime.setHours(21, 0, 0, 0);
 
         while (startTime <= endTime) {
             const timeSlotStart = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const endTimeSlot = new Date(startTime);
-            endTimeSlot.setHours(endTimeSlot.getHours() + 2); // Increment by 2 hours
+            endTimeSlot.setHours(endTimeSlot.getHours() + 2);
             const timeSlotEnd = endTimeSlot.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
             const timeSlotLabel = `${timeSlotStart} - ${timeSlotEnd}`;
             timeSlots.push(<MenuItem key={timeSlotLabel} value={timeSlotLabel}>{timeSlotLabel}</MenuItem>);
 
-            startTime.setMinutes(startTime.getMinutes() + 30); // Increment by 30 minutes
+            startTime.setMinutes(startTime.getMinutes() + 30);
         }
 
         return timeSlots;
@@ -93,7 +101,7 @@ function ReserveParkingSpace() {
                                 value={selectedParkingLot}
                                 onChange={handleParkingLotChange}
                                 renderValue={(selected) => {
-                                    if (selected.length === 0) {
+                                    if (!selected) {
                                         return <em>Please Choose a Parking Garage/Lot:</em>;
                                     }
                                     return selected;
@@ -123,22 +131,21 @@ function ReserveParkingSpace() {
                                 onChange={handleTimeSlotChange}
                                 displayEmpty
                                 renderValue={(selected) => {
-                                    if (selected.length === 0) {
+                                    if (!selected) {
                                         return <em>Please Choose a Time Slot</em>;
                                     }
                                     return selected;
                                 }}
                             >
                                 <MenuItem disabled>
-                                    <em>Class Time Slots (Grace Period 15 Minutes Before and After Reservation Time)<br/>
-                                    </em>
+                                    <em>Class Time Slots (Grace Period 15 Minutes Before and After Reservation Time)<br/></em>
                                 </MenuItem>
-                                <MenuItem value={'8:45am - 10:45am'}>8:45am - 10:45am</MenuItem>
-                                <MenuItem value={'11:00am - 1:00pm'}>11:00am - 1:00pm</MenuItem>
-                                <MenuItem value={'1:15pm - 3:15pm'}>1:15pm - 3:15pm</MenuItem>
-                                <MenuItem value={'3:30pm - 5:30pm'}>3:30pm - 5:30pm</MenuItem>
-                                <MenuItem value={'5:45pm - 7:45pm'}>5:45pm - 7:45pm</MenuItem>
-                                <MenuItem value={'8:00pm - 10:00pm'}>8:00pm - 10:00pm</MenuItem>
+                                <MenuItem value={'8:45am - 10:45am'}>8:45 AM - 10:45 AM</MenuItem>
+                                <MenuItem value={'11:00am - 1:00pm'}>11:00 AM - 1:00 PM</MenuItem>
+                                <MenuItem value={'1:15pm - 3:15pm'}>1:15 PM - 3:15 PM</MenuItem>
+                                <MenuItem value={'3:30pm - 5:30pm'}>3:30 PM - 5:30 PM</MenuItem>
+                                <MenuItem value={'5:45pm - 7:45pm'}>5:45 PM - 7:45 PM</MenuItem>
+                                <MenuItem value={'8:00pm - 10:00pm'}>8:00 PM - 10:00 PM</MenuItem>
                                 <MenuItem disabled>
                                     <em>Standard Time Slots<br/></em>
                                 </MenuItem>
@@ -176,7 +183,7 @@ function ReserveParkingSpace() {
                         <div className="placeholder-text">
                             {reservation ? (
                                 <div>
-                                    {reservation.date.toLocaleDateString()} {reservation.timeSlot} @ {reservation.parkingLot}
+                                    {reservation.date.toLocaleDateString()} {reservation.startTime} - {reservation.endTime} @ {reservation.parkingLot}
                                 </div>
                             ) : (
                                 "No reservations yet"

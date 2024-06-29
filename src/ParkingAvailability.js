@@ -122,7 +122,7 @@ function ParkingAvailability() {
                     </FormControl>
                     <Button 
                         variant="contained" disabled className={styles.TimeButton}>
-                        Time: {`${startTime.time} ${startTime.period} - ${endTime.time} ${endTime.period}`}
+                        Time: {startTime} - {endTime}
                     </Button>
                     <FormControl fullWidth>
                         <Select
