@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
 import { db } from './firebase';
 import { addDoc, collection } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 
 function ReserveParkingSpace() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -32,7 +33,7 @@ function ReserveParkingSpace() {
     const handleNextClick = async () => {
         const [startTime, endTime] = selectedTimeSlot.split(' - ');
         const reservationDetails = {
-            date: selectedDate,
+            date: Timestamp.fromDate(selectedDate),
             parkingLot: selectedParkingLot,
             startTime,
             endTime,

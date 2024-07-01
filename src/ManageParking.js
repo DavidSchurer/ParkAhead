@@ -15,7 +15,10 @@ const ManageParking = () => {
     useEffect(() => {
         const fetchReservations = async () => {
             const querySnapshot = await getDocs(collection(db, 'reservations'));
-            const fetchedReservations = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            const fetchedReservations = querySnapshot.docs.map(doc => {
+                const data = doc.data();
+                return { id: doc.id, ...data, date: data.date.toDate() };
+            });
             setReservations(fetchedReservations);
         };
 
