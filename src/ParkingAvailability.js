@@ -114,7 +114,7 @@ function ParkingAvailability() {
         } else {
             console.log('No spot, category selected, or reservation ID missing');
         }
-        navigate('/PaymentPortal');
+        navigate('/ConfirmationPage');
     };
 
     const handleLogoutClick = () => {
