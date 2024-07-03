@@ -1,0 +1,60 @@
+.confirmationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #e0e0e0;
+}
+
+.confirmationBox {
+    width: 500px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #ccc;
+    margin: auto;
+}
+
+.confirmationHeader {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    color: #333;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.reservationDetails p {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.confirmButton, .backButton {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.confirmButton:hover, .backButton:hover {
+    background-color: #555;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.backButton {
+    background-color: #555;
+}
+
+.backButton:hover {
+    background-color: #777;
+}
