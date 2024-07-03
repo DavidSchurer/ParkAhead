@@ -5,7 +5,7 @@ import './Header.css';
 function Header() {
     return (
         <div className="header">
-            <h1>UW Bothell Parking Spot Reservation System</h1>
+            <h1>ParkAhead: <i>Parking Made Easy</i></h1>
             <nav>
                 <ul>
                     <li><Link to="/HomePage">Home</Link></li>
