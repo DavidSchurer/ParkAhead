@@ -4,10 +4,22 @@ import styles from './ParkingAvailability.module.css';
 import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
+import { db } from './firebase';
+import { doc, updateDoc } from 'firebase/firestore';
 
 function ParkingAvailability() {
     const navigate = useNavigate();
-    const { selectedParkingLot, startTime, endTime, reservation, selectedSpot, setSelectedSpot, selectedCategory, setSelectedCategory } = useParkingContext();
+    const { 
+        selectedParkingLot, 
+        startTime, 
+        endTime, 
+        reservation,
+        reservationId, 
+        selectedSpot, 
+        setSelectedSpot, 
+        selectedCategory, 
+        setSelectedCategory } = useParkingContext();
+
     const [level, setLevel] = useState('');
     const [displayedParkingSpots, setDisplayedParkingSpots] = useState([]);
     const [categoryFilter, setCategoryFilter] = useState('all');
@@ -86,8 +98,22 @@ function ParkingAvailability() {
         navigate('/ReserveParkingSpace');
     };
 
-    const handleNextClick = () => {
+    const handleNextClick = async () => {
         console.log('Next button clicked');
+        if (selectedSpot && selectedCategory && reservationId) {
+            const reservationDoc = doc(db, 'reservations', reservationId);
+            try {
+                await updateDoc(reservationDoc, {
+                    spot: selectedSpot,
+                    category: selectedCategory,
+                });
+                console.log('Reservation updated');
+            } catch (error) {
+                console.log('Error updating document: ', error);
+            }
+        } else {
+            console.log('No spot, category selected, or reservation ID missing');
+        }
         navigate('/PaymentPortal');
     };
 

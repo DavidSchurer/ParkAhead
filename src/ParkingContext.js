@@ -9,7 +9,10 @@ export const ParkingProvider = ({ children }) => {
     const [selectedSpot, setSelectedSpot] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedParkingLot, setSelectedParkingLot] = useState('');
+    const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
+    const [selectedDate, setSelectedDate] = useState(null);
     const [bookingName, setBookingName] = useState('');
+    const [reservationId, setReservationId] = useState(null);
 
     return (
         <ParkingContext.Provider
@@ -24,6 +27,14 @@ export const ParkingProvider = ({ children }) => {
                 setSelectedParkingLot,
                 bookingName,
                 setBookingName,
+                selectedTimeSlot,
+                setSelectedTimeSlot,
+                selectedDate,
+                setSelectedDate,
+                bookingName,
+                setBookingName,
+                reservationId,
+                setReservationId,
             }}
         >
             {children}

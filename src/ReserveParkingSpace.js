@@ -11,10 +11,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 
 function ReserveParkingSpace() {
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedOption, setSelectedOption] = useState('');
-    const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
-    const { selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName } = useParkingContext();
+    const { selectedTimeSlot, selectedDate, setSelectedDate, setSelectedTimeSlot, selectedOption, setSelectedOption, selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName, setReservationId } = useParkingContext();
 
     const navigate = useNavigate();
 
@@ -37,13 +34,12 @@ function ReserveParkingSpace() {
             parkingLot: selectedParkingLot,
             startTime,
             endTime,
-            bookingName,
-            category: selectedOption
+            bookingName
         };
 
         try {
             const docRef = await addDoc(collection(db, 'reservations'), reservationDetails);
-            setReservations(prevReservations => [...prevReservations, { ...reservationDetails, id: docRef.id }]);
+            setReservationId(docRef.id);
             navigate('/ParkingAvailability')
         } catch (error) {
             console.error("Error adding document: ", error);
@@ -153,21 +149,6 @@ function ReserveParkingSpace() {
                                 {generateTimeSlots()}
                             </Select>
                         </FormControl>
-                        <h4>5) Choose one of the following options:</h4>
-                        <div className="selection-container">
-                            <button
-                                className={`selection-button ${selectedOption === 'Option 1' ? 'selected' : ''}`}
-                                onClick={() => handleOptionChange('Option 1')}
-                            >
-                                I Have a UW Bothell Parking Permit
-                            </button>
-                            <button
-                                className={`selection-button ${selectedOption === 'Option 2' ? 'selected' : ''}`}
-                                onClick={() => handleOptionChange('Option 2')}
-                            >
-                                Purchase Parking Spot Reservation
-                            </button>
-                        </div>
                         <div className="next-button-container">
                             <button className="next-button" onClick={handleNextClick}>Next</button>
                         </div>
