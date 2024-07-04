@@ -1,6 +1,9 @@
 import React from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
+const config = require('./config');
+console.log(config.REACT_APP_GOOGLE_MAPS_API_KEY);
+
 const containerStyle = {
   width: '100%',
   height: '600px'
@@ -21,7 +24,7 @@ const MyGoogleMap = () => {
   const [selectedSpot, setSelectedSpot] = React.useState(null);
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyBLGTzQ5FLSclQbpSjS8ohP6WDvKi0di7U">
+    <LoadScript googleMapsApiKey={config.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
