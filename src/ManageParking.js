@@ -49,18 +49,21 @@ const ManageParking = () => {
 
             if (timeFilter === 'Next 7 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.date.toDate());
-                    return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 7;
+                    const bookingDate = new Date(booking.date);
+                    const daysDiff = Math.ceil((bookingDate - currentDate) / (1000 * 60 * 60 * 24));
+                    return daysDiff >= 0 && daysDiff <= 7;
                 });
             } else if (timeFilter === 'Next 30 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.date.toDate());
-                    return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 30;
+                    const bookingDate = new Date(booking.date);
+                    const daysDiff = Math.ceil((bookingDate - currentDate) / (1000 * 60 * 60 * 24));
+                    return daysDiff >= 0 && daysDiff <= 30;
                 });
             } else if (timeFilter === 'Next 60 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.date.toDate());
-                    return (bookingDate - currentDate) / (1000 * 60 * 60 * 24) <= 60;
+                    const bookingDate = new Date(booking.date);
+                    const daysDiff = Math.ceil((bookingDate - currentDate) / (1000 * 60 * 60 * 24));
+                    return daysDiff >= 0 && daysDiff <= 60;
                 });
             }
         }
@@ -89,7 +92,7 @@ const ManageParking = () => {
                         <option value="">Location</option>
                         <option value="North Garage">North Garage</option>
                         <option value="South Garage">South Garage</option>
-                        <option value="East Lot">East Lot</option>
+                        <option value="Truly Lot">Truly Lot</option>
                         <option value="West Garage">West Garage</option>
                     </select>
                     <select className={styles.filterSelect} value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
@@ -97,7 +100,6 @@ const ManageParking = () => {
                         <option value="Standard">Standard</option>
                         <option value="Electric">Electric</option>
                         <option value="Handicap">Handicap</option>
-                        <option value="Family">Family</option>
                     </select>
                     <select className={styles.filterSelect} value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)}>
                         <option value="">Time Frame</option>
