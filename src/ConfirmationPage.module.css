@@ -27,16 +27,45 @@
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.reservationDetails p {
-    margin-bottom: 10px;
+.confirmationMessage {
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.reservationDetails {
+    border: 4px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: left;
+    position: relative;
+}
+
+.reservationDetails::before {
+    content: "Reservation Details";
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 0 10px;
+    color: #666;
     font-size: 1.2em;
+    font-weight: bold;
+}
+
+.reservationDetails p {
+    margin-bottom: 12px;
+    font-size: 1.1em;
     color: #666;
 }
 
 .confirmButton, .backButton {
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+    padding: 12px;
+    margin-top: 20px;
     background-color: #333;
     color: #fff;
     border: none;

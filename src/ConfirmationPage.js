@@ -44,12 +44,18 @@ function ConfirmationPage() {
         <div className={styles.confirmationContainer}>
             <div className={styles.confirmationBox}>
                 <h2 className={styles.confirmationHeader}>Reservation Confirmed</h2>
+                <p className={styles.confirmationMessage}>
+                  Thank you for choosing ParkAhead! Your reservation has been successfully confirmed.
+                  Please ensure to check in within 10 minutes of your start time to secure your spot,
+                  or it may be assigned to another user. You can cancel this reservation anytime before the start time without any penalties.
+                </p>
                 {reservationDetails ? (
                     <div className={styles.reservationDetails}>
                         <p><strong>Parking Lot:</strong> {reservationDetails.parkingLot}</p>
+                        <p><strong>Spot:</strong> {reservationDetails.spot}</p>
+                        <p><strong>Level:</strong> {reservationDetails.level}</p>
                         <p><strong>Date:</strong> {new Date(reservationDetails.date.seconds * 1000).toLocaleDateString()}</p>
                         <p><strong>Time:</strong> {reservationDetails.startTime} - {reservationDetails.endTime}</p>
-                        <p><strong>Spot:</strong> {reservationDetails.spot}</p>
                         <p><strong>Category:</strong> {reservationDetails.category}</p>
                     </div>
                 ) : (
