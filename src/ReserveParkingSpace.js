@@ -16,6 +16,7 @@ function ReserveParkingSpace() {
 
     const navigate = useNavigate();
     const [userEmail, setUserEmail] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
         const fetchUserEmail = async () => {
@@ -36,6 +37,14 @@ function ReserveParkingSpace() {
         }
     }, [selectedDate, setSelectedDate]);
 
+    useEffect(() => {
+        if (bookingName && selectedParkingLot && selectedDate && selectedTimeSlot) {
+            setIsFormValid(true);
+        } else {
+            setIsFormValid(false);
+        }
+    }, [bookingName, selectedParkingLot, selectedDate, selectedTimeSlot]);
+
     const handleParkingLotChange = (event) => {
         setSelectedParkingLot(event.target.value);
     };
@@ -49,6 +58,11 @@ function ReserveParkingSpace() {
     };
 
     const handleNextClick = async () => {
+        if (!isFormValid) {
+            alert('Please fill out all required fields before proceeding.');
+            return;
+        }
+
         const [startTime, endTime] = selectedTimeSlot.split(' - ');
         const reservationDetails = {
             date: Timestamp.fromDate(selectedDate),
@@ -111,6 +125,7 @@ function ReserveParkingSpace() {
                             value={bookingName}
                             onChange={(e) => setBookingName(e.target.value)}
                             placeholder="Enter your reservation name"
+                            required
                         />
                         <h4>2) Select UWB Parking Lot/Parking Garage:</h4>
                         <FormControl fullWidth>
@@ -118,6 +133,7 @@ function ReserveParkingSpace() {
                                 displayEmpty
                                 value={selectedParkingLot}
                                 onChange={handleParkingLotChange}
+                                required
                                 renderValue={(selected) => {
                                     if (!selected) {
                                         return <em>Please Choose a Parking Garage/Lot:</em>;
@@ -141,6 +157,7 @@ function ReserveParkingSpace() {
                             dateFormat="MMMM d, yyyy"
                             minDate={new Date()}
                             inline
+                            required
                         />
                         <h4>4) Select Time Slot:</h4>
                         <FormControl fullWidth>
@@ -148,6 +165,7 @@ function ReserveParkingSpace() {
                                 value={selectedTimeSlot}
                                 onChange={handleTimeSlotChange}
                                 displayEmpty
+                                required
                                 renderValue={(selected) => {
                                     if (!selected) {
                                         return <em>Please Choose a Time Slot</em>;
