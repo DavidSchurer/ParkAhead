@@ -123,6 +123,7 @@ const ManageParking = () => {
                                 <th>Name</th>
                                 <th>Location</th>
                                 <th>Parking Spot</th>
+                                <th>Level</th>
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Category</th>
@@ -134,6 +135,7 @@ const ManageParking = () => {
                                     <td>{booking.bookingName}</td>
                                     <td>{booking.parkingLot}</td>
                                     <td>{booking.spot}</td>
+                                    <td>{booking.level}</td>
                                     <td>{new Date(booking.date).toDateString()}</td>
                                     <td>{booking.startTime} - {booking.endTime}</td>
                                     <td>{booking.category}</td>

@@ -13,7 +13,7 @@ export const ParkingProvider = ({ children }) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [bookingName, setBookingName] = useState('');
     const [reservationId, setReservationId] = useState(null);
-
+    const [selectedLevel, setSelectedLevel] = useState('');
     return (
         <ParkingContext.Provider
             value={{
@@ -35,6 +35,8 @@ export const ParkingProvider = ({ children }) => {
                 setBookingName,
                 reservationId,
                 setReservationId,
+                selectedLevel,
+                setSelectedLevel
             }}
         >
             {children}

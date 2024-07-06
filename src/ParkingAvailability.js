@@ -18,7 +18,9 @@ function ParkingAvailability() {
         selectedSpot, 
         setSelectedSpot, 
         selectedCategory, 
-        setSelectedCategory } = useParkingContext();
+        setSelectedCategory,
+        setReservations 
+    } = useParkingContext();
 
     const [level, setLevel] = useState('');
     const [displayedParkingSpots, setDisplayedParkingSpots] = useState([]);
@@ -94,31 +96,36 @@ function ParkingAvailability() {
     };
 
     const handlePreviousClick = () => {
-        console.log('Previous button clicked');
         navigate('/ReserveParkingSpace');
     };
 
     const handleNextClick = async () => {
-        console.log('Next button clicked');
         if (selectedSpot && selectedCategory && reservationId) {
             const reservationDoc = doc(db, 'reservations', reservationId);
             try {
                 await updateDoc(reservationDoc, {
                     spot: selectedSpot,
                     category: selectedCategory,
+                    level: level,
                 });
-                console.log('Reservation updated');
+
+                setReservations(prevReservations =>
+                    prevReservations.map(res =>
+                        res.id === reservationId
+                            ? { ...res, spot: selectedSpot, category: selectedCategory, level: level }
+                            : res
+                    )
+                );
+                navigate('/ConfirmationPage');
             } catch (error) {
                 console.log('Error updating document: ', error);
             }
         } else {
             console.log('No spot, category selected, or reservation ID missing');
         }
-        navigate('/ConfirmationPage');
     };
 
     const handleLogoutClick = () => {
-        console.log('User has logged out');
         navigate('/Login');
     };
 
