@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MenuItem, Select, FormControl, Avatar, Button, TextField } from '@mui/material';
@@ -6,7 +6,7 @@ import './ReserveParkingSpace.css';
 import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
-import { db } from './firebase';
+import { auth, db } from './firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 
@@ -15,6 +15,20 @@ function ReserveParkingSpace() {
     const { selectedTimeSlot, selectedDate, setSelectedDate, setSelectedTimeSlot, selectedOption, setSelectedOption, selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName, setReservationId } = useParkingContext();
 
     const navigate = useNavigate();
+    const [userEmail, setUserEmail] = useState('');
+
+    useEffect(() => {
+        const fetchUserEmail = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                setUserEmail(user.email);
+            } else {
+                navigate('/Login');
+            }
+        };
+
+        fetchUserEmail();
+    }, [navigate]);
 
     useEffect(() => {
         if (!selectedDate) {
@@ -164,7 +178,7 @@ function ReserveParkingSpace() {
                 <div className="RightContainer">
                     <div className="Header">
                         <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
-                        <span className="Username">dschurer</span>
+                        <span className="Username">{userEmail}</span>
                         <Button variant="outlined" className="LogoutButton" onClick={handleLogoutClick}>Log Out</Button>
                     </div>
                     <div className="box">

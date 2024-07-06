@@ -4,11 +4,27 @@ import styles from './ParkingAvailability.module.css';
 import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
-import { db } from './firebase';
+import { auth, db } from './firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 
 function ParkingAvailability() {
     const navigate = useNavigate();
+
+    const [userEmail, setUserEmail] = useState('');
+
+    useEffect(() => {
+        const fetchUserEmail = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                setUserEmail(user.email);
+            } else {
+                navigate('/Login');
+            }
+        };
+
+        fetchUserEmail();
+    }, [navigate]);
+
     const { 
         selectedParkingLot, 
         startTime, 
@@ -19,7 +35,7 @@ function ParkingAvailability() {
         setSelectedSpot, 
         selectedCategory, 
         setSelectedCategory,
-        setReservations 
+        setReservations
     } = useParkingContext();
 
     const [level, setLevel] = useState('');
@@ -192,7 +208,7 @@ function ParkingAvailability() {
             <div className={styles.RightContainer}>
                 <div className={styles.Header}>
                     <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
-                    <span className={styles.Username}>dschurer</span>
+                    <span className={styles.Username}>{userEmail}</span>
                     <Button variant="outlined" className={styles.LogoutButton} onClick={handleLogoutClick}>Log Out</Button>
                 </div>
                 <div className={styles.box}>
