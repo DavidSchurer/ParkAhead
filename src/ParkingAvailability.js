@@ -116,7 +116,7 @@ function ParkingAvailability() {
     };
 
     const handleNextClick = async () => {
-        if (selectedSpot && selectedCategory && reservationId) {
+        if (selectedSpot && selectedCategory && reservationId && level) {
             const reservationDoc = doc(db, 'reservations', reservationId);
             try {
                 await updateDoc(reservationDoc, {
@@ -137,7 +137,9 @@ function ParkingAvailability() {
                 console.log('Error updating document: ', error);
             }
         } else {
+            alert('Please fill out all required fields before proceeding.');
             console.log('No spot, category selected, or reservation ID missing');
+            return;
         }
     };
 
