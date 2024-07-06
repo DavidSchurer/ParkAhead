@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MenuItem, Select, FormControl, Avatar, Button, TextField } from '@mui/material';
@@ -10,10 +10,17 @@ import { db } from './firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 
+
 function ReserveParkingSpace() {
     const { selectedTimeSlot, selectedDate, setSelectedDate, setSelectedTimeSlot, selectedOption, setSelectedOption, selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName, setReservationId } = useParkingContext();
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!selectedDate) {
+            setSelectedDate(new Date());
+        }
+    }, [selectedDate, setSelectedDate]);
 
     const handleParkingLotChange = (event) => {
         setSelectedParkingLot(event.target.value);
