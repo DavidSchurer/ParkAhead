@@ -69,7 +69,8 @@ function ReserveParkingSpace() {
             parkingLot: selectedParkingLot,
             startTime,
             endTime,
-            bookingName
+            bookingName,
+            userEmail
         };
 
         try {
