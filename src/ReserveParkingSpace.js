@@ -10,7 +10,6 @@ import { auth, db } from './firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 
-
 function ReserveParkingSpace() {
     const { selectedTimeSlot, selectedDate, setSelectedDate, setSelectedTimeSlot, selectedOption, setSelectedOption, selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName, setReservationId } = useParkingContext();
 
