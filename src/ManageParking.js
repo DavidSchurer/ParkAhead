@@ -3,6 +3,7 @@ import styles from './ManageParking.module.css';
 import { useParkingContext } from './ParkingContext';
 import { db, auth } from './firebase'; // Make sure to import your Firebase setup
 import { collection, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, IconButton } from '@mui/material';
 
 const ManageParking = () => {
@@ -85,19 +86,19 @@ const ManageParking = () => {
 
             if (timeFilter === 'Next 7 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.date);
+                    const bookingDate = booking.date.toDate();
                     const daysDiff = Math.ceil((bookingDate - currentDate) / (1000 * 60 * 60 * 24));
                     return daysDiff >= 0 && daysDiff <= 7;
                 });
             } else if (timeFilter === 'Next 30 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.date);
+                    const bookingDate = booking.date.toDate();
                     const daysDiff = Math.ceil((bookingDate - currentDate) / (1000 * 60 * 60 * 24));
                     return daysDiff >= 0 && daysDiff <= 30;
                 });
             } else if (timeFilter === 'Next 60 days') {
                 filtered = filtered.filter(booking => {
-                    const bookingDate = new Date(booking.date);
+                    const bookingDate = booking.date.toDate();
                     const daysDiff = Math.ceil((bookingDate - currentDate) / (1000 * 60 * 60 * 24));
                     return daysDiff >= 0 && daysDiff <= 60;
                 });
@@ -180,8 +181,8 @@ const ManageParking = () => {
                                                         <td>{reservation.bookingName}</td>
                                                         <td>{reservation.parkingLot}</td>
                                                         <td>{reservation.spot}</td>
-                                                        <td>{reservation.leve}</td>
-                                                        <td>{new Date(reservation.date).toDateString()}</td>
+                                                        <td>{reservation.level}</td>
+                                                        <td>{reservation.date.toDate().toLocaleDateString()}</td>
                                                         <td>{reservation.startTime} - {reservation.endTime}</td>
                                                         <td>{reservation.category}</td>
                                                         <td>
@@ -223,7 +224,7 @@ const ManageParking = () => {
                                         <td>{booking.parkingLot}</td>
                                         <td>{booking.spot}</td>
                                         <td>{booking.level}</td>
-                                        <td>{new Date(booking.date).toDateString()}</td>
+                                        <td>{booking.date.toDate().toLocaleDateString()}</td>
                                         <td>{booking.startTime} - {booking.endTime}</td>
                                         <td>{booking.category}</td>
                                     </tr>
