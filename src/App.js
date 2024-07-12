@@ -13,6 +13,7 @@ import ManageParking from './ManageParking';
 import PaymentPortal from './PaymentPortal';
 import HomePage from './HomePage';
 import ConfirmationPage from './ConfirmationPage';
+import AddVehicle from './AddVehicle';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/ManageParking" element={<ManageParking />}/>
             <Route path="/PaymentPortal" element={<PaymentPortal />}/>
             <Route path="/ConfirmationPage" element={<ConfirmationPage />}/>
+            <Route path="/AddVehicle" element={<AddVehicle />}/>
           </Routes>
         </div>
       </ParkingProvider>

@@ -19,7 +19,7 @@ const HomePage = () => {
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2>Vehicles</h2>
-                        <button className={styles.actionButton} onClick={() => handleNavigation('/add-vehicle')}>+ Add</button>
+                        <button className={styles.actionButton} onClick={() => handleNavigation('/AddVehicle')}>+ Add</button>
                     </div>
                     <table className={styles.table}>
                         <thead>
