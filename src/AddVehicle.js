@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { db } from './firebase';
+import { addDoc, collection } from 'firebase/firestore';
 import styles from './AddVehicle.module.css';
 
 const AddVehicle = () => {
@@ -41,10 +43,8 @@ const AddVehicle = () => {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // You can add your own logic here to handle the form submission, such as sending the data to a server
-        console.log(vehicleInfo);
 
         const newErrors = {};
 
@@ -91,9 +91,12 @@ const AddVehicle = () => {
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            navigate('/HomePage');
-            // Add vehicle to database
-            console.log(vehicleInfo);
+            try {
+                await addDoc(collection(db, 'vehicles'), vehicleInfo);
+                navigate('/HomePage');
+            } catch (error) {
+                console.error('Error adding document: ', error);
+            }
         }
     };
 

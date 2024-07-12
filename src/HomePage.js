@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { db } from './firebase';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
     const navigate = useNavigate();
+    const [vehicles, setVehicles] = useState([]);
+
+    useEffect(() => {
+        const fetchVehicles = async () => {
+            try {
+                const snapshot = await db.collection('vehicles').get();
+                const vehicleList = snapshot.docs.map((doc) => doc.data());
+                setVehicles(vehicleList);
+            } catch (error) {
+                console.error('Error getting documents: ', error);
+            }
+        };
+
+        fetchVehicles();
+    }, []);
 
     const handleNavigation = (path) => {
         navigate(path);
@@ -34,24 +50,17 @@ const HomePage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td>Washington</td>
-                                <td>Automobile</td>
-                                <td>BMW</td>
-                                <td>White</td>
-                                <td>Two Door</td>
-                                <td>Permit A</td>
+                           {vehicles.map((vehicle) => (
+                            <tr key={vehicle.plate}>
+                                <td>{vehicle.plate}</td>
+                                <td>{vehicle.state}</td>
+                                <td>{vehicle.type}</td>
+                                <td>{vehicle.make}</td>
+                                <td>{vehicle.color}</td>
+                                <td>{vehicle.style}</td>
+                                <td>{vehicle.permit}</td>
                             </tr>
-                            <tr>
-                                <td></td>
-                                <td>Washington</td>
-                                <td>Automobile</td>
-                                <td>Toyota</td>
-                                <td>Red</td>
-                                <td>Four Door</td>
-                                <td>Permit B</td>
-                            </tr>
+                           ))}
                         </tbody>
                     </table>
                 </div>
