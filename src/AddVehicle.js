@@ -14,8 +14,6 @@ const AddVehicle = () => {
         year: '',
         type: '',
         licensePlate: '',
-        style: '',
-        permit: '',
         state: '',
     });
 
@@ -26,8 +24,6 @@ const AddVehicle = () => {
         year: '',
         type: '',
         licensePlate: '',
-        style: '',
-        permit: '',
         state: '',
     });
 
@@ -74,14 +70,6 @@ const AddVehicle = () => {
 
         if (!vehicleInfo.licensePlate) {
             newErrors.licensePlate = 'License Plate is required';
-        }
-
-        if (!vehicleInfo.style) {
-            newErrors.style = 'Style is required';
-        }
-
-        if (!vehicleInfo.permit) {
-            newErrors.permit = 'Permit is required';
         }
 
         if (!vehicleInfo.state) {
@@ -164,26 +152,6 @@ const AddVehicle = () => {
                     className={`${styles.addVehicleInput} ${errors.licensePlate ? styles.error : ''}`}
                 />
                 {errors.licensePlate && <div className="error">{errors.licensePlate}</div>}
-
-                <input
-                    type="text"
-                    name="style"
-                    value={vehicleInfo.style}
-                    onChange={handleChange}
-                    placeholder="Style"
-                    className={`${styles.addVehicleInput} ${errors.style ? styles.error : ''}`}
-                />
-                {errors.style && <div className="error">{errors.style}</div>}
-
-                <input
-                    type="text"
-                    name="permit"
-                    value={vehicleInfo.permit}
-                    onChange={handleChange}
-                    placeholder="Permit"
-                    className={`${styles.addVehicleInput} ${errors.permit ? styles.error : ''}`}
-                />
-                {errors.permit && <div className="error">{errors.permit}</div>}
 
                 <input
                     type="text"

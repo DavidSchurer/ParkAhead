@@ -46,9 +46,8 @@ const HomePage = () => {
                                 <th>State</th>
                                 <th>Type</th>
                                 <th>Make</th>
+                                <th>Model</th>
                                 <th>Color</th>
-                                <th>Style</th>
-                                <th>Permit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,9 +57,8 @@ const HomePage = () => {
                                 <td>{vehicle.state}</td>
                                 <td>{vehicle.type}</td>
                                 <td>{vehicle.make}</td>
+                                <td>{vehicle.model}</td>
                                 <td>{vehicle.color}</td>
-                                <td>{vehicle.style}</td>
-                                <td>{vehicle.permit}</td>
                             </tr>
                            ))}
                         </tbody>
