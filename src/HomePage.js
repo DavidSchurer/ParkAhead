@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { db } from './firebase';
+import { collection, getDocs, query } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 
@@ -10,8 +11,9 @@ const HomePage = () => {
     useEffect(() => {
         const fetchVehicles = async () => {
             try {
-                const snapshot = await db.collection('vehicles').get();
-                const vehicleList = snapshot.docs.map((doc) => doc.data());
+                const q = query(collection(db, 'vehicles'));
+                const querySnapshot = await getDocs(q);
+                const vehicleList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
                 setVehicles(vehicleList);
             } catch (error) {
                 console.error('Error getting documents: ', error);
@@ -51,8 +53,8 @@ const HomePage = () => {
                         </thead>
                         <tbody>
                            {vehicles.map((vehicle) => (
-                            <tr key={vehicle.plate}>
-                                <td>{vehicle.plate}</td>
+                            <tr key={vehicle.id}>
+                                <td>{vehicle.licensePlate}</td>
                                 <td>{vehicle.state}</td>
                                 <td>{vehicle.type}</td>
                                 <td>{vehicle.make}</td>
