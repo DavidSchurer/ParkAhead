@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from './firebase';
+import { db, auth } from './firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import styles from './AddVehicle.module.css';
 
 const AddVehicle = () => {
     const navigate = useNavigate();
+    const [userEmail, setUserEmail] = useState('');
+
+    useEffect(() => {
+        const fetchUserEmail = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                setUserEmail(user.email);
+            } else {
+                navigate('/Login');
+            }
+        };
+
+        fetchUserEmail();
+        }, []);
 
     const [vehicleInfo, setVehicleInfo] = useState({
         make: '',
@@ -78,9 +92,17 @@ const AddVehicle = () => {
 
         setErrors(newErrors);
 
+        const user = auth.currentUser;
+        const userEmail = user ? user.email : '';
+
+        const vehicleData = {
+            ...vehicleInfo,
+            userEmail: userEmail,
+        };
+
         if (Object.keys(newErrors).length === 0) {
             try {
-                await addDoc(collection(db, 'vehicles'), vehicleInfo);
+                await addDoc(collection(db, 'vehicles'), vehicleData);
                 navigate('/HomePage');
             } catch (error) {
                 console.error('Error adding document: ', error);

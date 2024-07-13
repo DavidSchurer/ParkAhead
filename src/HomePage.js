@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { db } from './firebase';
-import { collection, getDocs, query } from 'firebase/firestore';
+import { db, auth } from './firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
     const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
+    const [userEmail, setUserEmail] = useState('');
 
-    useEffect(() => {
+    const fetchUserEmail = async () => {
+        const user = auth.currentUser;
+        if (user) {
+            setUserEmail(user.email);
+        }
+    };
+
         const fetchVehicles = async () => {
             try {
-                const q = query(collection(db, 'vehicles'));
+                const q = query(collection(db, 'vehicles'), where('userEmail', '==', userEmail));
                 const querySnapshot = await getDocs(q);
                 const vehicleList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
                 setVehicles(vehicleList);
@@ -20,8 +27,10 @@ const HomePage = () => {
             }
         };
 
+      useEffect(() => {
+        fetchUserEmail();
         fetchVehicles();
-    }, []);
+    }, [userEmail]);
 
     const handleNavigation = (path) => {
         navigate(path);
