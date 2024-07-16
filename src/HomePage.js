@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { db, auth } from './firebase';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, IconButton } from '@mui/material';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -16,24 +17,33 @@ const HomePage = () => {
         }
     };
 
-        const fetchVehicles = async () => {
-            try {
-                const q = query(collection(db, 'vehicles'), where('userEmail', '==', userEmail));
-                const querySnapshot = await getDocs(q);
-                const vehicleList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-                setVehicles(vehicleList);
-            } catch (error) {
-                console.error('Error getting documents: ', error);
-            }
-        };
+    const fetchVehicles = async () => {
+        try {
+            const q = query(collection(db, 'vehicles'), where('userEmail', '==', userEmail));
+            const querySnapshot = await getDocs(q);
+            const vehicleList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            setVehicles(vehicleList);
+        } catch (error) {
+            console.error('Error getting documents: ', error);
+        }
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         fetchUserEmail();
         fetchVehicles();
     }, [userEmail]);
 
     const handleNavigation = (path) => {
         navigate(path);
+    };
+
+    const handleDelete = async (vehicleId) => {
+        try {
+            await deleteDoc(doc(db, 'vehicles', vehicleId));
+            setVehicles(vehicles.filter(vehicle => vehicle.id !== vehicleId));
+        } catch (error) {
+            console.error('Error deleting vehicle:', error);
+        }
     };
 
     return (
@@ -51,25 +61,31 @@ const HomePage = () => {
                     <table className={styles.table}>
                         <thead>
                             <tr>
-                                <th>Plate</th>
-                                <th>State</th>
-                                <th>Type</th>
-                                <th>Make</th>
-                                <th>Model</th>
-                                <th>Color</th>
+                                <th>Vehicle Make</th>
+                                <th>Vehicle Model</th>
+                                <th>Vehicle Color</th>
+                                <th>Vehicle Type</th>
+                                <th>Vehicle Year</th>
+                                <th>License Plate</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                           {vehicles.map((vehicle) => (
-                            <tr key={vehicle.id}>
-                                <td>{vehicle.licensePlate}</td>
-                                <td>{vehicle.state}</td>
-                                <td>{vehicle.type}</td>
-                                <td>{vehicle.make}</td>
-                                <td>{vehicle.model}</td>
-                                <td>{vehicle.color}</td>
-                            </tr>
-                           ))}
+                            {vehicles.map((vehicle) => (
+                                <tr key={vehicle.id}>
+                                    <td>{vehicle.make}</td>
+                                    <td>{vehicle.model}</td>
+                                    <td>{vehicle.color}</td>
+                                    <td>{vehicle.type}</td>
+                                    <td>{vehicle.year}</td>
+                                    <td>{vehicle.licensePlate}</td>
+                                    <td>
+                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(vehicle.id)}>
+                                            ❌
+                                        </IconButton>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
