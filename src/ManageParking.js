@@ -27,21 +27,20 @@ const ManageParking = () => {
         fetchUserEmail();
     }, []);
 
-    const fetchReservations = async () => {
-        try {
-            const q = query(collection(db, 'reservations'));
-            const querySnapshot = await getDocs(q);
-            const userReservations = [];
-            querySnapshot.forEach((doc) => {
-                userReservations.push({ id: doc.id, ...doc.data() });
-            });
-            setReservations(userReservations);
-        } catch (error) {
-            console.error('Error fetching reservations:', error);
-        }
-    };
-
     useEffect(() => {
+        const fetchReservations = async () => {
+            try {
+                const q = query(collection(db, 'reservations'), where('date', '>=', new Date()));
+                const querySnapshot = await getDocs(q);
+                const userReservations = [];
+                querySnapshot.forEach((doc) => {
+                    userReservations.push({ id: doc.id, ...doc.data() });
+                });
+                setReservations(userReservations);
+            } catch (error) {
+                console.error('Error fetching reservations:', error);
+            }
+        };
         fetchReservations();
     }, []);
 
