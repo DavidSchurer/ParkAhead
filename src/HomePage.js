@@ -9,6 +9,8 @@ const HomePage = () => {
     const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
     const [userEmail, setUserEmail] = useState('');
+    const [numReservations, setNumReservations] = useState(0);
+    const [showPopup, setShowPopup] = useState(false);
 
     const fetchUserEmail = async () => {
         const user = auth.currentUser;
@@ -28,10 +30,29 @@ const HomePage = () => {
         }
     };
 
+    const fetchReservations = async () => {
+        try {
+            const q = query(collection(db, 'reservations'), where('userEmail', '==', userEmail));
+            const querySnapshot = await getDocs(q);
+            setNumReservations(querySnapshot.size);
+        } catch (error) {
+            console.error('Error fetching reservations:', error);
+        }
+    };
+
     useEffect(() => {
         fetchUserEmail();
         fetchVehicles();
+        fetchReservations();
     }, [userEmail]);
+
+    const handleReservationClick = () => {
+        if (numReservations === 0) {
+            navigate('/ReserveParkingSpace');
+        } else {
+            setShowPopup(true);
+        }
+    };
 
     const handleNavigation = (path) => {
         navigate(path);
@@ -52,6 +73,19 @@ const HomePage = () => {
                 <h1>Welcome To ParkAhead: A UW Bothell Parking Reservation System!</h1>
                 <p>Select an option below to navigate through the system.</p>
             </div>
+
+            <Button onClick={handleReservationClick}>Reserve Parking Space</Button>
+        <Dialog open={showPopup} onClose={() => setShowPopup(false)}>
+            <DialogTitle>Reservation Confirmation</DialogTitle>
+            <DialogContent>
+                You have {numReservations} reservation(s). Do you want to proceed?
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setShowPopup(false)}>Cancel</Button>
+                <Button onClick={() => { setShowPopup(false); navigate('/ReserveParkingSpace'); }}>Proceed</Button>
+            </DialogActions>
+        </Dialog>
+
             <div className={styles.sectionContainer}>
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
