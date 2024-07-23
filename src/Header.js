@@ -27,7 +27,8 @@ function Header() {
         }
     }, []);
 
-    const handleReservationClick = () => {
+    const handleReservationClick = (event) => {
+        event.preventDefault();
         if (numReservations === 0) {
             navigate('/ReserveParkingSpace');
         } else if (numReservations > 0) {
@@ -43,7 +44,7 @@ function Header() {
             <nav>
                 <ul>
                     <li><Link to="/HomePage">Home</Link></li>
-                    <Button onClick={handleReservationClick}>Reserve Parking Space</Button>
+                    <li><Link to="/ReserveParkingSpace" onClick={handleReservationClick}>Reserve Parking Space</Link></li>
                     <Dialog open={showPopup} onClose={() => setShowPopup(false)}>
                         <DialogTitle>Reservation Confirmation</DialogTitle>
                         <DialogContent>
