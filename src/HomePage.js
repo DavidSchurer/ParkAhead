@@ -75,21 +75,6 @@ const HomePage = () => {
                 <h1>Welcome To ParkAhead: A UW Bothell Parking Reservation System!</h1>
                 <p>Select an option below to navigate through the system.</p>
             </div>
-
-        <Button onClick={handleReservationClick}>Reserve Parking Space</Button>
-        <Dialog open={showPopup} onClose={() => setShowPopup(false)}>
-            <DialogTitle>Reservation Confirmation</DialogTitle>
-            <DialogContent>
-                {numReservations > 0 ? <p>{popupMessage}</p> : <p>You have {numReservations} reservation(s). Do you want to proceed?</p>}
-            </DialogContent>
-            {numReservations === 0 && (
-            <DialogActions>
-                <Button onClick={() => setShowPopup(false)}>Cancel</Button>
-                <Button onClick={() => { setShowPopup(false); navigate('/ReserveParkingSpace'); }}>Proceed</Button>
-            </DialogActions>
-            )}
-        </Dialog>
-
             <div className={styles.sectionContainer}>
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
