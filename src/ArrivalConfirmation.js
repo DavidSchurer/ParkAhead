@@ -64,7 +64,7 @@ const ArrivalConfirmation = ({ reservationId, setReservations }) => {
       {isLate && (
         <button onClick={handleExtendReservation}>Extend Reservation</button>
       )}
-      {showConfirmation && <p>Reservation confirmed!</p>}
+      {showConfirmation && <p>Marked as here!</p>}
     </div>
   );
 };
