@@ -14,6 +14,7 @@ import PaymentPortal from './PaymentPortal';
 import HomePage from './HomePage';
 import ConfirmationPage from './ConfirmationPage';
 import AddVehicle from './AddVehicle';
+import ArrivalConfirmation from './ArrivalConfirmation';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/ManageParking" element={<ManageParking />}/>
             <Route path="/PaymentPortal" element={<PaymentPortal />}/>
             <Route path="/ConfirmationPage" element={<ConfirmationPage />}/>
+            <Route path="/ArrivalConfirmation" element={<ArrivalConfirmation />}/>
             <Route path="/AddVehicle" element={<AddVehicle />}/>
           </Routes>
         </div>

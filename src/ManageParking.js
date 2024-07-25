@@ -6,6 +6,7 @@ import { collection, getDocs, query, where, deleteDoc, doc } from 'firebase/fire
 import { Timestamp } from 'firebase/firestore';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, IconButton } from '@mui/material';
 
+
 const ManageParking = () => {
     const { reservations, setReservations } = useParkingContext();
     const [filteredBookings, setFilteredBookings] = useState(reservations);

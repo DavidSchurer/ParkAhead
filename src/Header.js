@@ -55,6 +55,7 @@ function Header() {
                             </DialogActions>
                     </Dialog>
                     <li><Link to="/ParkingAvailability">Check Parking Space Availability</Link></li>
+                    <li><Link to="/ArrivalConfirmation">Arrival Confirmation</Link></li>
                     <li><Link to="/ManageParking">Confirmed Parking Reservations</Link></li>
                 </ul>
             </nav>
