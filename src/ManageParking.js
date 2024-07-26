@@ -28,9 +28,27 @@ const ManageParking = () => {
         fetchUserEmail();
     }, []);
 
+    const deletePastReservations = async () => {
+        try {
+            const currentDate = new Date();
+            const q = query(collection(db, 'reservations'), where('date', '<', Timestamp.fromDate(currentDate)));
+            const querySnapshot = await getDocs(q);
+    
+            for (const reservationDoc of querySnapshot.docs) {
+                await deleteDoc(doc(db, 'reservations', reservationDoc.id));
+            }
+
+            console.log('Past reservations deleted successfully');
+        } catch (error) {
+            console.error('Error deleting past reservations:', error);
+        }
+    };
+
     useEffect(() => {
         const fetchReservations = async () => {
             try {
+                await deletePastReservations();
+
                 const q = query(collection(db, 'reservations'), where('date', '>=', new Date()));
                 const querySnapshot = await getDocs(q);
                 const userReservations = [];
