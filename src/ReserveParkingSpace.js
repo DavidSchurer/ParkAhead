@@ -9,6 +9,7 @@ import { useParkingContext } from './ParkingContext';
 import { auth, db } from './firebase';
 import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
+import uwbMap from './uwbmap.png';
 
 function ReserveParkingSpace() {
     const { selectedTimeSlot, selectedDate, setSelectedDate, setSelectedTimeSlot, selectedOption, setSelectedOption, selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName, setReservationId } = useParkingContext();
@@ -147,7 +148,7 @@ function ReserveParkingSpace() {
                                     <em>Please Choose a Parking Garage/Lot</em>
                                 </MenuItem>
                                 <MenuItem value={'South Garage'}>South Garage</MenuItem>
-                                <MenuItem value={'North Garage'}>North Garage</MenuItem>
+                                <MenuItem value={'North Garage'} selected={selectedParkingLot === 'North Garage'}>North Garage</MenuItem>
                                 <MenuItem value={'West Garage'}>West Garage</MenuItem>
                                 <MenuItem value={'Truly Lot'}>Truly Lot</MenuItem>
                             </Select>
@@ -215,7 +216,13 @@ function ReserveParkingSpace() {
                     </div>
                     <div className="box">
                         <div className="box-heading">UW Bothell Parking Locations</div>
-                        <MyGoogleMap />
+                        <div className="image-container">
+                            <img src={uwbMap} alt="UW Bothell Map" className="uwb-map" />
+                            <div className="marker" style={{ top: '84%', left: '57%' }} onClick={() => setSelectedParkingLot('South Garage')}>South Garage</div>
+                            <div className="marker" style={{ top: '37%', left: '54%' }} onClick={() => setSelectedParkingLot('North Garage')}>North Garage</div>
+                            <div className="marker" style={{ top: '54%', left: '20%' }} onClick={() => setSelectedParkingLot('West Garage')}>West Garage</div>
+                            <div className="marker" style={{ top: '71%', left: '33%' }} onClick={() => setSelectedParkingLot('Truly Lot')}>Truly Lot</div>
+                        </div>
                     </div>
                 </div>
             </div>
