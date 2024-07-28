@@ -141,8 +141,6 @@
     width: 100%;
     height: auto;
     object-fit: contain;
-    transform: scale(1);
-    transform-origin: top left;
 }
 
 .marker {
