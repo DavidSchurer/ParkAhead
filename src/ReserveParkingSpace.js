@@ -7,7 +7,7 @@ import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
 import { auth, db } from './firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 
 function ReserveParkingSpace() {
@@ -32,7 +32,9 @@ function ReserveParkingSpace() {
 
     useEffect(() => {
         if (!selectedDate) {
-            setSelectedDate(new Date());
+            const date = new Date();
+            date.setHours(0,0,0,0);
+            setSelectedDate(date);
         }
     }, [selectedDate, setSelectedDate]);
 

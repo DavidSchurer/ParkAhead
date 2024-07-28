@@ -35,6 +35,12 @@
     color: transparent;
 }
 
+.reserved-spot {
+    background-color: rgb(154, 29, 29) !important;
+    cursor: not-allowed;
+    color: transparent;
+}
+
 .parking-spot::before {
     top: 10px;
     left: 50%;

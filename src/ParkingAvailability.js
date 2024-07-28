@@ -5,12 +5,13 @@ import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
 import { auth, db } from './firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
 
 function ParkingAvailability() {
     const navigate = useNavigate();
 
     const [userEmail, setUserEmail] = useState('');
+    const [existingReservations, setExistingReservations] = useState([]);
 
     useEffect(() => {
         const fetchUserEmail = async () => {
@@ -35,12 +36,69 @@ function ParkingAvailability() {
         setSelectedSpot, 
         selectedCategory, 
         setSelectedCategory,
-        setReservations
+        setReservations,
+        selectedDate,
+        selectedTimeSlot
     } = useParkingContext();
 
     const [level, setLevel] = useState('');
     const [displayedParkingSpots, setDisplayedParkingSpots] = useState([]);
     const [categoryFilter, setCategoryFilter] = useState('all');
+
+    useEffect(() => {
+        const fetchReservations = async () => {
+            if (selectedDate && selectedParkingLot) {
+                const reservationsRef = collection(db, 'reservations');
+                const q = query(
+                    reservationsRef,
+                    where('parkingLot', '==', selectedParkingLot),
+                    where('date', '==', Timestamp.fromDate(selectedDate))
+                );
+                const querySnapshot = await getDocs(q);
+                const reservations = querySnapshot.docs.map(doc => doc.data());
+                console.log('Reservations:', reservations);
+
+                const [startTime, endTime] = selectedTimeSlot.split(' - ');
+
+                const reservedSpots = reservations.filter(reservation=>{
+                    return isConflict(reservation, startTime, endTime)
+                  }).map(reservation=>{
+                    return reservation.spot;
+                  });
+                  setExistingReservations(reservedSpots);
+                  console.log('Existing Reservations:', reservedSpots);
+                  console.log(selectedTimeSlot);
+                  console.log(startTime, endTime);
+            }
+        };
+
+        fetchReservations();
+    }, [selectedDate, selectedParkingLot]);
+
+    const isConflict = (reservation, startTime, endTime) => {
+
+        const militaryTime = time=>{
+            if(!time) return;
+            const [time_, modifier] = time.split(/(AM|PM)/i);
+            let [hours, minutes] = time_.split(':').map(Number);
+
+            if(modifier.toUpperCase() === 'PM' && hours < 12){
+                hours += 12;
+            }
+            if(modifier.toUpperCase() === 'AM' && hours === 12){
+                hours = 0;
+            }
+
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+        }
+
+        const resStartTime = militaryTime(reservation.startTime);
+        const resEndTime = militaryTime(reservation.endTime);
+        const userStartTime = militaryTime(startTime);
+        const userEndTime = militaryTime(endTime);
+        console.log(resStartTime,resEndTime,userStartTime,userEndTime);
+        return (userStartTime < resEndTime && userEndTime > resStartTime);
+    };
 
     const getSpotRange = (selectedLevel) => {
         const totalSpots = 40;
@@ -78,13 +136,15 @@ function ParkingAvailability() {
             }
 
             const isFilteredOut = category !== categoryFilter && categoryFilter !== 'all';
+            const isReserved = existingReservations?.includes(spotID);
+            console.log('Existing Reservations in the generateParkingSpots:', existingReservations);
 
             parkingSpots.push(
                 <div 
                     key={spotID} 
-                    className={`${styles['parking-spot']} ${selectedSpot === spotID ? styles['selected-spot'] : ''} ${isFilteredOut ? styles['filtered-out'] : ''}`}
-                    onClick={() => !isFilteredOut && handleSpotClick(spotID, category)}
-                    style={{ cursor: isFilteredOut ? 'not-allowed' : 'pointer', color: isFilteredOut ? 'transparent' : 'black' }}
+                    className={`${styles['parking-spot']} ${selectedSpot === spotID ? styles['selected-spot'] : ''} ${isFilteredOut ? styles['filtered-out'] : ''} ${isReserved ? styles['reserved-spot'] : ''}`}
+                    onClick={() => !isFilteredOut && !isReserved &&  handleSpotClick(spotID, category)}
+                    style={{ cursor: isFilteredOut || isReserved ? 'not-allowed' : 'pointer', color: isFilteredOut || isReserved ? 'transparent' : 'black' }}
                 >
                     {spotID}
                 </div>
@@ -105,7 +165,7 @@ function ParkingAvailability() {
         } else {
             setDisplayedParkingSpots([]); // Reset to empty array if no level selected
         }
-    }, [level, categoryFilter, selectedSpot]); // Include categoryFilter and selectedSpot in dependency array
+    }, [level, categoryFilter, selectedSpot, existingReservations]); // Include categoryFilter and selectedSpot in dependency array
 
     const handleLevelChange = (event) => {
         setLevel(event.target.value);
