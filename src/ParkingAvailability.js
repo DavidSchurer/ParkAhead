@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
 import { auth, db } from './firebase';
 import { doc, updateDoc, collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
+import uwbMap from './uwbmap.png';
 
 function ParkingAvailability() {
     const navigate = useNavigate();
@@ -274,20 +275,14 @@ function ParkingAvailability() {
                     <Button variant="outlined" className={styles.LogoutButton} onClick={handleLogoutClick}>Log Out</Button>
                 </div>
                 <div className={styles.box}>
-                    <div className={styles['box-heading']}>Current Parking Spot Reservations</div>
-                    <div className="placeholder-text">
-                        {reservation ? (
-                            <div>
-                                {reservation.date.toLocaleDateString()} {reservation.startTime} - {reservation.endTime} @ {reservation.parkingLot}
-                            </div>
-                        ) : (
-                            "No reservations yet"
-                        )}
-                    </div>
-                </div>
-                <div className={styles.box}>
-                    <div className={styles['box-heading']}>UW Bothell Parking Locations</div>
-                    <MyGoogleMap />
+                        <div className={styles['box-heading']}>UW Bothell Parking Locations</div>
+                        <div className={styles['image-container']}>
+                            <img src={uwbMap} alt="UW Bothell Map" className={styles['uwb-map']}/>
+                            <div className={`${styles.marker} ${selectedParkingLot === 'South Garage' ? 'styles.selected' : ''}`} style={{ top: '85%', left: '55%' }}>South Garage</div>
+                            <div className={`${styles.marker} ${selectedParkingLot === 'North Garage' ? 'styles.selected' : ''}`} style={{ top: '37%', left: '52%' }}>North Garage</div>
+                            <div className={`${styles.marker} ${selectedParkingLot === 'West Garage' ? 'styles.selected' : ''}`} style={{ top: '55%', left: '32%' }}>West Garage</div>
+                            <div className={`${styles.marker} ${selectedParkingLot === 'Truly Lot' ? 'styles.selected' : ''}`} style={{ top: '71%', left: '40%' }}>Truly Lot</div>
+                        </div>
                 </div>
             </div>
         </div>
