@@ -203,25 +203,13 @@ function ReserveParkingSpace() {
                         <Button variant="outlined" className="LogoutButton" onClick={handleLogoutClick}>Log Out</Button>
                     </div>
                     <div className="box">
-                        <div className="box-heading">Current Parking Spot Reservations</div>
-                        <div className="placeholder-text">
-                            {reservation ? (
-                                <div>
-                                    {reservation.date.toLocaleDateString()} {reservation.startTime} - {reservation.endTime} @ {reservation.parkingLot}
-                                </div>
-                            ) : (
-                                "No reservations yet"
-                            )}
-                        </div>
-                    </div>
-                    <div className="box">
                         <div className="box-heading">UW Bothell Parking Locations</div>
                         <div className="image-container">
-                            <img src={uwbMap} alt="UW Bothell Map" className="uwb-map" />
-                            <div className="marker" style={{ top: '84%', left: '57%' }} onClick={() => setSelectedParkingLot('South Garage')}>South Garage</div>
-                            <div className="marker" style={{ top: '37%', left: '54%' }} onClick={() => setSelectedParkingLot('North Garage')}>North Garage</div>
-                            <div className="marker" style={{ top: '54%', left: '20%' }} onClick={() => setSelectedParkingLot('West Garage')}>West Garage</div>
-                            <div className="marker" style={{ top: '71%', left: '33%' }} onClick={() => setSelectedParkingLot('Truly Lot')}>Truly Lot</div>
+                            <img src={uwbMap} alt="UW Bothell Map" className="uwb-map"/>
+                            <div className={`marker ${selectedParkingLot === 'South Garage' ? 'selected' : ''}`} style={{ top: '85%', left: '55%' }} onClick={() => setSelectedParkingLot('South Garage')}>South Garage</div>
+                            <div className={`marker ${selectedParkingLot === 'North Garage' ? 'selected' : ''}`} style={{ top: '37%', left: '52%' }} onClick={() => setSelectedParkingLot('North Garage')}>North Garage</div>
+                            <div className={`marker ${selectedParkingLot === 'West Garage' ? 'selected' : ''}`} style={{ top: '55%', left: '32%' }} onClick={() => setSelectedParkingLot('West Garage')}>West Garage</div>
+                            <div className={`marker ${selectedParkingLot === 'Truly Lot' ? 'selected' : ''}`} style={{ top: '71%', left: '40%' }} onClick={() => setSelectedParkingLot('Truly Lot')}>Truly Lot</div>
                         </div>
                     </div>
                 </div>
