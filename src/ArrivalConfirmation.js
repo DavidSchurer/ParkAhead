@@ -9,16 +9,27 @@ const ArrivalConfirmation = () => {
     const [popupMessage, setPopupMessage] = useState('');
     const [countdown, setCountdown] = useState(null);
     const [extendedReservationId, setExtendedReservationId] = useState(null);
+    const [userEmail, setUserEmail] = useState('');
+
+    useEffect(() => {
+        const fetchUserEmail = () => {
+            const user = auth.currentUser;
+            if (user) {
+                setUserEmail(user.email);
+            }
+        };
+
+        fetchUserEmail();
+    }, []);
 
     useEffect(() => {
         const fetchReservations = async () => {
             try {
-                const user = auth.currentUser;
-                if (user) {
-                    console.log('Fetching reservations for user:', user.email);
+                if (userEmail) {
+                    console.log('Fetching reservations for user:', userEmail);
                     const reservationsQuery = query(
                         collection(db, 'reservations'),
-                        where('userEmail', '==', user.email)
+                        where('userEmail', '==', userEmail)
                     );
                     const querySnapshot = await getDocs(reservationsQuery);
 
@@ -63,7 +74,7 @@ const ArrivalConfirmation = () => {
         };
 
         fetchReservations();
-    }, []);
+    }, [userEmail]);
 
     useEffect(() => {
         if (countdown !== null) {
