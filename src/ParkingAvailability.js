@@ -232,10 +232,6 @@ function ParkingAvailability() {
                             <MenuItem value="4">Level 4</MenuItem>
                         </Select>
                     </FormControl>
-                    <Button 
-                        variant="contained" disabled className={styles.TimeButton}>
-                        Time: {startTime} - {endTime}
-                    </Button>
                     <FormControl fullWidth>
                         <Select
                             value={categoryFilter}
@@ -251,6 +247,10 @@ function ParkingAvailability() {
                     </FormControl>
                 </div>
                 <div className={styles.ParkingLayout}>
+                <Button 
+                        variant="contained" disabled className={styles.TimeButton}>
+                        Time: {selectedTimeSlot}
+                </Button>
                     <p>Please select your desired parking spot:</p>
                     <div className={styles['parking-grid']}>
                         {displayedParkingSpots.length > 0 ? (
