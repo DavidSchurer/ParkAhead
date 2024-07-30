@@ -31,6 +31,7 @@ const ManageParking = () => {
     const deletePastReservations = async () => {
         try {
             const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
             const q = query(collection(db, 'reservations'), where('date', '<', Timestamp.fromDate(currentDate)));
             const querySnapshot = await getDocs(q);
     
@@ -48,8 +49,9 @@ const ManageParking = () => {
         const fetchReservations = async () => {
             try {
                 await deletePastReservations();
-
-                const q = query(collection(db, 'reservations'), where('date', '>=', new Date()));
+                const currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                const q = query(collection(db, 'reservations'), where('date', '>=', Timestamp.fromDate(currentDate)));
                 const querySnapshot = await getDocs(q);
                 const userReservations = [];
                 querySnapshot.forEach((doc) => {
