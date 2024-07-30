@@ -5,12 +5,15 @@ import { collection, getDocs, query, where, deleteDoc, doc, onSnapshot } from 'f
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import { db, auth } from './firebase';
 import './Header.css';
+import { useParkingContext } from './ParkingContext';
 
 function Header() {
     const navigate = useNavigate();
+    const { reservations, setReservations } = useParkingContext();
     const [showPopup, setShowPopup] = useState(false);
     const [numReservations, setNumReservations] = useState(0);
     const [userEmail, setUserEmail] = useState('');
+
 
     useEffect(() => {
         const user = auth.currentUser;
@@ -25,7 +28,7 @@ function Header() {
             
             return () => unsubscribe();
         }
-    }, []);
+    }, [reservations, userEmail]);
 
     const handleReservationClick = (event) => {
         event.preventDefault();
