@@ -12,29 +12,6 @@ function Header() {
     const [numReservations, setNumReservations] = useState(0);
     const [userEmail, setUserEmail] = useState('');
 
-    const handleDeletePastReservationsClick = async () => {
-        try {
-            const currentDate = new Date();
-            const currentDateString = currentDate.toLocaleDateString();
-
-            const q = query(collection(db, 'reservations'), where('date', '<', currentDateString));
-            const querySnapshot = await getDocs(q);
-
-            const batch = db.batch();
-
-            querySnapshot.forEach((doc) => {
-                batch.delete(doc.ref);
-            });
-
-            await batch.commit();
-
-            console.log('Past reservations deleted successfully');
-        } catch (error) {
-            console.error('Error deleting past reservations:', error);
-        }
-
-    };
-
     useEffect(() => {
         const user = auth.currentUser;
         if (user) {
@@ -79,7 +56,7 @@ function Header() {
                     </Dialog>
                     <li><Link to="/ParkingAvailability">Check Parking Space Availability</Link></li>
                     <li><Link to="/ArrivalConfirmation">Arrival Confirmation</Link></li>
-                    <li><Link to="/ManageParking" onClick={handleDeletePastReservationsClick}>Confirmed Parking Reservations</Link></li>
+                    <li><Link to="/ManageParking">Confirmed Parking Reservations</Link></li>
                 </ul>
             </nav>
         </div>
