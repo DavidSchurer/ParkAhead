@@ -269,11 +269,6 @@ function ParkingAvailability() {
             </div>
 
             <div className={styles.RightContainer}>
-                <div className={styles.Header}>
-                    <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
-                    <span className={styles.Username}>{userEmail}</span>
-                    <Button variant="outlined" className={styles.LogoutButton} onClick={handleLogoutClick}>Log Out</Button>
-                </div>
                 <div className={styles.box}>
                         <div className={styles['box-heading']}>UW Bothell Parking Locations</div>
                         <div className={styles['image-container']}>

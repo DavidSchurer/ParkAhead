@@ -197,11 +197,6 @@ function ReserveParkingSpace() {
                     </div>
                 </div>
                 <div className="RightContainer">
-                    <div className="Header">
-                        <Avatar alt="User Avatar" src={require('./avatarImage.png')} />
-                        <span className="Username">{userEmail}</span>
-                        <Button variant="outlined" className="LogoutButton" onClick={handleLogoutClick}>Log Out</Button>
-                    </div>
                     <div className="box">
                         <div className="box-heading">UW Bothell Parking Locations</div>
                         <div className="image-container">

@@ -82,7 +82,7 @@ function Header() {
                     </ul>
                     <div className="dropdown-footer">
                         <span><strong>User:</strong> <strong>{userEmail}</strong></span>
-                        <Button variant="outlined" className="logout-button" onClick={handleLogoutClick}>Log Out</Button>
+                        <button className="logout-button" onClick={handleLogoutClick}><strong>Log Out</strong></button>
                     </div>
                 </div>
             </div>
