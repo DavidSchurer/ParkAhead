@@ -60,13 +60,13 @@ function Header() {
 
     const popupMessage = "You already have a spot reserved, you cannot reserve another spot until you cancel your current reservation or the current reservation has ended";
 
-    const isLoginOrCreateAccountPage = location.pathname === '/Login' || location.pathname === '/CreateAccount';
+    const hideDropDown = location.pathname === '/Login' || location.pathname === '/CreateAccount' || location.pathname === '/' || location.pathname === '/ConfirmationPage';
 
     return (
         <div className="header">
             <div className="header-top">
                 <h1>ParkAhead: <i>Parking Made Easy</i></h1>
-                {!isLoginOrCreateAccountPage && (
+                {!hideDropDown && (
                     <div className="menu-button" onClick={() => setShowDropdown(!showDropdown)}>
                     </div>
                 )}
