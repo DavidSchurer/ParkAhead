@@ -111,6 +111,7 @@ const ArrivalConfirmation = () => {
       const reservationData = reservationDoc.data();
       
       if (reservationData.reservationExtended) {
+        alert('You have already extended your reservation.');
         return;
       }
     
