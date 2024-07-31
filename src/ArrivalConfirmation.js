@@ -37,6 +37,7 @@ const ArrivalConfirmation = () => {
     fetchReservations();
 
     const countdownInterval = setInterval(() => {
+      if (timerActive) {
         setCountdown((prevCountdown) => {
             if (prevCountdown <= 1) {
                 clearInterval(countdownInterval);
@@ -45,12 +46,13 @@ const ArrivalConfirmation = () => {
             }
             return prevCountdown - 1;
         });
-    }, [1000]);
+      }
+    }, 1000);
 
     return () => {
         clearInterval(countdownInterval);
     };
-  }, []);
+  }, [timerActive]);
 
   const handleTimerEnd = async () => {
     if (timerActive) {
@@ -78,6 +80,8 @@ const ArrivalConfirmation = () => {
   };
 
   const handleConfirmArrival = async (reservationId) => {
+    setTimerActive(false);
+
     let reservationDocRef;
     try {
       reservationDocRef = doc(db, 'reservations', reservationId);
