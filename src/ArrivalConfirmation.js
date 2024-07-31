@@ -26,6 +26,7 @@ const ArrivalConfirmation = () => {
                 id: doc.id,
                 ...doc.data(),
                 isConfirmed: doc.data().isConfirmed || false,
+                reservationExtended: doc.data().reservationExtended || false,
             });
           });
           setReservations(reservationsData);
@@ -47,6 +48,7 @@ const ArrivalConfirmation = () => {
         setCountdown((prevCountdown) => {
             if (prevCountdown <= 1) {
                 clearInterval(countdownInterval);
+                handleTimerEnd();
                 return 0;
             }
             return prevCountdown - 1;
@@ -92,15 +94,7 @@ const ArrivalConfirmation = () => {
       const reservationDoc = await getDoc(reservationDocRef);
       const reservationData = reservationDoc.data();
 
-      if (reservationData.isLate) {
-        // Extend the reservation by 10 minutes
-        const updatedReservationData = {
-          ...reservationData,
-          endTime: new Date(reservationData.endTime.getTime() + 10 * 60 * 1000),
-        };
-        await updateDoc(reservationDocRef, updatedReservationData);
-      }
-        // Mark the reservation as confirmed
+      // Mark the reservation as confirmed
       await updateDoc(reservationDocRef, { isConfirmed: true });
 
       setShowConfirmation(true);
@@ -110,8 +104,22 @@ const ArrivalConfirmation = () => {
     }
   };
 
-  const extendsReservation = () => {
+  const extendsReservation = async (reservationId) => {
+    try {
+      const reservationDocRef = doc(db, 'reservations', reservationId);
+      const reservationDoc = await getDoc(reservationDocRef);
+      const reservationData = reservationDoc.data();
+      
+      if (reservationData.reservationExtended) {
+        return;
+      }
+    
     setCountdown((prevCountdown) => prevCountdown + 15 * 60);
+
+    await updateDoc(reservationDocRef, { reservationExtended: true });
+    } catch (error) {
+      console.error('Error extending reservation:', error);
+    }
   };
 
   const formattedCountdown = `${Math.floor(countdown / 60)}:${(countdown % 60).toString().padStart(2, '0')}`;
@@ -138,7 +146,7 @@ const ArrivalConfirmation = () => {
               <button className={styles.confirmButton} onClick={() => handleConfirmArrival(reservation.id)}>
                 Confirm Arrival
               </button>
-              <button className={styles.extendButton} onClick={extendsReservation}>
+              <button className={styles.extendButton} onClick={() => extendsReservation(reservation.id)} disabled={reservation.reservationExtended}>
                 Extend Reservation
               </button>
             </div>
