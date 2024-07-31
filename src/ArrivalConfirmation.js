@@ -110,6 +110,10 @@ const ArrivalConfirmation = () => {
     }
   };
 
+  const extendsReservation = () => {
+    setCountdown((prevCountdown) => prevCountdown + 15 * 60);
+  };
+
   const formattedCountdown = `${Math.floor(countdown / 60)}:${(countdown % 60).toString().padStart(2, '0')}`;
 
   return (
@@ -134,7 +138,7 @@ const ArrivalConfirmation = () => {
               <button className={styles.confirmButton} onClick={() => handleConfirmArrival(reservation.id)}>
                 Confirm Arrival
               </button>
-              <button className={styles.extendButton}>
+              <button className={styles.extendButton} onClick={extendsReservation}>
                 Extend Reservation
               </button>
             </div>
