@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from './firebase'; // Make sure to import your Firebase setup
-import { collection, getDocs, where, query, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, where, query, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import styles from './ArrivalConfirmation.module.css';
 
 const ArrivalConfirmation = () => {
@@ -25,9 +25,15 @@ const ArrivalConfirmation = () => {
             reservationsData.push({
                 id: doc.id,
                 ...doc.data(),
+                isConfirmed: doc.data().isConfirmed || false,
             });
           });
           setReservations(reservationsData);
+
+          const anyConfirmed = reservationsData.some(reservation => reservation.isConfirmed);
+          if (anyConfirmed) {
+            setTimerActive(false);
+          }
         }
       } catch (error) {
         console.log('Error fetching reservations:', error);
@@ -41,7 +47,6 @@ const ArrivalConfirmation = () => {
         setCountdown((prevCountdown) => {
             if (prevCountdown <= 1) {
                 clearInterval(countdownInterval);
-                handleTimerEnd();
                 return 0;
             }
             return prevCountdown - 1;
@@ -82,10 +87,9 @@ const ArrivalConfirmation = () => {
   const handleConfirmArrival = async (reservationId) => {
     setTimerActive(false);
 
-    let reservationDocRef;
     try {
-      reservationDocRef = doc(db, 'reservations', reservationId);
-      const reservationDoc = await getDocs(reservationDocRef);
+      const reservationDocRef = doc(db, 'reservations', reservationId);
+      const reservationDoc = await getDoc(reservationDocRef);
       const reservationData = reservationDoc.data();
 
       if (reservationData.isLate) {
@@ -95,10 +99,9 @@ const ArrivalConfirmation = () => {
           endTime: new Date(reservationData.endTime.getTime() + 10 * 60 * 1000),
         };
         await updateDoc(reservationDocRef, updatedReservationData);
-      } else {
-        // Mark the reservation as confirmed
-        await updateDoc(reservationDocRef, { isConfirmed: true });
       }
+        // Mark the reservation as confirmed
+      await updateDoc(reservationDocRef, { isConfirmed: true });
 
       setShowConfirmation(true);
       setTimerActive(false);
