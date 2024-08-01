@@ -24,6 +24,7 @@ const ArrivalConfirmation = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [countdown, setCountdown] = useState(TIMER_MS);
   const [timerActive, setTimerActive] = useState(true);
+  const [timerStarted, setTimerStarted] = useState(false);
 
   const countdownIntervalRef = React.useRef();
 
@@ -86,6 +87,8 @@ const ArrivalConfirmation = () => {
       const commenceTimer = (nextRemainingTime) => {
         console.log('Hello');
         if(nextRemainingTime<=0) return;
+
+        setTimerStarted(true);
   
         clearInterval(countdownIntervalRef.current);
         countdownIntervalRef.current = setInterval(() => {
@@ -179,6 +182,7 @@ const ArrivalConfirmation = () => {
     setTimerActive(false);
     clearInterval(countdownIntervalRef.current);
     localStorage.removeItem('countdownEndTime');
+    setTimerStarted(false);
 
     try {
       const reservationDocRef = doc(db, 'reservations', reservationId);
@@ -257,7 +261,7 @@ const ArrivalConfirmation = () => {
           <p>No reservation has been made</p>
         )}
         {showConfirmation && <p>Reservation confirmed!</p>}
-        <p>Time remaining: {formattedCountdown}</p>
+        <p className={`${styles.countdownTimer} ${!timerStarted ? styles.hidden : ''}`}>Time remaining: {formattedCountdown}</p>
       </div>
     </div>
   );
