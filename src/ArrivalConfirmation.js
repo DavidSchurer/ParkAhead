@@ -58,6 +58,11 @@ const ArrivalConfirmation = () => {
               });
             });
             setReservations(reservationsData);
+            const countdownID = localStorage.getItem('countdownID');
+            if(countdownID!==reservationsData[0].id){
+              localStorage.removeItem('countdownEndTime');
+            }
+            localStorage.setItem('countdownID', reservationsData[0].id);
   
             if(reservationsData.length===0) return -1;
   
