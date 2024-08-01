@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { db, auth } from './firebase';
-import { collection, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, query, where, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -11,6 +11,7 @@ const HomePage = () => {
     const [userEmail, setUserEmail] = useState('');
     const [numReservations, setNumReservations] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
+    const [profile, setProfile] = useState({ firstName: '', lastName: '', year: '', studentId: '' });
 
     const fetchUserEmail = async () => {
         const user = auth.currentUser;
@@ -40,10 +41,25 @@ const HomePage = () => {
         }
     };
 
+    const fetchProfile = async () => {
+        try {
+            const user = auth.currentUser;
+            if (user) {
+                const profileDoc = await getDoc(doc(db, 'profiles', user.uid));
+                if (profileDoc.exists()) {
+                    setProfile(profileDoc.data());
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+        }
+    };
+
     useEffect(() => {
         fetchUserEmail();
         fetchVehicles();
         fetchReservations();
+        fetchProfile();
     }, [userEmail]);
 
     const handleReservationClick = () => {
@@ -169,11 +185,13 @@ const HomePage = () => {
                     </table>
                 </div>
                 <div className={styles.userInfo}>
-                    <h3>SHIVAM BAKSHI</h3>
+                    <h3>{`${profile.firstName} ${profile.lastName}`}</h3>
                     <p>Bothell Student</p>
+                    <p>Year: {profile.year}</p>
+                    <p>Student ID: {profile.studentId}</p>
                     <p>Balance Due: <span className={styles.balance}>$0.00</span></p>
                     <p>View Transaction History</p>
-                    <button className={styles.editButton}>Edit</button>
+                    <button className={styles.editButton} onClick={() => navigate('/settings')}>Edit</button>
                 </div>
             </div>
         </div>
