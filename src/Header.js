@@ -78,6 +78,7 @@ function Header() {
                         <li><Link to="/ReserveParkingSpace" onClick={handleReservationClick}>Reserve Parking Space</Link></li>
                         <li><Link to="/ArrivalConfirmation">Arrival Confirmation</Link></li>
                         <li><Link to="/ManageParking">Confirmed Parking Reservations</Link></li>
+                        <li><Link to="/Settings">Settings</Link></li>
                     </ul>
                     <div className="dropdown-footer">
                         <span><strong>User:</strong> <strong>{userEmail}</strong></span>
