@@ -3,7 +3,7 @@ import { db, auth } from './firebase'; // Make sure to import your Firebase setu
 import { collection, getDocs, where, query, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import styles from './ArrivalConfirmation.module.css';
 
-const TIMER_MS = 15 * 1000;
+const TIMER_MS = 10 * 60 * 1000;
 
 const militaryTimeComponents = timeString=>{
   const [time, modifier] = timeString.split(/(AM|PM)/i);
