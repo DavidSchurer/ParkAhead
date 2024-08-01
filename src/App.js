@@ -15,6 +15,7 @@ import HomePage from './HomePage';
 import ConfirmationPage from './ConfirmationPage';
 import AddVehicle from './AddVehicle';
 import ArrivalConfirmation from './ArrivalConfirmation';
+import Settings from './Settings';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/ConfirmationPage" element={<ConfirmationPage />}/>
             <Route path="/ArrivalConfirmation" element={<ArrivalConfirmation />}/>
             <Route path="/AddVehicle" element={<AddVehicle />}/>
+            <Route path="/Settings" element={<Settings />} />
           </Routes>
         </div>
       </ParkingProvider>
