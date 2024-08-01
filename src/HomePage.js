@@ -3,14 +3,13 @@ import { db, auth } from './firebase';
 import { collection, getDocs, query, where, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 
 const HomePage = () => {
     const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
     const [userEmail, setUserEmail] = useState('');
-    const [numReservations, setNumReservations] = useState(0);
-    const [showPopup, setShowPopup] = useState(false);
+    const [reservations, setReservations] = useState([]);
     const [profile, setProfile] = useState({ firstName: '', lastName: '', year: '', studentId: '' });
 
     const fetchUserEmail = async () => {
@@ -22,10 +21,12 @@ const HomePage = () => {
 
     const fetchVehicles = async () => {
         try {
-            const q = query(collection(db, 'vehicles'), where('userEmail', '==', userEmail));
-            const querySnapshot = await getDocs(q);
-            const vehicleList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-            setVehicles(vehicleList);
+            if (userEmail) {
+                const q = query(collection(db, 'vehicles'), where('userEmail', '==', userEmail));
+                const querySnapshot = await getDocs(q);
+                const vehicleList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                setVehicles(vehicleList);
+            }
         } catch (error) {
             console.error('Error getting documents: ', error);
         }
@@ -33,9 +34,25 @@ const HomePage = () => {
 
     const fetchReservations = async () => {
         try {
-            const q = query(collection(db, 'reservations'), where('userEmail', '==', userEmail));
-            const querySnapshot = await getDocs(q);
-            setNumReservations(querySnapshot.size);
+            if (userEmail) {
+                const q = query(collection(db, 'reservations'), where('userEmail', '==', userEmail));
+                const querySnapshot = await getDocs(q);
+                const reservationsList = querySnapshot.docs.map((doc) => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        ...data,
+                        date: data.date?.toDate ? data.date.toDate() : new Date(data.date),
+                        startTime: data.startTime,
+                        endTime: data.endTime,
+                        bookingName: data.bookingName,
+                        parkingLot: data.parkingLot,
+                        spot: data.spot,
+                        level: data.level,
+                    };
+                });
+                setReservations(reservationsList);
+            }
         } catch (error) {
             console.error('Error fetching reservations:', error);
         }
@@ -57,31 +74,43 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchUserEmail();
-        fetchVehicles();
-        fetchReservations();
-        fetchProfile();
+    }, []);
+
+    useEffect(() => {
+        if (userEmail) {
+            fetchVehicles();
+            fetchReservations();
+            fetchProfile();
+        }
     }, [userEmail]);
 
     const handleReservationClick = () => {
-        if (numReservations === 0) {
-            navigate('/ReserveParkingSpace');
+        if (reservations.length > 0) {
+            alert("You already have a spot reserved, you cannot reserve another spot until you cancel your current reservation or the current reservation has ended");
         } else {
-            setShowPopup(true);
+            navigate('/ReserveParkingSpace');
         }
     };
-
-    const popupMessage = "You already have a spot reserved, you cannot reserve another spot until you cancel your current reservation or the current reservation has ended";
 
     const handleNavigation = (path) => {
         navigate(path);
     };
 
-    const handleDelete = async (vehicleId) => {
+    const handleDeleteVehicle = async (vehicleId) => {
         try {
             await deleteDoc(doc(db, 'vehicles', vehicleId));
             setVehicles(vehicles.filter(vehicle => vehicle.id !== vehicleId));
         } catch (error) {
             console.error('Error deleting vehicle:', error);
+        }
+    };
+
+    const handleDeleteReservation = async (reservationId) => {
+        try {
+            await deleteDoc(doc(db, 'reservations', reservationId));
+            setReservations(reservations.filter(reservation => reservation.id !== reservationId));
+        } catch (error) {
+            console.error('Error deleting reservation:', error);
         }
     };
 
@@ -119,7 +148,7 @@ const HomePage = () => {
                                     <td>{vehicle.year}</td>
                                     <td>{vehicle.licensePlate}</td>
                                     <td>
-                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(vehicle.id)}>
+                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteVehicle(vehicle.id)}>
                                             ❌
                                         </IconButton>
                                     </td>
@@ -159,28 +188,42 @@ const HomePage = () => {
             <div className={styles.sectionContainer}>
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
-                        <h2>Citations</h2>
-                        <button className={styles.actionButton} onClick={() => handleNavigation('/view-citations')}>+ View</button>
+                        <h2>Reservations</h2>
+                        <button 
+                            className={styles.actionButton} 
+                            onClick={handleReservationClick}
+                        >
+                            + Reserve
+                        </button>
                     </div>
                     <table className={styles.table}>
                         <thead>
                             <tr>
-                                <th>Citation ID</th>
-                                <th>Issue Date</th>
-                                <th>Status</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Parking Spot</th>
+                                <th>Level</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>98765</td>
-                                <td>01/01/2023</td>
-                                <td>Paid</td>
-                            </tr>
-                            <tr>
-                                <td>54321</td>
-                                <td>12/12/2022</td>
-                                <td>Unpaid</td>
-                            </tr>
+                            {reservations.map((reservation) => (
+                                <tr key={reservation.id}>
+                                    <td>{reservation.bookingName}</td>
+                                    <td>{reservation.parkingLot}</td>
+                                    <td>{reservation.spot}</td>
+                                    <td>{reservation.level}</td>
+                                    <td>{reservation.date ? reservation.date.toLocaleDateString() : 'N/A'}</td>
+                                    <td>{reservation.startTime} - {reservation.endTime}</td>
+                                    <td>
+                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteReservation(reservation.id)}>
+                                            ❌
+                                        </IconButton>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
