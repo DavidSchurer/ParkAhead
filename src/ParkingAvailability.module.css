@@ -1,3 +1,12 @@
+@media screen and (max-width: 845px){
+    .LeftContainer {
+      width: 100%;
+    }
+    .RightContainer {
+      display: none;
+    }
+  }
+
 .grid-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -192,3 +201,4 @@
 .prev-button:hover, .next-button:hover {
     background-color: #555;
 }
+
