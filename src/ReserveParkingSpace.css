@@ -31,7 +31,9 @@
     float: left;
 }
 
-.MainHeading, .Subheading, .ReservationDetails {
+.MainHeading,
+.Subheading,
+.ReservationDetails {
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -60,7 +62,7 @@
     padding: 10px;
     margin-bottom: 10px;
     background-color: whitesmoke;
-    border: 1px solid #333; 
+    border: 1px solid #333;
     cursor: pointer;
     text-align: center;
     font-size: 16px;
@@ -138,6 +140,7 @@
     padding-bottom: 0;
     background-color: #fff;
     border: 1px solid #ccc;
+
     img {
         width: 60%;
         height: auto;
@@ -148,7 +151,7 @@
     margin: 0 auto;
     display: block;
     max-width: 100%;
-    
+
 }
 
 .marker {
@@ -177,4 +180,14 @@
     font-size: 11px;
     transform: translate(-50%, -50%) scale(1.1);
     font-weight: bold;
+}
+
+@media screen and (max-width: 580px) {
+    .LeftContainer {
+        width: 100%;
+    }
+
+    .RightContainer {
+        display: none;
+    }
 }
