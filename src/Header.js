@@ -67,7 +67,7 @@ function Header() {
             <div className="header-top">
                 <h1>ParkAhead: <i>Parking Made Easy</i></h1>
                 {!hideDropDown && (
-                    <div className="menu-button" onClick={() => setShowDropdown(!showDropdown)}>
+                    <div className={`menu-button ${showDropdown ? 'open' : ''}`} onClick={() => setShowDropdown(!showDropdown)}>
                     </div>
                 )}
             </div>
