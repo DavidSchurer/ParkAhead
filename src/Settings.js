@@ -71,6 +71,7 @@ const Settings = () => {
             }
         } catch (error) {
             console.error('Error updating password:', error);
+            alert('Failed to update password. Please try again.');
         }
     };
 
@@ -80,12 +81,14 @@ const Settings = () => {
             const user = auth.currentUser;
             if (user) {
                 await updateEmail(user, newEmail);
-                alert('Email updated successfully.');
+                await setDoc(doc(db, 'users', user.uid), { email: newEmail }, { merge: true });
                 setUserEmail(newEmail);
                 setNewEmail('');
+                alert('Email updated successfully.');
             }
         } catch (error) {
             console.error('Error updating email:', error);
+            alert('Failed to update email. Please try again.');
         }
     };
 
