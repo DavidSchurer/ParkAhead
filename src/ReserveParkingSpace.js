@@ -34,7 +34,7 @@ function ReserveParkingSpace() {
     useEffect(() => {
         if (!selectedDate) {
             const date = new Date();
-            date.setHours(0,0,0,0);
+            date.setHours(0, 0, 0, 0);
             setSelectedDate(date);
         }
     }, [selectedDate, setSelectedDate]);
@@ -177,7 +177,7 @@ function ReserveParkingSpace() {
                                 }}
                             >
                                 <MenuItem disabled>
-                                    <em>Class Time Slots (Grace Period 15 Minutes Before and After Reservation Time)<br/></em>
+                                    <em>Class Time Slots (Grace Period 15 Minutes Before and After Reservation Time)<br /></em>
                                 </MenuItem>
                                 <MenuItem value={'8:45 AM - 10:45 AM'}>8:45 AM - 10:45 AM</MenuItem>
                                 <MenuItem value={'11:00 AM - 1:00 PM'}>11:00 AM - 1:00 PM</MenuItem>
@@ -185,8 +185,38 @@ function ReserveParkingSpace() {
                                 <MenuItem value={'3:30 PM - 5:30 PM'}>3:30 PM - 5:30 PM</MenuItem>
                                 <MenuItem value={'5:45 PM - 7:45 PM'}>5:45 PM - 7:45 PM</MenuItem>
                                 <MenuItem value={'8:00 PM - 10:00 PM'}>8:00 PM - 10:00 PM</MenuItem>
+                                <MenuItem value={'7:00 PM - 9:00 PM'}>7:00 PM - 9:00 PM</MenuItem>
+                                <MenuItem value={'7:01 PM - 9:01 PM'}>7:01 PM - 9:01 PM</MenuItem>
+                                <MenuItem value={'7:02 PM - 9:02 PM'}>7:02 PM - 9:02 PM</MenuItem>
+                                <MenuItem value={'7:03 PM - 9:03 PM'}>7:03 PM - 9:03 PM</MenuItem>
+                                <MenuItem value={'7:04 PM - 9:04 PM'}>7:04 PM - 9:04 PM</MenuItem>
+                                <MenuItem value={'7:05 PM - 9:05 PM'}>7:05 PM - 9:05 PM</MenuItem>
+                                <MenuItem value={'7:06 PM - 9:06 PM'}>7:06 PM - 9:06 PM</MenuItem>
+                                <MenuItem value={'7:07 PM - 9:07 PM'}>7:07 PM - 9:07 PM</MenuItem>
+                                <MenuItem value={'7:08 PM - 9:08 PM'}>7:08 PM - 9:08 PM</MenuItem>
+                                <MenuItem value={'7:09 PM - 9:09 PM'}>7:09 PM - 9:09 PM</MenuItem>
+                                <MenuItem value={'7:10 PM - 9:10 PM'}>7:10 PM - 9:10 PM</MenuItem>
+                                <MenuItem value={'7:11 PM - 9:11 PM'}>7:11 PM - 9:11 PM</MenuItem>
+                                <MenuItem value={'7:12 PM - 9:12 PM'}>7:12 PM - 9:12 PM</MenuItem>
+                                <MenuItem value={'7:13 PM - 9:13 PM'}>7:13 PM - 9:13 PM</MenuItem>
+                                <MenuItem value={'7:14 PM - 9:14 PM'}>7:14 PM - 9:14 PM</MenuItem>
+                                <MenuItem value={'7:15 PM - 9:15 PM'}>7:15 PM - 9:15 PM</MenuItem>
+                                <MenuItem value={'7:16 PM - 9:16 PM'}>7:16 PM - 9:16 PM</MenuItem>
+                                <MenuItem value={'7:17 PM - 9:17 PM'}>7:17 PM - 9:17 PM</MenuItem>
+                                <MenuItem value={'7:18 PM - 9:18 PM'}>7:18 PM - 9:18 PM</MenuItem>
+                                <MenuItem value={'7:19 PM - 9:19 PM'}>7:19 PM - 9:19 PM</MenuItem>
+                                <MenuItem value={'7:20 PM - 9:20 PM'}>7:20 PM - 9:20 PM</MenuItem>
+                                <MenuItem value={'7:21 PM - 9:21 PM'}>7:21 PM - 9:21 PM</MenuItem>
+                                <MenuItem value={'7:22 PM - 9:22 PM'}>7:22 PM - 9:22 PM</MenuItem>
+                                <MenuItem value={'7:23 PM - 9:23 PM'}>7:23 PM - 9:23 PM</MenuItem>
+                                <MenuItem value={'7:24 PM - 9:24 PM'}>7:24 PM - 9:24 PM</MenuItem>
+                                <MenuItem value={'7:25 PM - 9:25 PM'}>7:25 PM - 9:25 PM</MenuItem>
+                                <MenuItem value={'7:26 PM - 9:26 PM'}>7:26 PM - 9:26 PM</MenuItem>
+                                <MenuItem value={'7:27 PM - 9:27 PM'}>7:27 PM - 9:27 PM</MenuItem>
+                                <MenuItem value={'7:28 PM - 9:28 PM'}>7:28 PM - 9:28 PM</MenuItem>
+                                <MenuItem value={'7:29 PM - 9:29 PM'}>7:29 PM - 9:29 PM</MenuItem>
                                 <MenuItem disabled>
-                                    <em>Standard Time Slots<br/></em>
+                                    <em>Standard Time Slots<br /></em>
                                 </MenuItem>
                                 {generateTimeSlots()}
                             </Select>
@@ -200,7 +230,7 @@ function ReserveParkingSpace() {
                     <div className="box">
                         <div className="box-heading">UW Bothell Parking Locations</div>
                         <div className="image-container">
-                            <img src={uwbMap} alt="UW Bothell Map" className="uwb-map"/>
+                            <img src={uwbMap} alt="UW Bothell Map" className="uwb-map" />
                             <div className={`marker ${selectedParkingLot === 'South Garage' ? 'selected' : ''}`} style={{ top: '85%', left: '55%' }} onClick={() => setSelectedParkingLot('South Garage')}>South Garage</div>
                             <div className={`marker ${selectedParkingLot === 'North Garage' ? 'selected' : ''}`} style={{ top: '37%', left: '52%' }} onClick={() => setSelectedParkingLot('North Garage')}>North Garage</div>
                             <div className={`marker ${selectedParkingLot === 'West Garage' ? 'selected' : ''}`} style={{ top: '55%', left: '32%' }} onClick={() => setSelectedParkingLot('West Garage')}>West Garage</div>
