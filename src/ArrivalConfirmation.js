@@ -102,6 +102,7 @@ const ArrivalConfirmation = () => {
               if (prevCountdown <= 1000) {
                 clearInterval(countdownIntervalRef.current);
                 handleTimerEnd();
+                console.log('hi');
                 return 0;
               }
               const newCountdown = prevCountdown - 1000;
