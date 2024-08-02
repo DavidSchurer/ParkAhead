@@ -2,13 +2,16 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 10px; /* Adjust gap between parking spots */
+    gap: 10px;
+    /* Adjust gap between parking spots */
     width: 100%;
 }
 
 .parking-spot {
-    width: 80px; /* Adjust width to make the spots resemble a car */
-    height: 150px; /* Adjust height to make the spots resemble a car */
+    width: 80px;
+    /* Adjust width to make the spots resemble a car */
+    height: 150px;
+    /* Adjust height to make the spots resemble a car */
     border: 1px solid #333;
     display: flex;
     align-items: center;
@@ -16,12 +19,15 @@
     background-color: #e0e0e0;
     cursor: pointer;
     transition: background-color 0.3s;
-    border-radius: 10px; /* Rounded corners to resemble car shape */
+    border-radius: 10px;
+    /* Rounded corners to resemble car shape */
     position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow to give depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add shadow to give depth */
 }
 
-.parking-spot:hover, .selected-spot {
+.parking-spot:hover,
+.selected-spot {
     background-color: #c0c0c0;
 }
 
@@ -96,6 +102,7 @@
     padding-bottom: 0;
     background-color: #fff;
     border: 1px solid #ccc;
+
     img {
         width: 60%;
         height: auto;
@@ -179,7 +186,8 @@
     margin: 0 -20px -30px -20px;
 }
 
-.prev-button, .next-button {
+.prev-button,
+.next-button {
     background-color: #333;
     color: #fff;
     padding: 10px 20px;
@@ -189,6 +197,24 @@
     transition: background-color 0.3s;
 }
 
-.prev-button:hover, .next-button:hover {
+.prev-button:hover,
+.next-button:hover {
     background-color: #555;
+}
+
+@media screen and (max-width: 845px) {
+    .LeftContainer {
+        width: 100%;
+    }
+
+    .RightContainer {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .parking-spot {
+        width: 40px;
+        height: 75px;
+    }
 }
