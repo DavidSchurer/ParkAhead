@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from './firebase';
-import { updatePassword, updateEmail } from 'firebase/auth';
-import { collection, addDoc, doc, setDoc, getDoc, query, where, getDocs, deleteDoc } from 'firebase/firestore';
+import { updatePassword, updateEmail, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification } from 'firebase/auth';
+import { collection, addDoc, doc, setDoc, getDoc, query, where, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
 import styles from './HomePage.module.css'; // Reusing the same CSS file
 
 const Settings = () => {
     const [userEmail, setUserEmail] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [currentEmail, setCurrentEmail] = useState('');
     const [password, setPassword] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [vehicle, setVehicle] = useState({ make: '', model: '', color: '', type: '', year: '', licensePlate: '' });
@@ -22,6 +24,7 @@ const Settings = () => {
             const user = auth.currentUser;
             if (user) {
                 setUserEmail(user.email);
+                setCurrentEmail(user.email);
             }
         };
 
@@ -75,20 +78,71 @@ const Settings = () => {
         }
     };
 
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
     const handleEmailChange = async (e) => {
         e.preventDefault();
+    
+        const attemptUpdateEmailLoop = async () => {
+            const user = auth.currentUser;
+            try{
+                if (user) {
+                    await updateEmail(user, newEmail);
+                    alert('Email updated successfully.');
+                    setCurrentPassword(''); // Clear the current password field
+                    setNewEmail('');
+                }
+            } catch (error) {
+                if(error.code === 'auth/too-many-requests' || error.code === 'auth/operation-not-allowed') {
+                    await delay(5000);
+                    await attemptUpdateEmailLoop();
+                } else {
+                    console.error('Error updating email:', error);
+                    alert(error.message || 'Failed to update email. Please try again.');
+                }
+            }
+        };
+    
         try {
             const user = auth.currentUser;
             if (user) {
-                await updateEmail(user, newEmail);
-                await setDoc(doc(db, 'users', user.uid), { email: newEmail }, { merge: true });
-                setUserEmail(newEmail);
-                setNewEmail('');
-                alert('Email updated successfully.');
+                // Reauthenticate the user
+                await reauthenticate(currentPassword);
+    
+                // Update the email
+                await sendEmailVerification(user);
+                alert('Please verify your current email.');
+                
+                // Attempt to update the email
+                await attemptUpdateEmailLoop();
             }
         } catch (error) {
-            console.error('Error updating email:', error);
-            alert('Failed to update email. Please try again.');
+            if (error.code === 'auth/too-many-requests') {
+                await delay(5000);
+                await handleEmailChange(e);
+            } else {
+                console.error('Error updating email:', error);
+                alert(error.message || 'Failed to update email. Please try again.');
+            }
+        }
+    };
+
+    const reauthenticate = async (password) => {
+        const user = auth.currentUser;
+        if (!user) {
+            throw new Error('No user is currently signed in.');
+        }
+    
+        if (!password) {
+            throw new Error('Current password is required for reauthentication.');
+        }
+    
+        const credential = EmailAuthProvider.credential(user.email, password);
+        try {
+            await reauthenticateWithCredential(user, credential);
+        } catch (error) {
+            console.error('Error reauthenticating:', error);
+            throw new Error('Reauthentication failed. Please check your current password.');
         }
     };
 
@@ -136,6 +190,41 @@ const Settings = () => {
         }
     };
 
+    const updateUserData = async (newEmail) => {
+        const user = auth.currentUser;
+        if (user) {
+            try {
+                await setDoc(doc(db, 'users', user.uid), {
+                    email: newEmail,
+                });
+
+                const vehiclesQuery = query(
+                    collection(db, 'vehicles'),
+                    where('userEmail', '==', user.email)
+                );
+                const querySnapshot = await getDocs(vehiclesQuery);
+                for (const doc of querySnapshot.docs) {
+                    await updateDoc(doc.ref, { userEmail: newEmail });
+                }
+
+                const reservationsQuery = query(
+                    collection(db, 'reservations'),
+                    where('userEmail', '==', user.email)
+                );
+                const reservationSnapshot = await getDocs(reservationsQuery);
+                for (const doc of reservationSnapshot.docs) {
+                    await updateDoc(doc.ref, { userEmail: newEmail });
+                }
+
+                setUserEmail(newEmail);
+
+                window.location.reload();
+            } catch (error) {
+                console.error('Error updating user data:', error);
+            }
+        }
+    };
+
     return (
         <div className={styles.homeContainer}>
             <div className={styles.header}>
@@ -155,6 +244,7 @@ const Settings = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
+                            <p>Password must be at least 6 characters long.</p>
                         </div>
                         <button type="submit" className={styles.actionButton}>
                             Update Password
@@ -164,6 +254,15 @@ const Settings = () => {
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2>Update Email</h2>
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label>Current Password:</label>
+                        <input
+                            type="password"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                            required
+                        />
                     </div>
                     <div className={styles.formGroup}>
                         <label>Current Email:</label>
