@@ -223,11 +223,10 @@ const Settings = () => {
                 <h1>Settings</h1>
             </div>
             <div className={styles.sectionContainer}>
-                <div className={styles.section}>
+                <form className={styles.section} onSubmit={handlePasswordChange}>
                     <div className={styles.sectionHeader}>
                         <h2>Change Password</h2>
                     </div>
-                    <form onSubmit={handlePasswordChange}>
                         <div className={styles.formGroup}>
                             <label>New Password:</label>
                             <input
@@ -243,8 +242,7 @@ const Settings = () => {
                                 Update Password
                             </button>
                         </div>
-                    </form>
-                </div>
+                </form>
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2>Update Email</h2>

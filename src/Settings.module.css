@@ -123,19 +123,21 @@
 
 .buttonContainer {
     display: flex;
-    justify-content: flex-start;
+    flex: 1 0 auto;
+    justify-content: flex-end;
+    align-items: flex-end;
     gap: 10px;
     margin-top: 20px;
 }
 
 .actionButton {
-    flex: 0 1 auto;
     padding: 10px;
     background-color: #333;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 100%;
     transition: background-color 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
