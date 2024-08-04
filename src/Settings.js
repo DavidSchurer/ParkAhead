@@ -354,11 +354,10 @@ const Settings = () => {
                         </ul>
                     </div>
                 </div>
-                <div className={styles.section}>
+                <form className={styles.section} onSubmit={handleProfileUpdate}>
                     <div className={styles.sectionHeader}>
                         <h2>Profile Settings</h2>
                     </div>
-                    <form onSubmit={handleProfileUpdate}>
                         <div className={styles.formGroup}>
                             <label>Year:</label>
                             <input
@@ -400,8 +399,7 @@ const Settings = () => {
                                 Update Profile
                             </button>
                         </div>
-                    </form>
-                </div>
+                </form>
             </div>
           </div>
         </div>
