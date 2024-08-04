@@ -85,38 +85,21 @@ const Settings = () => {
     const handleEmailChange = async (e) => {
         e.preventDefault();
     
-        const attemptUpdateEmailLoop = async () => {
-            const user = auth.currentUser;
-            try{
-                if (user) {
-                    await updateEmail(user, newEmail);
-                    alert('Email updated successfully.');
-                    setCurrentPassword(''); // Clear the current password field
-                    setNewEmail('');
-                }
-            } catch (error) {
-                if(error.code === 'auth/too-many-requests' || error.code === 'auth/operation-not-allowed') {
-                    await delay(5000);
-                    await attemptUpdateEmailLoop();
-                } else {
-                    console.error('Error updating email:', error);
-                    alert(error.message || 'Failed to update email. Please try again.');
-                }
-            }
-        };
-    
         try {
             const user = auth.currentUser;
             if (user) {
                 // Reauthenticate the user
                 await reauthenticate(currentPassword);
+
+                await updateUserData(newEmail);
     
                 // Update the email
-                await sendEmailVerification(user);
-                alert('Please verify your current email.');
-                
-                // Attempt to update the email
-                await attemptUpdateEmailLoop();
+                await updateEmail(user, newEmail);
+    
+                alert('Email updated successfully.');
+                setCurrentPassword(''); // Clear the current password field
+                setNewEmail('');
+                setCurrentEmail(newEmail);
             }
         } catch (error) {
             if (error.code === 'auth/too-many-requests') {
@@ -194,9 +177,17 @@ const Settings = () => {
 
     const updateUserData = async (newEmail) => {
         const user = auth.currentUser;
+        console.log(user);
         if (user) {
             try {
-                await setDoc(doc(db, 'users', user.uid), {
+                const firstUserQuery = query(
+                    collection(db, 'users'),
+                    where('email', '==', user.email),
+                )
+                const userDocs = await getDocs(firstUserQuery);
+                const userDoc = userDocs.docs[0];
+                const userDocRef = doc(db, 'users', userDoc.id);
+                await updateDoc(userDocRef, {
                     email: newEmail,
                 });
 
@@ -219,10 +210,8 @@ const Settings = () => {
                 }
 
                 setUserEmail(newEmail);
-
-                window.location.reload();
             } catch (error) {
-                console.error('Error updating user data:', error);
+                console.error('Error updating user data:', error.stack);
             }
         }
     };
