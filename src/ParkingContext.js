@@ -14,6 +14,7 @@ export const ParkingProvider = ({ children }) => {
     const [bookingName, setBookingName] = useState('');
     const [reservationId, setReservationId] = useState(null);
     const [selectedLevel, setSelectedLevel] = useState('');
+    const [headerEmail, setHeaderEmail] = useState('');
     return (
         <ParkingContext.Provider
             value={{
@@ -36,7 +37,9 @@ export const ParkingProvider = ({ children }) => {
                 reservationId,
                 setReservationId,
                 selectedLevel,
-                setSelectedLevel
+                setSelectedLevel,
+                headerEmail,
+                setHeaderEmail
             }}
         >
             {children}

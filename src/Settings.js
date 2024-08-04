@@ -3,8 +3,10 @@ import { auth, db } from './firebase';
 import { updatePassword, updateEmail, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification } from 'firebase/auth';
 import { collection, addDoc, doc, setDoc, getDoc, query, where, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
 import styles from './Settings.module.css'; // Reusing the same CSS file
+import { useParkingContext } from './ParkingContext';
 
 const Settings = () => {
+    const {setHeaderEmail} = useParkingContext();
     const [userEmail, setUserEmail] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [currentEmail, setCurrentEmail] = useState('');
@@ -100,6 +102,7 @@ const Settings = () => {
                 setCurrentPassword(''); // Clear the current password field
                 setNewEmail('');
                 setCurrentEmail(newEmail);
+                setHeaderEmail(newEmail);
             }
         } catch (error) {
             if (error.code === 'auth/too-many-requests') {

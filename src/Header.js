@@ -10,16 +10,15 @@ import { useParkingContext } from './ParkingContext';
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
-    const { reservations } = useParkingContext();
+    const { reservations, headerEmail, setHeaderEmail } = useParkingContext();
     const [showPopup, setShowPopup] = useState(false);
     const [numReservations, setNumReservations] = useState(0);
-    const [userEmail, setUserEmail] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
 
     useEffect(() => {
         const unsubscribeAuth = auth.onAuthStateChanged((user) => {
             if (user) {
-                setUserEmail(user.email);
+                setHeaderEmail(user.email);
                 const q = query(collection(db, 'reservations'), where('userEmail', '==', user.email));
                 const unsubscribeReservations = onSnapshot(q, (querySnapshot) => {
                     setNumReservations(querySnapshot.size);
@@ -29,7 +28,7 @@ function Header() {
                   return () => unsubscribeReservations();
                     
                 } else {
-                    setUserEmail('');
+                    setHeaderEmail('');
                     setNumReservations(0);
                 }
             });
@@ -81,7 +80,7 @@ function Header() {
                         <li><Link to="/Settings">Settings</Link></li>
                     </ul>
                     <div className="dropdown-footer">
-                        <span><strong>User:</strong> <strong>{userEmail}</strong></span>
+                        <span><strong>User:</strong> <strong>{headerEmail}</strong></span>
                         <button className="logout-button" onClick={handleLogoutClick}><strong>Log Out</strong></button>
                     </div>
                 </div>
