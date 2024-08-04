@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { auth, db } from './firebase';
 import { updatePassword, updateEmail, reauthenticateWithCredential, EmailAuthProvider, sendEmailVerification } from 'firebase/auth';
 import { collection, addDoc, doc, setDoc, getDoc, query, where, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
-import styles from './HomePage.module.css'; // Reusing the same CSS file
+import styles from './Settings.module.css'; // Reusing the same CSS file
 
 const Settings = () => {
     const [userEmail, setUserEmail] = useState('');
@@ -18,6 +18,8 @@ const Settings = () => {
     const [studentId, setStudentId] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+
+    const [expandedSection, setExpandedSection] = useState(null);
 
     useEffect(() => {
         const fetchUserEmail = () => {
@@ -227,6 +229,7 @@ const Settings = () => {
 
     return (
         <div className={styles.homeContainer}>
+          <div className={styles.settingsBox}>
             <div className={styles.header}>
                 <h1>Settings</h1>
             </div>
@@ -246,9 +249,11 @@ const Settings = () => {
                             />
                             <p>Password must be at least 6 characters long.</p>
                         </div>
-                        <button type="submit" className={styles.actionButton}>
-                            Update Password
-                        </button>
+                        <div className={styles.buttonContainer}>
+                            <button type="submit" className={styles.actionButton}>
+                                Update Password
+                            </button>
+                        </div>
                     </form>
                 </div>
                 <div className={styles.section}>
@@ -278,9 +283,11 @@ const Settings = () => {
                                 required
                             />
                         </div>
-                        <button type="submit" className={styles.actionButton}>
-                            Update Email
-                        </button>
+                        <div className={styles.buttonContainer}>
+                            <button type="submit" className={styles.actionButton}>
+                                Update Email
+                            </button>
+                        </div>
                     </form>
                 </div>
                 <div className={styles.section}>
@@ -342,9 +349,11 @@ const Settings = () => {
                                 required
                             />
                         </div>
-                        <button type="submit" className={styles.actionButton}>
-                            Add Vehicle
-                        </button>
+                        <div className={styles.buttonContainer}>
+                            <button type="submit" className={styles.actionButton}>
+                                Add Vehicle
+                            </button>
+                        </div>
                     </form>
                     <div>
                         <h3>Your Vehicles</h3>
@@ -399,12 +408,15 @@ const Settings = () => {
                                 required
                             />
                         </div>
-                        <button type="submit" className={styles.actionButton}>
-                            Update Profile
-                        </button>
+                        <div className={styles.buttonContainer}>
+                            <button type="submit" className={styles.actionButton}>
+                                Update Profile
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
+          </div>
         </div>
     );
 };
