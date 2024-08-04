@@ -16,6 +16,8 @@ const ManageParking = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [open, setOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [reservationToDelete, setReservationToDelete] = useState(null);
 
     useEffect(() => {
         const fetchUserEmail = () => {
@@ -65,14 +67,29 @@ const ManageParking = () => {
         fetchReservations();
     }, []);
 
-    const handleDelete = async (reservationId) => {
+    const handleDelete = (reservationId) => {
+        setReservationToDelete(reservationId);
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
         try {
-            await deleteDoc(doc(db, 'reservations', reservationId));
-            setReservations(reservations.filter(reservation => reservation.id !== reservationId));
+            if (reservationToDelete) {
+                await deleteDoc(doc(db, 'reservations', reservationToDelete));
+                setReservations(reservations.filter(reservation => reservation.id !== reservationToDelete));
+                setReservationToDelete(null);
+            }
         } catch (error) {
             console.error('Error deleting reservation:', error);
+        } finally {
+            setDeleteDialogOpen(false);
         }
     };
+
+    const handleCloseDeleteDialog = () => {
+        setReservationToDelete(null);
+        setDeleteDialogOpen(false);
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -224,6 +241,16 @@ const ManageParking = () => {
                             </Dialog>
                         </div>
                     </div>
+                    <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+                        <DialogTitle>Confirm Deletion</DialogTitle>
+                        <DialogContent>
+                            <p>Are you sure you want to delete this reservation?</p>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDeleteDialog} color="primary">No</Button>
+                            <Button onClick={handleConfirmDelete} color="primary" autoFocus>Yes</Button>
+                        </DialogActions>
+                    </Dialog>
                     <div className={styles.tableContainer}>
                         <table className={styles.confirmedTable}>
                             <thead>
