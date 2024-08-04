@@ -14,6 +14,7 @@ function Header() {
     const [showPopup, setShowPopup] = useState(false);
     const [numReservations, setNumReservations] = useState(0);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [showNoReservationAlert, setShowNoReservationAlert] = useState(false);
 
     useEffect(() => {
         const unsubscribeAuth = auth.onAuthStateChanged((user) => {
@@ -49,6 +50,15 @@ function Header() {
         }
     };
 
+    const handleArrivalClick = (event) => {
+        event.preventDefault();
+        if (numReservations === 0) {
+            setShowNoReservationAlert(true);
+        } else if (numReservations > 0) {
+            navigate('/ArrivalConfirmation');
+        }
+    };
+
     const handleLogoutClick = () => {
         auth.signOut().then(() => {
             navigate('/Login');
@@ -58,6 +68,7 @@ function Header() {
     };
 
     const popupMessage = "You already have a spot reserved, you cannot reserve another spot until you cancel your current reservation or the current reservation has ended";
+    const noReservationAlertMessage = "You have not made a reservation.";
 
     const hideDropDown = location.pathname === '/Login' || location.pathname === '/CreateAccount' || location.pathname === '/' || location.pathname === '/ConfirmationPage';
 
@@ -75,7 +86,7 @@ function Header() {
                     <ul>
                         <li><Link to="/HomePage">Home</Link></li>
                         <li><Link to="/ReserveParkingSpace" onClick={handleReservationClick}>Reserve Parking Space</Link></li>
-                        <li><Link to="/ArrivalConfirmation">Arrival Confirmation</Link></li>
+                        <li><Link to="/ArrivalConfirmation" onClick={handleArrivalClick}>Arrival Confirmation</Link></li>
                         <li><Link to="/ManageParking">Confirmed Parking Reservations</Link></li>
                         <li><Link to="/Settings">Settings</Link></li>
                     </ul>
@@ -92,6 +103,15 @@ function Header() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setShowPopup(false)}>OK</Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={showNoReservationAlert} onClose={() => setShowNoReservationAlert(false)}>
+                <DialogTitle>No Reservation</DialogTitle>
+                <DialogContent>
+                    <p>{noReservationAlertMessage}</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowNoReservationAlert(false)}>OK</Button>
                 </DialogActions>
             </Dialog>
         </div>
