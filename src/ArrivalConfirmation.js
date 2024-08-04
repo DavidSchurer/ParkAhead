@@ -257,7 +257,7 @@ const ArrivalConfirmation = () => {
                   Confirm Arrival
                 </button>
                 <button className={styles.extendButton} onClick={() => extendsReservation(reservation.id)} disabled={reservation.reservationExtended}>
-                  Extend Reservation
+                  Extend Confirmation Time
                 </button>
               </div>
             </div>
