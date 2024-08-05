@@ -110,7 +110,7 @@
 }
 
 /* Mobile Styles */
-@media (max-width: 768px) {
+@media (max-width: 771px) {
     .sectionContainer {
         transform: scale(0.83); /* Zoom out effect for mobile */
     }
