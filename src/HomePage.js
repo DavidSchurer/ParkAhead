@@ -3,12 +3,12 @@ import { db, auth } from './firebase';
 import { collection, getDocs, query, where, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
-import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Button} from '@mui/material';
+import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 
-const displayTimeSlot = booking=>{
-    if(booking.startTime==='07:00 AM' && booking.endTime==='11:00 PM'){
+const displayTimeSlot = booking => {
+    if (booking.startTime === '07:00 AM' && booking.endTime === '11:00 PM') {
         return 'All Day';
-    }else{
+    } else {
         return `${booking.startTime} - ${booking.endTime}`
     }
 }
@@ -145,6 +145,7 @@ const HomePage = () => {
 
     return (
         <div className={styles.homeContainer}>
+            <div className={styles.homeBox}>
             <div className={styles.header}>
                 <h1>Welcome To ParkAhead: A UW Bothell Parking Reservation System!</h1>
                 <p>Select an option below to navigate through the system.</p>
@@ -153,7 +154,6 @@ const HomePage = () => {
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2>Vehicles</h2>
-                        <button className={styles.actionButton} onClick={() => handleNavigation('/AddVehicle')}>+ Add</button>
                     </div>
                     <table className={styles.table}>
                         <thead>
@@ -185,45 +185,14 @@ const HomePage = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
-                <div className={styles.section}>
-                    <div className={styles.sectionHeader}>
-                        <h2>Permits</h2>
-                        <button className={styles.actionButton} onClick={() => handleNavigation('/purchase-permit')}>+ Purchase</button>
-                    </div>
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <th>Permit ID</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>12345</td>
-                                <td>Automobile</td>
-                                <td>Active</td>
-                            </tr>
-                            <tr>
-                                <td>67890</td>
-                                <td>Motorcycle</td>
-                                <td>Expired</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <button className={styles.actionButton} onClick={() => handleNavigation('/AddVehicle')}>Add Vehicle</button>
                 </div>
             </div>
+
             <div className={styles.sectionContainer}>
                 <div className={styles.section}>
                     <div className={styles.sectionHeader}>
                         <h2>Reservations</h2>
-                        <button 
-                            className={styles.actionButton} 
-                            onClick={handleReservationClick}
-                        >
-                            + Reserve
-                        </button>
                     </div>
                     <table className={styles.table}>
                         <thead>
@@ -255,16 +224,38 @@ const HomePage = () => {
                             ))}
                         </tbody>
                     </table>
+                    <button
+                            className={styles.actionButton}
+                            onClick={handleReservationClick}
+                        >
+                            Add Reservation
+                        </button>
                 </div>
-                <div className={styles.userInfo}>
-                    <h3>{`${profile.firstName} ${profile.lastName}`}</h3>
-                    <p>Bothell Student</p>
-                    <p>Year: {profile.year}</p>
-                    <p>Student ID: {profile.studentId}</p>
-                    <p>Balance Due: <span className={styles.balance}>$0.00</span></p>
-                    <p>View Transaction History</p>
-                    <button className={styles.editButton} onClick={() => navigate('/settings')}>Edit</button>
+
+                <div className={styles.section}>
+                    <div className={styles.sectionHeader}>
+                        <h2>Profile</h2>
+                    </div>
+                    <div className={styles.profileInfo}>
+                        <h3>{`${profile.firstName} ${profile.lastName}`}</h3>
+                        <p>Bothell Student</p>
+                        <p>Year: {profile.year}</p>
+                        <p>Student ID: {profile.studentId}</p>
+                        <p>Balance Due: <span className={styles.balance}>$0.00</span></p>
+                        <p>View Transaction History</p>
+                        <button className={styles.editButton} onClick={() => navigate('/settings')}>Edit</button>
+                    </div>
                 </div>
+                <Dialog open={dialogOpen} onClose={cancelDelete}>
+                    <DialogTitle>Confirm Deletion</DialogTitle>
+                    <DialogContent>
+                        <p>Are you sure you want to delete this {itemType}?</p>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={cancelDelete}>Cancel</Button>
+                        <Button onClick={confirmDelete} color="primary">Confirm</Button>
+                    </DialogActions>
+                </Dialog>
             </div>
 
             <Dialog open={dialogOpen} onClose={cancelDelete}>
@@ -276,7 +267,8 @@ const HomePage = () => {
                     <Button onClick={cancelDelete}>Cancel</Button>
                     <Button onClick={confirmDelete} color="primary">Confirm</Button>
                 </DialogActions>
-            </Dialog>                 
+            </Dialog>
+            </div>
         </div>
     );
 };
