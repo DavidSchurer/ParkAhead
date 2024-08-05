@@ -3,7 +3,7 @@ import { db, auth } from './firebase';
 import { collection, getDocs, query, where, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
-import { IconButton } from '@mui/material';
+import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Button} from '@mui/material';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -11,6 +11,9 @@ const HomePage = () => {
     const [userEmail, setUserEmail] = useState('');
     const [reservations, setReservations] = useState([]);
     const [profile, setProfile] = useState({ firstName: '', lastName: '', year: '', studentId: '' });
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const [itemType, setItemType] = useState('');
 
     const fetchUserEmail = async () => {
         const user = auth.currentUser;
@@ -96,22 +99,40 @@ const HomePage = () => {
         navigate(path);
     };
 
-    const handleDeleteVehicle = async (vehicleId) => {
+    const handleDeleteVehicle = (vehicleId) => {
+        setItemToDelete(vehicleId);
+        setItemType('vehicle');
+        setDialogOpen(true);
+    }
+
+    const handleDeleteReservation = (reservationId) => {
+        setItemToDelete(reservationId);
+        setItemType('reservation');
+        setDialogOpen(true);
+    }
+
+    const confirmDelete = async () => {
         try {
-            await deleteDoc(doc(db, 'vehicles', vehicleId));
-            setVehicles(vehicles.filter(vehicle => vehicle.id !== vehicleId));
+            if (itemType === 'vehicle') {
+                await deleteDoc(doc(db, 'vehicles', itemToDelete));
+                setVehicles(vehicles.filter(vehicle => vehicle.id !== itemToDelete));
+            } else if (itemType === 'reservation') {
+                await deleteDoc(doc(db, 'reservations', itemToDelete));
+                setReservations(reservations.filter(reservation => reservation.id !== itemToDelete));
+            }
         } catch (error) {
-            console.error('Error deleting vehicle:', error);
+            console.error('Error deleting item:', error);
+        } finally {
+            setDialogOpen(false);
+            setItemToDelete(null);
+            setItemType('');
         }
     };
 
-    const handleDeleteReservation = async (reservationId) => {
-        try {
-            await deleteDoc(doc(db, 'reservations', reservationId));
-            setReservations(reservations.filter(reservation => reservation.id !== reservationId));
-        } catch (error) {
-            console.error('Error deleting reservation:', error);
-        }
+    const cancelDelete = () => {
+        setDialogOpen(false);
+        setItemToDelete(null);
+        setItemType('');
     };
 
     return (
@@ -237,6 +258,17 @@ const HomePage = () => {
                     <button className={styles.editButton} onClick={() => navigate('/settings')}>Edit</button>
                 </div>
             </div>
+
+            <Dialog open={dialogOpen} onClose={cancelDelete}>
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogContent>
+                    <p>Are you sure you want to delete this {itemType}?</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={cancelDelete}>Cancel</Button>
+                    <Button onClick={confirmDelete} color="primary">Confirm</Button>
+                </DialogActions>
+            </Dialog>                 
         </div>
     );
 };

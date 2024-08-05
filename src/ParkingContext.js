@@ -10,7 +10,11 @@ export const ParkingProvider = ({ children }) => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedParkingLot, setSelectedParkingLot] = useState('');
     const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(()=>{
+        const date = new Date();
+        date.setHours(0, 0, 0, 0);
+        return date
+    });
     const [bookingName, setBookingName] = useState('');
     const [reservationId, setReservationId] = useState(null);
     const [selectedLevel, setSelectedLevel] = useState('');

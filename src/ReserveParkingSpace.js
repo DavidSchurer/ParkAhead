@@ -19,6 +19,12 @@ function ReserveParkingSpace() {
     const [timeSlots, setTimeSlots] = useState([]);
     const [isAllDay, setIsAllDay] = useState(false);
 
+    const [todaysDate, setTodaysDate] = useState(()=>{
+        const date = new Date();
+        date.setHours(0, 0, 0, 0);
+        return date
+    });
+
     useEffect(() => {
         const fetchUserEmail = async () => {
             const user = auth.currentUser;
@@ -72,6 +78,12 @@ function ReserveParkingSpace() {
         const selectedDuration = event.target.value;
         setDuration(selectedDuration);
         setIsAllDay(selectedDuration === 'All Day');
+    
+        if(selectedDuration==='All Day'){
+            setSelectedTimeSlot('07:00 AM - 11:00 PM');
+        }else{
+            setSelectedTimeSlot('');
+        }
     };
 
     const handleNextClick = async () => {
@@ -174,6 +186,17 @@ function ReserveParkingSpace() {
         return slots;
     };
 
+    const reservingForToday = todaysDate?.getTime()===selectedDate?.getTime();
+
+    useEffect(()=>{
+
+        if(reservingForToday && duration === 'All Day'){
+            setDuration('2 Hours');
+            setIsAllDay(false);
+        }
+
+    }, [reservingForToday]);
+
     return (
         <>
             <div className="MainContainer">
@@ -219,7 +242,10 @@ function ReserveParkingSpace() {
                         <h4>3) Select Date:</h4>
                         <DatePicker
                             selected={selectedDate}
-                            onChange={(date) => setSelectedDate(date)}
+                            onChange={(date) => {
+                                date.setHours(0, 0, 0, 0);
+                                setSelectedDate(date)
+                            }}
                             dateFormat="MMMM d, yyyy"
                             minDate={new Date()}
                             inline
@@ -244,7 +270,7 @@ function ReserveParkingSpace() {
                                 </MenuItem>
                                 <MenuItem value="2 Hours">2 Hours</MenuItem>
                                 <MenuItem value="4 Hours">4 Hours</MenuItem>
-                                <MenuItem value="All Day">All Day</MenuItem>
+                                <MenuItem value="All Day" disabled={reservingForToday}>{'All Day' + (reservingForToday ? ' - Must Be Reservved At Least A Day In Advance' : '')}</MenuItem>
                             </Select>
                         </FormControl>
                         {!isAllDay && (
