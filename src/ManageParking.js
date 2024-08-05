@@ -6,6 +6,13 @@ import { collection, getDocs, query, where, deleteDoc, doc } from 'firebase/fire
 import { Timestamp } from 'firebase/firestore';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, IconButton } from '@mui/material';
 
+const displayTimeSlot = booking=>{
+    if(booking.startTime==='07:00 AM' && booking.endTime==='11:00 PM'){
+        return 'All Day';
+    }else{
+        return `${booking.startTime} - ${booking.endTime}`
+    }
+}
 
 const ManageParking = () => {
     const { reservations, setReservations } = useParkingContext();
@@ -272,7 +279,7 @@ const ManageParking = () => {
                                         <td>{booking.spot}</td>
                                         <td>{booking.level}</td>
                                         <td>{booking.date.toDate().toLocaleDateString()}</td>
-                                        <td>{booking.startTime} - {booking.endTime}</td>
+                                        <td>{displayTimeSlot(booking)}</td>
                                         <td>{booking.category}</td>
                                     </tr>
                                 ))}

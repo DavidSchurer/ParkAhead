@@ -10,7 +10,7 @@ import { auth, db } from './firebase';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 
 function ReserveParkingSpace() {
-    const { selectedTimeSlot, selectedDate, setSelectedDate, setSelectedTimeSlot, selectedOption, setSelectedOption, selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName, setReservationId } = useParkingContext();
+    const { setStartTime, setEndTime, selectedTimeSlot, selectedDate, setSelectedDate, setSelectedTimeSlot, selectedOption, setSelectedOption, selectedParkingLot, setSelectedParkingLot, reservation, setReservations, bookingName, setBookingName, setReservationId } = useParkingContext();
 
     const navigate = useNavigate();
     const [userEmail, setUserEmail] = useState('');
@@ -78,7 +78,7 @@ function ReserveParkingSpace() {
         const selectedDuration = event.target.value;
         setDuration(selectedDuration);
         setIsAllDay(selectedDuration === 'All Day');
-    
+
         if(selectedDuration==='All Day'){
             setSelectedTimeSlot('07:00 AM - 11:00 PM');
         }else{
@@ -92,23 +92,7 @@ function ReserveParkingSpace() {
             return;
         }
 
-        const [startTime, endTime] = selectedTimeSlot ? selectedTimeSlot.split(' - ') : [null, null];
-        const reservationDetails = {
-            date: Timestamp.fromDate(selectedDate),
-            parkingLot: selectedParkingLot,
-            startTime,
-            endTime,
-            bookingName,
-            userEmail
-        };
-
-        try {
-            const docRef = await addDoc(collection(db, 'reservations'), reservationDetails);
-            setReservationId(docRef.id);
-            navigate('/ParkingAvailability');
-        } catch (error) {
-            console.error("Error adding document: ", error);
-        }
+        navigate('/ParkingAvailability');
     };
 
     const handleLogoutClick = () => {
@@ -270,7 +254,7 @@ function ReserveParkingSpace() {
                                 </MenuItem>
                                 <MenuItem value="2 Hours">2 Hours</MenuItem>
                                 <MenuItem value="4 Hours">4 Hours</MenuItem>
-                                <MenuItem value="All Day" disabled={reservingForToday}>{'All Day' + (reservingForToday ? ' - Must Be Reservved At Least A Day In Advance' : '')}</MenuItem>
+                                <MenuItem value="All Day" disabled={reservingForToday}>{'All Day (7:00 AM - 11:00 PM)' + (reservingForToday ? ' - Must Be Reserved At Least A Day In Advance' : '')}</MenuItem>
                             </Select>
                         </FormControl>
                         {!isAllDay && (

@@ -5,7 +5,7 @@ import MyGoogleMap from './MyGoogleMap';
 import { useNavigate } from 'react-router-dom';
 import { useParkingContext } from './ParkingContext';
 import { auth, db } from './firebase';
-import { doc, updateDoc, collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
+import { doc, updateDoc, collection, getDocs, query, where, Timestamp, addDoc } from 'firebase/firestore';
 import uwbMap from './uwbmap.png';
 
 function ParkingAvailability() {
@@ -32,14 +32,18 @@ function ParkingAvailability() {
         startTime, 
         endTime, 
         reservation,
-        reservationId, 
+        reservationId,
+        setReservationId, 
         selectedSpot, 
         setSelectedSpot, 
         selectedCategory, 
         setSelectedCategory,
+        reservations,
         setReservations,
         selectedDate,
-        selectedTimeSlot
+        selectedTimeSlot,
+        headerEmail,
+        bookingName
     } = useParkingContext();
 
     const [level, setLevel] = useState('');
@@ -177,22 +181,32 @@ function ParkingAvailability() {
     };
 
     const handleNextClick = async () => {
-        if (selectedSpot && selectedCategory && reservationId && level) {
-            const reservationDoc = doc(db, 'reservations', reservationId);
-            try {
-                await updateDoc(reservationDoc, {
-                    spot: selectedSpot,
-                    category: selectedCategory,
-                    level: level,
-                });
+        if (selectedSpot && selectedCategory && level) {
 
-                setReservations(prevReservations =>
-                    prevReservations.map(res =>
-                        res.id === reservationId
-                            ? { ...res, spot: selectedSpot, category: selectedCategory, level: level }
-                            : res
-                    )
-                );
+            const [startTime, endTime] = selectedTimeSlot ? selectedTimeSlot.split(' - ') : [null, null];
+            
+            const reservationDetails = {
+                date: Timestamp.fromDate(selectedDate),
+                parkingLot: selectedParkingLot,
+                startTime,
+                endTime,
+                bookingName,
+                userEmail: headerEmail,
+                spot: selectedSpot,
+                category: selectedCategory,
+                level: level
+            }
+            
+            try {
+                const docRef = await addDoc(collection(db, 'reservations'), reservationDetails);
+
+                setReservationId(docRef.id);
+
+                setReservations([...reservations, {
+                    id: docRef.id,
+                    ...reservationDetails
+                }]);
+
                 navigate('/ConfirmationPage');
             } catch (error) {
                 console.log('Error updating document: ', error);

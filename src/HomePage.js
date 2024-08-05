@@ -5,6 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Button} from '@mui/material';
 
+const displayTimeSlot = booking=>{
+    if(booking.startTime==='07:00 AM' && booking.endTime==='11:00 PM'){
+        return 'All Day';
+    }else{
+        return `${booking.startTime} - ${booking.endTime}`
+    }
+}
+
 const HomePage = () => {
     const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
@@ -237,7 +245,7 @@ const HomePage = () => {
                                     <td>{reservation.spot}</td>
                                     <td>{reservation.level}</td>
                                     <td>{reservation.date ? reservation.date.toLocaleDateString() : 'N/A'}</td>
-                                    <td>{reservation.startTime} - {reservation.endTime}</td>
+                                    <td>{displayTimeSlot(reservation)}</td>
                                     <td>
                                         <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteReservation(reservation.id)}>
                                             ❌
