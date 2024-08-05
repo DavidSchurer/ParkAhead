@@ -239,7 +239,7 @@ const HomePage = () => {
                     <div className={styles.profileInfo}>
                         <h3>{`${profile.firstName} ${profile.lastName}`}</h3>
                         <p>Bothell Student</p>
-                        <p>Year: {profile.year}</p>
+                        <p>Graduation Year: {profile.year}</p>
                         <p>Student ID: {profile.studentId}</p>
                         <p>Balance Due: <span className={styles.balance}>$0.00</span></p>
                         <p>View Transaction History</p>
