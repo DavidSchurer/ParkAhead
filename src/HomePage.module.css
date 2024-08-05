@@ -88,6 +88,7 @@
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
+    word-wrap: break-word;
 }
 
 .table th {
@@ -114,12 +115,37 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-@media screen and (max-width: 580px) {
-    .LeftContainer {
-        width: 100%;
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .sectionContainer {
+        flex-direction: column;
+        align-items: stretch; /* Ensure sections stretch to full width */
     }
 
-    .RightContainer {
-        display: none;
+    .section {
+        width: 100%; /* Ensure sections take full width */
+        min-width: 0; /* Allow sections to shrink as needed */
+    }
+
+    .header {
+        font-size: 1.2em; /* Adjust font size for smaller screens */
+    }
+
+    .sectionHeader h2 {
+        font-size: 1.2em; /* Adjust header font size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        font-size: 1em; /* Further adjust font size for very small screens */
+    }
+
+    .sectionHeader h2 {
+        font-size: 1em; /* Further adjust section header font size */
+    }
+
+    .profileInfo {
+        align-items: center; /* Center align profile info on very small screens */
     }
 }
