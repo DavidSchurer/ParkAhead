@@ -114,8 +114,12 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-@media screen and (max-width: 720px){
-    .sectionContainer {
-      grid-template-columns: repeat(1, 1fr);
+@media screen and (max-width: 580px) {
+    .LeftContainer {
+        width: 100%;
     }
-  }
+
+    .RightContainer {
+        display: none;
+    }
+}
