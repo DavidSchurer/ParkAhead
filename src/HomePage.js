@@ -145,7 +145,6 @@ const HomePage = () => {
 
     return (
         <div className={styles.homeContainer}>
-            <div className={styles.homeBox}>
             <div className={styles.header}>
                 <h1>Welcome To ParkAhead: A UW Bothell Parking Reservation System!</h1>
                 <p>Select an option below to navigate through the system.</p>
@@ -155,36 +154,38 @@ const HomePage = () => {
                     <div className={styles.sectionHeader}>
                         <h2>Vehicles</h2>
                     </div>
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <th>Vehicle Make</th>
-                                <th>Vehicle Model</th>
-                                <th>Vehicle Color</th>
-                                <th>Vehicle Type</th>
-                                <th>Vehicle Year</th>
-                                <th>License Plate</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {vehicles.map((vehicle) => (
-                                <tr key={vehicle.id}>
-                                    <td>{vehicle.make}</td>
-                                    <td>{vehicle.model}</td>
-                                    <td>{vehicle.color}</td>
-                                    <td>{vehicle.type}</td>
-                                    <td>{vehicle.year}</td>
-                                    <td>{vehicle.licensePlate}</td>
-                                    <td>
-                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteVehicle(vehicle.id)}>
-                                            ❌
-                                        </IconButton>
-                                    </td>
+                    <div className={styles.tableWrapper}>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th>Vehicle Make</th>
+                                    <th>Vehicle Model</th>
+                                    <th>Vehicle Color</th>
+                                    <th>Vehicle Type</th>
+                                    <th>Vehicle Year</th>
+                                    <th>License Plate</th>
+                                    <th>Delete</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {vehicles.map((vehicle) => (
+                                    <tr key={vehicle.id}>
+                                        <td>{vehicle.make}</td>
+                                        <td>{vehicle.model}</td>
+                                        <td>{vehicle.color}</td>
+                                        <td>{vehicle.type}</td>
+                                        <td>{vehicle.year}</td>
+                                        <td>{vehicle.licensePlate}</td>
+                                        <td>
+                                            <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteVehicle(vehicle.id)}>
+                                                ❌
+                                            </IconButton>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                     <button className={styles.actionButton} onClick={() => handleNavigation('/AddVehicle')}>Add Vehicle</button>
                 </div>
             </div>
@@ -194,36 +195,38 @@ const HomePage = () => {
                     <div className={styles.sectionHeader}>
                         <h2>Reservations</h2>
                     </div>
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Location</th>
-                                <th>Parking Spot</th>
-                                <th>Level</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reservations.map((reservation) => (
-                                <tr key={reservation.id}>
-                                    <td>{reservation.bookingName}</td>
-                                    <td>{reservation.parkingLot}</td>
-                                    <td>{reservation.spot}</td>
-                                    <td>{reservation.level}</td>
-                                    <td>{reservation.date ? reservation.date.toLocaleDateString() : 'N/A'}</td>
-                                    <td>{displayTimeSlot(reservation)}</td>
-                                    <td>
-                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteReservation(reservation.id)}>
-                                            ❌
-                                        </IconButton>
-                                    </td>
+                    <div className={styles.tableWrapper}>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Location</th>
+                                    <th>Parking Spot</th>
+                                    <th>Level</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Delete</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {reservations.map((reservation) => (
+                                    <tr key={reservation.id}>
+                                        <td>{reservation.bookingName}</td>
+                                        <td>{reservation.parkingLot}</td>
+                                        <td>{reservation.spot}</td>
+                                        <td>{reservation.level}</td>
+                                        <td>{reservation.date ? reservation.date.toLocaleDateString() : 'N/A'}</td>
+                                        <td>{displayTimeSlot(reservation)}</td>
+                                        <td>
+                                            <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteReservation(reservation.id)}>
+                                                ❌
+                                            </IconButton>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                     <button
                             className={styles.actionButton}
                             onClick={handleReservationClick}
@@ -266,7 +269,6 @@ const HomePage = () => {
                     <Button onClick={confirmDelete} color="primary">Confirm</Button>
                 </DialogActions>
             </Dialog>
-            </div>
         </div>
     );
 };
