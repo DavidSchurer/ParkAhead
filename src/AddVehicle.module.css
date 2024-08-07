@@ -12,7 +12,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 500px; 
+    max-width: 500px;
+    width: 100%; 
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
@@ -23,7 +24,8 @@
 }
 
 .welcomeHeader {
-    width: 80%;
+    max-width: 400px;
+    width: 100%;
     margin-bottom: 20px;
     padding: 10px;
     background-color: #f5f5f5;
@@ -38,7 +40,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
     margin-bottom: 20px;
 }
 
