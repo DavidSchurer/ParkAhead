@@ -139,11 +139,6 @@
 
 /* Mobile Styles */
 @media (max-width: 768px) {
-    .sectionContainer {
-       
-        /* Zoom out effect for mobile */
-    }
-
     .section {
         padding: 10px;
         margin: 0;
