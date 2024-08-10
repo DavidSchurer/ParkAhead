@@ -4,6 +4,7 @@ import { updatePassword, updateEmail, reauthenticateWithCredential, EmailAuthPro
 import { collection, addDoc, doc, setDoc, getDoc, query, where, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
 import styles from './Settings.module.css'; // Reusing the same CSS file
 import { useParkingContext } from './ParkingContext';
+import { IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 
 const Settings = () => {
     const {setHeaderEmail} = useParkingContext();
@@ -238,7 +239,7 @@ const Settings = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
-                            <p>Password must be at least 6 characters long.</p>
+                            <p className={styles.passwordRequirements}>Password must be at least 6 characters long.</p>
                         </div>
                         <div className={styles.buttonContainer}>
                             <button type="submit" className={styles.actionButton}>
@@ -251,6 +252,10 @@ const Settings = () => {
                         <h2>Update Email</h2>
                     </div>
                     <div className={styles.formGroup}>
+                        <label>Current Email:</label>
+                        <div className={styles.currentEmailBox}>{userEmail}</div>
+                    </div>
+                    <div className={styles.formGroup}>
                         <label>Current Password:</label>
                         <input
                             type="password"
@@ -258,10 +263,6 @@ const Settings = () => {
                             onChange={(e) => setCurrentPassword(e.target.value)}
                             required
                         />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Current Email:</label>
-                        <div className={styles.currentEmailBox}>{userEmail}</div>
                     </div>
                     <form onSubmit={handleEmailChange}>
                         <div className={styles.formGroup}>
@@ -345,16 +346,38 @@ const Settings = () => {
                             </button>
                         </div>
                     </form>
-                    <div>
-                        <h3>Your Vehicles</h3>
-                        <ul>
-                            {vehicles.map((v) => (
-                                <li key={v.id}>
-                                    {`${v.make} ${v.model} (${v.year}) - ${v.color} - ${v.type} - ${v.licensePlate}`}
-                                    <button onClick={() => handleDeleteVehicle(v.id)}>❌</button>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className={styles.vehicleContainer}>
+                        <h3 className={styles.sectionHeader}>Your Vehicles</h3>
+                        <table className={styles.confirmedTable}>
+                            <thead>
+                                <tr>
+                                    <th>Make</th>
+                                    <th>Model</th>
+                                    <th>Color</th>
+                                    <th>Type</th>
+                                    <th>Year</th>
+                                    <th>License Plate</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {vehicles.map((vehicle) => (
+                                    <tr key={vehicle.id}>
+                                        <td>{vehicle.make}</td>
+                                        <td>{vehicle.model}</td>
+                                        <td>{vehicle.color}</td>
+                                        <td>{vehicle.type}</td>
+                                        <td>{vehicle.year}</td>
+                                        <td>{vehicle.licensePlate}</td>
+                                        <td>
+                                            <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteVehicle(vehicle.id)}>
+                                                ❌
+                                            </IconButton>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <form className={styles.section} onSubmit={handleProfileUpdate}>

@@ -86,9 +86,18 @@
     margin-bottom: 15px;
     border-bottom: 2px solid #333;
     padding-bottom: 5px;
+    text-align: center;
+    color: #333;
 }
 
 .sectionHeader h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+    text-align: center;
+}
+
+.sectionHeader h3 {
     margin: 0;
     font-size: 1.5em;
     color: #333;
@@ -145,6 +154,41 @@
 .actionButton:hover {
     background-color: #555;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.currentEmailBox {
+    color: #555;
+    font-weight: bold;
+}
+
+.passwordRequirements {
+    color: #555;
+    font-weight: bold;
+}
+
+.vehicleContainer {
+    padding: 20px;
+    margin: 20px;
+    border: 3px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.confirmedTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.confirmedTable th,
+.confirmedTable td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.confirmedTable th {
+    background-color: #f5f5f5;
+    color: #333;
 }
 
 @media screen and (max-width: 720px){
