@@ -13,7 +13,7 @@ ParkAhead is a parking spot reservation system designed for UW Bothell faculty a
   
 - A dynamic parking layout that shows users all of the parking spots available to reserve per level in each parking garage. The real-time system shows users which parking spots have already been reserved, preventing reservation conflicts and additionally has a filtering feature to show parking spots by category (Handicap/Electric/Standard).
   
-- Real-time reservation management which allows users to view all current and future parking reservations in the system while the system fetches and dynamically displays all of the reservations that have been reserved. Old parking reservations will be deleted from the system, and users have the ability to delete their parking reservations as well as add and delete vehicles from their account and edity their profile settings such as name, student ID, and graduation year.
+- Real-time reservation management which allows users to view all current and future parking reservations in the system while the system fetches and dynamically displays all of the reservations that have been reserved. Old parking reservations will be deleted from the system, and users have the ability to delete their parking reservations as well as add and delete vehicles from their account and edit their profile settings such as name, student ID, and graduation year.
 
 - An arrival confirmation page with an internal timer implemented which commences on the start time on the reservation date of the specific reservation reserved giving the user 10 minutes to confirm their arrival or deleting the reservation from the database if the user does not confirm their reservation.
 
