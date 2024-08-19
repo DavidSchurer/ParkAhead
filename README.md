@@ -1,5 +1,4 @@
-# ParkAhead: A UW Bothell Parking Spot Reservation System
-**Developed By: David Schurer and Shivam Bakshi**
+# ParkAhead: A UW Bothell Parking Spot Reservation System <br/> **Developed By: David Schurer and Shivam Bakshi**
 
 ## Overview
 ParkAhead is a parking spot reservation system designed for UW Bothell faculty and students. It is a fully functioning web application that allows users to reserve parking spots on campus, view parking availability in real-time, and manage their reservations. The system is built with a React.js frontend and utilizes Firebase for database management and user authentication.
