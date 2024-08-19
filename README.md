@@ -1,4 +1,4 @@
-# ParkAhead: A UW Bothell Parking Spot Reservation System 
+<h1>ParkAhead: A UW Bothell Parking Spot Reservation System<h1>
 #### <strong>Developed By: David Schurer and Shivam Bakshi</strong>
 
 ## Overview
