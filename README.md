@@ -21,3 +21,24 @@ ParkAhead is a parking spot reservation system designed for UW Bothell faculty a
 - <strong>Frontend:</strong> React.js, HTML, CSS
 - <strong>Backend:</strong> Firebase Database, Firebase Authentication
 - <strong>Deployment:</strong> Vercel
+
+## Instructions
+Instructions on how to use ParkAhead: A UW Bothell Parking Spot Reservation System:
+
+1) Navigate to the live website link at https://park-ahead.vercel.app/.
+   (NOTE: This application is accessible on both PCs and mobile devices)
+       
+2) Upon navigating to the Vercel link, the user will be introduced to the application via the welcome page,
+   after reading through the brief overview of ParkAhead, the user can press the "Continue" button to navigate
+   to the next page.
+
+3) The user will now be prompted with the login page. The user can either login with an existing ParkAhead account or
+   create a new account.
+
+4) After successfully logging into the ParkAhead system, the user will be greeted with the homepage screen. The user can view and
+   add new vehicles/reservations by clicking the "Add Vehicle" or "Add Reservation" button on this homepage, they can also additionally
+   edit their profile information by clicking the "Edit" button underneath the profile section.
+
+5) The user can click on the circular drop down menu icon on the far right side of the header bar, this will open up a dropdown menu showcasing
+   various different options, such as for navigating back to the homepage, reserving a new parking space, confirming the arrival of the parking spot,
+   navigating to the settings page, and logging out from ParkAhead.
