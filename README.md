@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# <strong>ParkAhead: <i>A UW Bothell Parking Spot Reservation System</i></strong> <br/> <sub><strong>Developed By:</strong> David Schurer and Shivam Bakshi</sub>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+ParkAhead is a parking spot reservation system designed for UW Bothell faculty and students. It is a fully functioning web application that allows users to reserve parking spots on campus, view parking availability in real-time, and manage their reservations. The system is built with a React.js frontend and utilizes Firebase for database management and user authentication.
 
-## Available Scripts
+## Live Website
+<strong>https://park-ahead.vercel.app/</strong>
 
-In the project directory, you can run:
+## Features
+- Integrated with Firebase Authentication to allow users to create and login with their own accounts and manage their accounts such as changing the account email address or account password.
+  
+- A seamless and intuitive 2-step reservation process that allows users to reserve a parking spot in advance and choose key reservation details such as booking name, date, duration (2-hour / 4-hour / all-day), time, and parking location.
+  
+- A dynamic parking layout that shows users all of the parking spots available to reserve per level in each parking garage. The real-time system shows users which parking spots have already been reserved, preventing reservation conflicts and additionally has a filtering feature to show parking spots by category (Handicap/Electric/Standard).
+  
+- Real-time reservation management which allows users to view all current and future parking reservations in the system while the system fetches and dynamically displays all of the reservations that have been reserved. Old parking reservations will be deleted from the system, and users have the ability to delete their parking reservations as well as add and delete vehicles from their account and edit their profile settings such as name, student ID, and graduation year.
 
-### `npm start`
+- An arrival confirmation page with an internal timer implemented which commences on the start time on the reservation date of the specific reservation reserved giving the user 10 minutes to confirm their arrival or deleting the reservation from the database if the user does not confirm their reservation.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech Stack
+- <strong>Frontend:</strong> React.js, HTML, CSS
+- <strong>Backend:</strong> Firebase Database, Firebase Authentication
+- <strong>Deployment:</strong> Vercel
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Instructions
+Instructions on how to use ParkAhead: A UW Bothell Parking Spot Reservation System:
 
-### `npm test`
+1) Navigate to the live website link at https://park-ahead.vercel.app/. <br/>
+   (NOTE: This application is accessible on both PCs and mobile devices)
+       
+2) Upon navigating to the Vercel link, the user will be introduced to the application via the welcome page,
+   after reading through the brief overview of ParkAhead, the user can press the "Continue" button to navigate
+   to the next page.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3) The user will now be prompted with the login page. The user can either login with an existing ParkAhead account or
+   create a new account.
 
-### `npm run build`
+4) After successfully logging into the ParkAhead system, the user will be greeted with the homepage screen. The user can view and
+   add new vehicles/reservations by clicking the "Add Vehicle" or "Add Reservation" button on this homepage, they can also additionally
+   edit their profile information by clicking the "Edit" button underneath the profile section.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+5) The user can click on the circular drop down menu icon on the far right side of the header bar, this will open up a dropdown menu showcasing
+   various different options, such as for navigating back to the homepage, reserving a new parking space, confirming the arrival of the parking spot,
+   viewing all of the confirmed reservations in the system, navigating to the settings page, and logging out from ParkAhead.
